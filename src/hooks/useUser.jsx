@@ -1,13 +1,14 @@
-import { login } from "@/services/api"
 import useSWR from 'swr'
 
-const useUser = (userData) => {
-    const { data, error, isLoading } = useSWR(userData ? '/user/login' : null, () => login(userData))
+const useUser = () => {
+    const { data, error, isLoading, mutate } = useSWR('/user/login')
+    // const { data, error, isLoading } = useSWR(userData ? '/user/login' : null, () => login(userData))
 
     return {
         user: data,
         isLoading,
-        isError: error
+        error,
+        setUser: mutate
     }
 }
 

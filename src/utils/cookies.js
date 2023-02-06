@@ -6,7 +6,7 @@ const setCookie = (cname, cvalue, exdays) => {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
-function getCookie(cname) {
+const getCookie = (cname) => {
     // cookie name
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -24,8 +24,9 @@ function getCookie(cname) {
     return false;
 }
 
-const deleteCookie = (cname) => {
+const deleteCookie = async (cname) => {
     document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
+    return
 }
 
 export {

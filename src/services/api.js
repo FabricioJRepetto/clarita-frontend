@@ -1,5 +1,6 @@
-import { deleteCookie, getCookie, setCookie } from "@/utils/cookies";
 import axios from "axios";
+import { deleteCookie, getCookie, setCookie } from "@/utils/cookies";
+
 const BACK_URL = import.meta.env.VITE_BACK_URL
 const TOKEN = getCookie('userToken')
 
@@ -11,8 +12,9 @@ const config = {
 };
 
 export const login = async (data) => {
+    console.log(data);
     const { data: response } = await axios.post(BACK_URL + '/user/login', data)
-    console.log('api.js', response);
+    console.log('login', response);
     if (!response.error) {
         //: TODO: hay una forma de que la res del servidor setee automaticamente la cookie
         //: TODO: expiración del token
@@ -24,7 +26,7 @@ export const login = async (data) => {
 export const autoLogin = async ([key, token]) => {
     // se recomienda que swr envíe el token para que indexe la req
     const { data: response } = await axios(BACK_URL + '/user/autologin', config)
-    console.log('api.js', response);
+    console.log('autoLogin', response);
     if (!response.error) {
         return response
     } else {

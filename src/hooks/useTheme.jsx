@@ -1,19 +1,14 @@
 import { useEffect } from "react"
-import { useGlobal } from "../GlobalContext"
 
 export const useTheme = () => {
-    const { dispatch } = useGlobal()
 
     useEffect(() => {
         console.log('useTheme: me ejecuto 2 veces :)')
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            // document.documentElement.classList.add('dark')
-            dispatch({ type: 'theme', payload: 'dark' })
+            document.documentElement.classList.add('dark')
         } else {
-            // document.documentElement.classList.remove('dark')
-            dispatch({ type: 'theme', payload: 'light' })
+            document.documentElement.classList.remove('dark')
         }
-        // eslint-disable-next-line
     }, [])
 }
