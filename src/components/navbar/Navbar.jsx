@@ -1,16 +1,19 @@
 import React from 'react'
-import { useGlobal } from '../../globalContext'
-import { toggleTheme } from '../../utils/toggleTheme'
+import { toggleTheme } from '@/utils/toggleTheme'
+import { login } from '@/services/api'
+import useSWR from 'swr';
 
 const Navbar = () => {
-    const { state: { session, g_loading } } = useGlobal()
+    //: TODO: create a different hook for user and login
+    const { data } = useSWR('/user/login', login)
+
     return (
-        <header className={`w-screen h-16 px-4 mb-24 fixed ${(session && !g_loading) ? 'flex' : 'hidden'} justify-between items-center border-b-2  border-b-lime-500`}>
+        <header className={`w-screen h-16 px-4 fixed top-0 left-0 flex justify-between items-center border-b-2  border-b-lime-500`}>
             <h3>Cabañas Clarita</h3>
 
             <div className='flex gap-4'>
-                <p>session {String(session)}</p>
-                <button onClick={toggleTheme}>theme</button>
+                <p>👨‍🦰 {data.user_name || 'user'}</p>
+                <button onClick={toggleTheme}>💡</button>
             </div>
         </header>
     )

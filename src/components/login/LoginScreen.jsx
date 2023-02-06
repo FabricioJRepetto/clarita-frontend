@@ -1,22 +1,17 @@
 import React, { useState } from 'react'
-import { useGlobal } from '../../globalContext'
-import { submitLogin } from '../../services/api'
+// import { useGlobal } from '@/globalContext.jsx'
+import useAutoLogin from '@/hooks/useAutoLogin';
+import useUser from '@/hooks/useUser';
 
 const LoginScreen = () => {
-    const {
-        dispatch,
-        state: {
-            g_loading,
-            session
-        }
-    } = useGlobal()
-
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [userData, setUserData] = useState(false)
+    const { aUser, aError, aLoading } = useAutoLogin()
+    const { user, isError, isLoading } = useUser(userData)
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        submitLogin(email, password)
+        const [{ value: email }, { value: password }] = e.target
+        setUserData(() => ({ email, password }))
     }
 
     return (
@@ -26,18 +21,24 @@ const LoginScreen = () => {
 
                 <h1 className='text-center my-8'>Logo</h1>
 
-                <form onSubmit={handleSubmit}
-                    className='flex flex-col gap-4'>
-                    <input required type="email" value={email}
-                        onChange={e => setEmail(e.target.value)} className='text-black' />
-                    <input required type="password" value={password}
-                        onChange={e => setPassword(e.target.value)} className='text-black' />
+                {aLoading && <h3>Cargando...</h3>}
+                {(!aLoading && aError) &&
+                    <>
+                        <form onSubmit={handleSubmit}
+                            className='flex flex-col gap-4'>
+                            <input required type="email" className='text-black' />
+                            <input required type="password" className='text-black' />
 
-                    <p onClick={() => console.log('cambiando contraseña')} className='text-center underline decoration-solid underline-offset-4'>recuperar contraseña</p>
-                    <button type="submit">Log in</button>
-                </form>
+                            <p>{isLoading ? 'iniciando sesión' : ''}</p>
+                            <p className='text-red-400'>{isError?.message || ''}</p>
 
-                <button>crear cuenta</button>
+                            <p onClick={() => console.log('cambiando contraseña')} className='text-center underline decoration-solid underline-offset-4'>recuperar contraseña</p>
+                            <button type="submit">Log in</button>
+                        </form>
+
+                        <button>crear cuenta</button>
+                    </>}
+                {(aUser?.user_name || user?.user_name) && <p className='text-center'>{`Bienvenido ${aUser.user_name || user.user_name}`}</p>}
             </div>
         </div>
     )

@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useGlobal } from "../globalContext"
+import { useGlobal } from "../GlobalContext"
 
 export const useTheme = () => {
     const { dispatch } = useGlobal()
