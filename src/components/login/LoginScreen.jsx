@@ -13,7 +13,7 @@ const LoginScreen = () => {
     }
 
     return (
-        <div className='flex-1 w-full -mt-48 flex flex-col justify-center'>
+        <div className='flex-1 w-full -mt-40 flex flex-col justify-center'>
 
             <div className='w-full md:w-1/2 lg:w-1/4 h-fit m-auto flex flex-col gap-4'>
 

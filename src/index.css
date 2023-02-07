@@ -2,22 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+@layer base {
+    body {
+        font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+    }
 
+    a {
+        font-weight: 500;
+        color: rgb(96 165 250);
+        text-decoration: inherit;
+    }
+
+    a:hover {
+        color: rgb(59 130 246);
+    }
+
+    h1 {
+        font-size: 3.2em;
+        line-height: 1.1;
+    }
+
+    input, select, textarea {
+        color: #202020;
+        padding: 0 .5rem;
+    }
 }
 
-a {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
-}
-
-a:hover {
-    color: #535bf2;
-}
-
-h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
+@layer components {
+    .btn-primary {
+        @apply py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+    }
 }

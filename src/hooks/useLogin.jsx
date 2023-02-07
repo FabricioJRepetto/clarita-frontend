@@ -4,8 +4,10 @@ import useSWR from 'swr'
 const TOKEN = getCookie('userToken')
 
 const useLogin = (userData) => {
+    const shouldFetch = TOKEN || userData
+    const fetcher = TOKEN ? autoLogin : () => login(userData)
 
-    const { data, error, isLoading, mutate } = useSWR((TOKEN || userData) ? '/user/login' : null, TOKEN ? autoLogin : () => login(userData))
+    const { data, error, isLoading, mutate } = useSWR(shouldFetch ? '/user/login' : null, fetcher)
 
     return {
         user: data,
