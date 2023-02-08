@@ -1,10 +1,11 @@
-import { createSubmit } from '@/utils/reservSubmitHandlers'
+import useCabins from '@/hooks/useCabins'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-const ReservForm = () => {
+const ReservForm = ({ handler, cb }) => {
     const { id } = useParams()
     const [errors, setErrors] = useState(false)
+    const { cabins, error, isLoading, setCabin } = useCabins()
 
     //: TODO: useCabin
     //: TODO: render select options based on useCabins data
@@ -20,10 +21,10 @@ const ReservForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const { res, errors } = await createSubmit(e)
-        console.log(errors);
-        console.log(res);
+        const { res, errors } = await handler(e)
         setErrors(() => errors)
+        if (!res.error) cb(res)
+        else setErrors({ ...errors, someError: res.error })
     }
 
     return (
@@ -47,14 +48,10 @@ const ReservForm = () => {
                 {/*cabin*/}
                 <label htmlFor='name' className='col-span-4'>
                     <select name="cabin" id="cabin" className='w-full'>
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
-                        <option value="">6</option>
-                        <option value="">7</option>
-                        <option value="">8</option>
+                        <option value="" hidden>Selecciona una cabaña</option>
+                        {!isLoading && cabins.map(c => (
+                            <option key={c.id} value={c.id}>{c.name}</option>
+                        ))}
                     </select>
                     <div className='h-6 text-sm text-rose-500'>{errors?.cabin || ''}</div>
                 </label>
@@ -65,12 +62,12 @@ const ReservForm = () => {
                 </label>
                 <p className='col-span-4'>Pago/seña</p>
                 {/*paymentType*/}
-                <label htmlFor='name' className='col-span-2'>
+                <label htmlFor='name' className='col-span-3'>
                     <input type="String" id='paymentType' name='paymentType' placeholder='Tipo de pago' className='w-full' />
                     <div className='h-6 text-sm text-rose-500'>{errors?.paymentType || ''}</div>
                 </label>
                 {/*amount*/}
-                <label htmlFor='name' className='col-span-2'>
+                <label htmlFor='name' className='col-span-1'>
                     <input type="String" id='amount' name='amount' placeholder='Monto' className='w-full' />
                     <div className='h-6 text-sm text-rose-500'>{errors?.amount || ''}</div>
                 </label>

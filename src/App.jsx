@@ -10,6 +10,7 @@ import NotFound from '@/components/NotFound';
 import ClientDetails from '@/components/clients/ClientDetails';
 import CreateClient from '@/components/clients/CreateClient';
 import CreateReservation from '@/components/reservations/CreateReservation';
+import ReservationDetails from './components/reservations/ReservationDetails';
 
 function App() {
     //! DANGER: possible troublemaker
@@ -34,7 +35,9 @@ function App() {
                         <Route path="/reservations" element={<Reservations />} />
                         <Route path="/reservations/create" element={<CreateReservation />} />
                         <Route path="/reservations/edit/:id" element={<Reservations />} />
-                        <Route path="/reservations/details/:id" element={<Reservations />} />
+                        <Route path="/reservations/details/:id" element={<ReservationDetails />} />
+
+                        <Route path="/cabins" element={<Reservations />} />
 
                         <Route path="*" element={<NotFound />} />
                     </Routes>

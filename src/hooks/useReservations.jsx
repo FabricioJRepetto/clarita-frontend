@@ -8,7 +8,7 @@ const useReservations = () => {
         reservations: data?.reservationList || [],
         isLoading,
         error,
-        setReserations: mutate
+        setReservations: mutate
     }
 }
 

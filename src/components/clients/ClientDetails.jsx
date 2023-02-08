@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useClients from '@/hooks/useClients'
 import { deleteApi } from '@/services/api'
+import ClienDetailsCard from '../common/cards/ClientDetailsCard'
 
 const ClientDetails = () => {
     const { id } = useParams()
@@ -30,34 +31,17 @@ const ClientDetails = () => {
     }
 
     return (
-        <div>
+        <>
             {user &&
                 <div className='p-2 my-1 border border-slate-300 dark:border-slate-700 rounded-lg'>
-                    <p>Nombre y apellido: {user?.name || '-'}</p>
-                    <p>Teléfono: {user?.telephone || '-'}</p>
-                    <br />
-                    <p>DNI: {user?.dni || '-'}</p>
-                    <p>Edad: {user?.age || '-'}</p>
-                    <p>Profesión: {user?.profession || '-'}</p>
-                    <p>Estado civil: {user?.civil_status || '-'}</p>
-                    <br />
-                    <p>Nacionalidad: {user?.nationality || '-'}</p>
-                    <p>Procedencia: {user?.provenance || '-'}</p>
-                    <p>Dirección: {user?.address || '-'}</p>
-                    <br />
-                    <p>Vehículo: {user?.vehicleType || '-'}</p>
-                    <p>Patente: {user?.plate || '-'}</p>
-                    <br />
-                    <p>Notas: {user?.notes || '-'}</p>
-                    <br />
-                    <i>ID: {user.id || '-'}</i>
+                    <ClienDetailsCard user={user} />
                     <br />
                     <button className='px-2 mx-4' onClick={handleEdit}>editar</button>
                     <button className='px-2 mx-4' onClick={handleDelete}>borrar</button>
                 </div>}
 
             {(error || someError) && <b>error: {error?.message || someError}</b>}
-        </div>
+        </>
     )
 }
 

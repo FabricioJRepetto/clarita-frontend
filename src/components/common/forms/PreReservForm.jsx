@@ -3,7 +3,7 @@ import { fuzzySearch } from '@/utils/fuzzySearch'
 import React, { useState } from 'react'
 import ClientForm from './ClientForm'
 
-const ReservForm0 = ({ setClient, handler, cb }) => {
+const PreReservForm = ({ setClient, handler, cb }) => {
     const [newClient, setNewClient] = useState(false)
     const [filtered, setFiltered] = useState(false)
     const { clients } = useClients()
@@ -26,7 +26,7 @@ const ReservForm0 = ({ setClient, handler, cb }) => {
     //: TODO: Refact search input
     return (
         <div>
-            <h2>#01</h2>
+            <h2>(01/03) Seleccionar o crear un cliente</h2>
             <button onClick={() => setNewClient(!newClient)} className='btn-primary'>Nuevo Cliente</button>
             <br />
             {newClient && <ClientForm handler={handler} cb={cb} />}
@@ -44,4 +44,4 @@ const ReservForm0 = ({ setClient, handler, cb }) => {
     )
 }
 
-export default ReservForm0
+export default PreReservForm

@@ -9,6 +9,10 @@ export const validateClientErrors = (values) => {
 
     if (values.age === '-') errors.age = 'Campo requerido'
 
+    // if there is one, there must be the other
+    if (values.vehicleType !== '-' && values.plate === '-') errors.plate = 'Campo requerido'
+    if (values.plate !== '-' && values.vehicleType === '-') errors.vehicleType = 'Campo requerido'
+
     if (!!Object.keys(errors).length) {
         return errors
     }

@@ -1,7 +1,11 @@
 import { editApi, postApi } from "@/services/api"
+import { formatDate } from "./formatDate"
 
-export const validateReservErrors = (values) => {
+export const validateReservErrors = (values, client) => {
     let errors = {}
+
+    // check client input
+    if (client && values.client === '-') errors.client = 'Campo requerido'
 
     if (values.checkin === '-') errors.checkin = 'Campo requerido'
 
@@ -30,30 +34,45 @@ export const validateReservErrors = (values) => {
     return false
 }
 
-export const createSubmit = async (e) => {
+export const validateValues = (e) => {
     // get all input values 
     const values = {}
     Array.from(e.target).map(e => e.name && (values[e.name] = e.value || '-'))
     console.log(values);
-
     // input validator
     const errors = validateReservErrors(values)
     if (errors) return { errors }
 
+
     // transform dates to correct format
-    values.checkin = new Date(values.checkin).toLocaleDateString('en')
-    values.checkout = new Date(values.checkout).toLocaleDateString('en')
+    values.checkin = formatDate(values.checkin)
+    values.checkout = formatDate(values.checkout)
+
+    return { res: values }
+}
+
+export const createReservSubmit = async (e) => {
+    const { res: values, errors } = validateValues(e)
+    if (errors) return { errors }
 
     // post on API    
-    // const res = await postApi(['/client/', values]).catch(err => {
-    //     console.error(err)
-    //     //: TODO: create notification system
-    //     return { errors: { someError: err } }
-    // })
+    const res = await postApi(['/reservation/', values]).catch(err => {
+        console.error(err)
+        //: TODO: create notification system
+        return { errors: { someError: err.message } }
+    })
 
-    // if (res) {
-    //     return { res }
-    // } else {
-    //     console.error('createSubmit No res');
-    // }
+    return res
+}
+
+//? this fn posts the already validated data
+export const createReserv = async (data) => {
+    // post on API    
+    const res = await postApi(['/reservation/', data]).catch(err => {
+        console.error(err)
+        //: TODO: create notification system
+        return { errors: { someError: err.message } }
+    })
+
+    return res
 }

@@ -25,8 +25,6 @@ const ClientForm = ({ handler, cb }) => {
         // eslint-disable-next-line
     }, [id])
 
-    //* TODO: refact (DONE?)
-    //: TODO: pasar el handler necesario desde los padres de este comp
     const handleSubmit = async (e) => {
         e.preventDefault()
         // all handlers need the event, only edit handlers need ID
