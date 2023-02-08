@@ -64,6 +64,36 @@ export const postApi = async ([key, data]) => {
     }
 }
 
+export const deleteApi = async (key) => {
+    // se recomienda que swr envíe el token para que indexe la req
+    const { data: response } = await axios.delete(BACK_URL + key, {
+        headers: {
+            Authorization: getCookie('userToken')
+        }
+    })
+    console.log('deleteApi', response);
+    if (!response.error) {
+        return response
+    } else {
+        throw new Error(response.error)
+    }
+}
+
+export const editApi = async ([key, data]) => {
+    // se recomienda que swr envíe el token para que indexe la req
+    const { data: response } = await axios.put(BACK_URL + key, data, {
+        headers: {
+            Authorization: getCookie('userToken')
+        }
+    })
+    console.log('editApi', response);
+    if (!response.error) {
+        return response
+    } else {
+        throw new Error(response.error)
+    }
+}
+
 // const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 // const postFetcher = (...args) => fetch(...args).then(res => res.json())

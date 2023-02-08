@@ -8,7 +8,7 @@ const useClients = () => {
         clients: data?.clientList || [],
         isLoading,
         error,
-        setClient: mutate
+        setClients: mutate
     }
 }
 
