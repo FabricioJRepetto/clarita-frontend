@@ -7,13 +7,13 @@ const ReservForm = ({ handler, cb }) => {
     const [errors, setErrors] = useState(false)
     const { cabins, error, isLoading, setCabin } = useCabins()
 
-    //: TODO: useCabin
-    //: TODO: render select options based on useCabins data
+    //* TODO: useCabin
+    //* TODO: render select options based on useCabins data
     //: TODO: Validate cabin availability / show available cabins 
     //: TODO: Revalidate cabin availability when date is changed 
 
     //: TODO: Validate reserv dates
-    //: TODO: transform dates
+    //* TODO: transform dates
     //: TODO: if there is a value for nights, calculate checkin or checkout if any is not defined
 
     //: TODO: calendar / availability checker (would be good a shortcut here)

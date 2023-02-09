@@ -1,6 +1,7 @@
 import React from 'react'
 import useUser from '@/hooks/useUser';
 import { useNavigate } from 'react-router-dom';
+import CabinsShortcut from '../cabins/CabinsShortcut';
 
 const Home = () => {
     //: TODO: create a different hook for user and login
@@ -9,19 +10,15 @@ const Home = () => {
 
     return (
         <div>
-            <article className='max-w-7xl m-auto'>
-                <p>{user.id}</p>
-                <p>{user.email}</p>
-                <p>{user.user_name}</p>
-                <p>{user.role}</p>
-                <br />
-                <a href="hola" target="_blank" rel="noopener noreferrer">LINK</a>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. A excepturi voluptatem commodi aspernatur sequi laudantium dicta, quae ducimus non voluptate dolorum fugit asperiores veniam possimus voluptatum tempore vitae, nihil necessitatibus.</p>
+            <section className='grid grid-flow-col gap-2 max-w-7xl m-auto my-2'>
+                <button className="btn-big" onClick={() => navigate('/clients')}>Clientes</button>
+                <button className="btn-big" onClick={() => navigate('/reservations')}>Reservas</button>
+                <button className="btn-big" onClick={() => navigate('/cabins')}>Cabañas</button>
+            </section>
 
-                <button className="btn-primary" onClick={() => navigate('/clients')}>clientes</button>
-                <button className="btn-primary" onClick={() => navigate('/reservations')}>reservas</button>
-
-            </article>
+            <section className='max-w-7xl m-auto'>
+                <CabinsShortcut />
+            </section>
         </div>
     )
 }
