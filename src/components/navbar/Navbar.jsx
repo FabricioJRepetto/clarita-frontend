@@ -11,7 +11,6 @@ const Navbar = () => {
     const [theme, setTheme] = useState()
 
     useEffect(() => {
-        console.log('navbar theme starter');
         if (localStorage.theme === 'light') setTheme(true)
         else setTheme(false)
     }, [])

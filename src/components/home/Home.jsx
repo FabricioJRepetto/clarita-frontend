@@ -2,6 +2,7 @@ import React from 'react'
 import useUser from '@/hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 import CabinsShortcut from '../cabins/CabinsShortcut';
+import Calendar from '../common/calendar/Calendar';
 
 const Home = () => {
     //: TODO: create a different hook for user and login
@@ -18,6 +19,10 @@ const Home = () => {
 
             <section className='max-w-7xl m-auto'>
                 <CabinsShortcut />
+            </section>
+
+            <section className='max-w-7xl m-auto'>
+                <Calendar />
             </section>
         </div>
     )

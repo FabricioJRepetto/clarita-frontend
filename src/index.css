@@ -46,4 +46,13 @@
     .btn-big {
         @apply  btn-primary w-full text-2xl font-thin;
     }
+    .switch-input {
+        @apply  h-8 w-fit px-3 flex justify-between items-center border border-slate-700 rounded-2xl;
+    }
+    .switch-indicator {
+        @apply  absolute origin-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full h-4 w-4 bg-blue-400 transition-all duration-150 z-10;
+    }
+    .switch-input span {
+        @apply  absolute origin-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full h-4 w-12 bg-slate-300 dark:bg-slate-800;
+    }
 }

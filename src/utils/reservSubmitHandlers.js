@@ -21,9 +21,13 @@ export const validateReservErrors = (values, client) => {
 
     if (new Date(values.checkin) > new Date(values.checkout)) errors.checkin = 'El checkin no puede ser posterior al checkout'
 
+    if (values.persons === '-') errors.persons = 'Campo requerido'
+
     if (values.cabin === '-') errors.cabin = 'Campo requerido'
 
     if (values.paymentType === '-') errors.paymentType = 'Campo requerido'
+
+    if (values.paymentType === 'Tarjeta de crédito' && values.fees === '-') errors.fees = 'Campo requerido'
 
     if (values.amount === '-') errors.amount = 'Campo requerido'
 

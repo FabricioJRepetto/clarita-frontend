@@ -79,7 +79,7 @@ const CreateReservation = () => {
             </>}
 
             {errors?.someError && <p>error: {errors.someError}</p>}
-            {client && <button onClick={back} className='btn-primary'>volver</button>}
+            {client && <button onClick={back} className='btn-tertiary'>volver</button>}
         </div>
     )
 }

@@ -15,7 +15,7 @@ const CabinCard = ({ data }) => {
                     <p>{formatDate(data.current_guest.checkin)} - {formatDate(data.current_guest.checkout)}</p>
                 </>
                 : <p>libre</p>}
-            <div className={`h-2 w-2 rounded-full absolute top-3 right-3 ${data?.current_guest ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-700'}`}></div>
+            <div className={`h-3 w-3 rounded-full absolute top-3 right-3 ${data?.current_guest ? 'bg-rose-400 dark:bg-rose-700' : 'bg-green-400 dark:bg-green-300'}`}></div>
         </div>
     )
 }
