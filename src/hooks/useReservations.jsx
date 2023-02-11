@@ -1,8 +1,8 @@
 import { api } from '@/services/api'
 import useSWR from 'swr'
 
-const useReservations = () => {
-    const { data, error, isLoading, mutate } = useSWR(`/reservation/all`, api)
+const useReservations = (shoudFetch = true) => {
+    const { data, error, isLoading, mutate } = useSWR(shoudFetch ? `/reservation/all` : null, api)
 
     return {
         reservations: data?.reservationList || [],

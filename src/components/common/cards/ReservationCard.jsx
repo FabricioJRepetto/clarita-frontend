@@ -26,7 +26,7 @@ const ReservationCard = ({ data }) => {
             </section>
 
             <section>
-                {data?.cabin &&
+                {data?.cabin.name &&
                     <p onClick={() => navigate(`/cabins/details/${data.cabin.id}`)} className='cursor-pointer'>
                         Cabaña: <b>{data?.cabin?.name || '?'}
                         </b> (ir a cacbaña)
@@ -38,12 +38,14 @@ const ReservationCard = ({ data }) => {
 
             <section>
                 <p>Personas: <b>{data?.persons}</b></p>
-                <p>Vehículo: <b>{data?.client?.vehicleType || '-'}</b></p>
-                {data?.client?.plate && <p className='mx-2'>Patente: <b>{data?.client?.plate}</b></p>}
+                <p>Vehículo: <b>{data?.client?.vehicleType || 'No'}</b></p>
+                {data?.client?.plate !== '-' && <p className='mx-2'>Patente: <b>{data?.client?.plate}</b></p>}
             </section>
 
             <section>
-                <p>Pago/seña: <b>{data?.paymentType} - ${data?.amount}</b></p>
+                <p>Pago: <b>{data?.paymentType} - ${data?.amount}</b></p>
+                {data?.fees !== '-' && <p>Cuotas: <b>{data?.fees}</b></p>}
+                {data?.percentage !== '-' && <p>Seña: <b>{data?.percentage}</b></p>}
             </section>
 
             <section>

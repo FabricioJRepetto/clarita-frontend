@@ -1,5 +1,17 @@
 import { deformatDate, formatDate } from "./formatDate"
 
+export const emailRe = new RegExp(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/, 'g')
+
+// Load data for edition
+export const loadData = (data) => {
+    const aux = Object.entries(data)
+    aux.forEach(e => {
+        const input = document.getElementById(e[0]),
+            value = e[1];
+        if (input && value !== '-') input.value = value
+    })
+}
+
 export const setOUT = (checkin, nights) => {
     //? IN + N = OUT
     const N = Number.parseInt(nights),
@@ -126,4 +138,11 @@ export const datesValidator = (cabins, setAvCabins, setErrors) => {
             checkin: 'No hay cabañas disponibles para estas fechas'
         }))
     }
+}
+
+export const numberToCurrency = (num) => {
+    // format number XXXXXXX to X.XXX.XXX
+    let n = String(num).replace('$', '').replace('.', '')
+    if (n.length === 0) return ''
+    return '$' + n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")
 }

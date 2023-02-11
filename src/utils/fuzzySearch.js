@@ -2,11 +2,11 @@ import Fuse from "fuse.js";
 
 export const fuzzySearch = (list, keys = [], pattern) => {
     const options = {
-        // isCaseSensitive: false,
+        isCaseSensitive: false,
         // includeScore: false,
         // shouldSort: true,
         // includeMatches: false,
-        // findAllMatches: false,
+        findAllMatches: false,
         // minMatchCharLength: 1,
         // location: 0,
         threshold: 0.5,

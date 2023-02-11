@@ -1,23 +1,44 @@
 import useCabins from '@/hooks/useCabins'
 import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import Switch from '@/components/common/Switch'
-import { datesValidator, doDatesOverlap, fillDates } from '@/utils/reservFormUtils'
-import { formatDate } from '@/utils/formatDate'
+import { datesValidator, fillDates, numberToCurrency } from '@/utils/formUtils'
+import { deformatDate } from '@/utils/formatDate'
 
-const ReservForm = ({ handler, cb }) => {
-    const { id } = useParams()
+const ReservForm = ({ handler, cb, edit }) => {
     const [advance, setAdvance] = useState(false)
     const [fees, setFees] = useState(false)
     const [errors, setErrors] = useState(false)
-    const { cabins, error, isLoading, setCabin } = useCabins()
+    const { cabins, isLoading } = useCabins()
     const [avCabins, setAvCabins] = useState(cabins)
     const checkin = useRef(null)
     const checkout = useRef(null)
 
     //: TODO: Revalidate cabin availability when date is changed 
     //: TODO: Show available cabins
-    //: TODO: calendar (would be good a shortcut here)    
+    //: TODO: calendar (would be good a shortcut here)  
+
+    // if edit, load edit data
+    useEffect(() => {
+        if (edit) {
+            const aux = Object.entries(edit)
+            aux.forEach(e => {
+                const key = e[0],
+                    input = document.getElementById(key),
+                    value = e[1];
+
+                if (input) {
+                    if (key === 'checkin' || key === 'checkout') {
+                        input.value = deformatDate(value)
+                    } else if (key === 'cabin') {
+                        input.value = value.id
+                    } else {
+                        input.value = value
+                    }
+                }
+            })
+        }
+        // eslint-disable-next-line
+    }, [])
 
     const datesHandler = (e) => {
         fillDates(e)
@@ -43,6 +64,12 @@ const ReservForm = ({ handler, cb }) => {
         else setErrors({ ...errors, someError: res.error })
     }
 
+    const formatCurrency = (e) => {
+        e.preventDefault()
+        const value = e.target.value
+        e.target.value = numberToCurrency(value)
+    }
+
     return (
         <>
             <form onSubmit={handleSubmit} autoComplete='off' className='grid grid-cols-4 gap-2 w-96 p-2'>
@@ -63,7 +90,7 @@ const ReservForm = ({ handler, cb }) => {
                 </label>
                 {/*cabin*/}
                 <label htmlFor='name' className='col-span-4'>
-                    <select name="cabin" id="cabin" className='w-full'>
+                    <select disabled={edit} name="cabin" id="cabin" className='w-full'>
                         <option value="" hidden>Selecciona una cabaña</option>
                         {!isLoading && avCabins && avCabins.map(c => (
                             <option key={c.id || 'errorOpt'} value={c.id}>{c.name}</option>
@@ -93,12 +120,12 @@ const ReservForm = ({ handler, cb }) => {
                 </label>
                 {/*fees*/}
                 <label htmlFor='name' className={`col-span-2 ${fees ? '' : 'hidden'}`}>
-                    <input type="String" id='fees' name='fees' placeholder='Cantidad de cuotas' className='w-full' />
+                    <input type="Number" id='fees' name='fees' placeholder='Cantidad de cuotas' className='w-full' />
                     <div className='h-6 text-sm text-rose-500'>{errors?.fees || ''}</div>
                 </label>
                 {/*amount*/}
                 <label htmlFor='name' className='col-span-3'>
-                    <input type="String" id='amount' name='amount' placeholder='Monto' className='w-full' />
+                    <input type="String" id='amount' name='amount' placeholder='Monto' className='w-full' onKeyUp={formatCurrency} />
                     <div className='h-6 text-sm text-rose-500'>{errors?.amount || ''}</div>
                 </label>
                 {/*switch seña*/}
@@ -107,13 +134,14 @@ const ReservForm = ({ handler, cb }) => {
                 </section>
                 {/*percentage para señas*/}
                 <label htmlFor='name' className={`col-span-2 ${advance ? '' : 'hidden'}`}>
-                    <input type="String" id='percentage' name='percentage' placeholder='Porcentaje' className='w-full' />
+                    <input type="Number" id='percentage' name='percentage' placeholder='Porcentaje' className='w-full' />
                     <div className='h-6 text-sm text-rose-500'>{errors?.percentage || ''}</div>
                 </label>
 
                 <p className='col-span-4'>Notas</p>
                 <textarea name="notes" cols="30" rows="2" placeholder='Notas' className='resize-none col-span-4'></textarea>
-                <button className='btn-primary col-start-2 col-span-2'>{id ? 'Guardar' : 'Crear'}</button>
+
+                <button className='btn-primary col-start-2 col-span-2'>{edit ? 'Guardar' : 'Crear'}</button>
             </form>
             {errors?.someError && <b>error: {errors.someError}</b>}
         </>

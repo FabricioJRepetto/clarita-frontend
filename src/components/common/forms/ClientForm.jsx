@@ -1,20 +1,13 @@
 import useClients from '@/hooks/useClients'
+import { loadData } from '@/utils/formUtils'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 const ClientForm = ({ handler, cb }) => {
+    // if there is an ID, it means the form is in edition mode
     const { id } = useParams()
     const [errors, setErrors] = useState(false)
     const { clients } = useClients()
-
-    const loadData = (data) => {
-        const aux = Object.entries(data)
-        aux.forEach(e => {
-            const input = document.getElementById(e[0]),
-                value = e[1];
-            if (input) input.value = value
-        })
-    }
 
     // if ID, load edit data
     useEffect(() => {
@@ -27,10 +20,29 @@ const ClientForm = ({ handler, cb }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        // if there is not an ID, no need to check uniqueness
+        if (!id) {
+            let flag = false
+            const dni = document.getElementById('dni').value,
+                email = document.getElementById('email').value
+
+            if (dni && clients.find(c => c.dni === dni)) {
+                setErrors({ ...errors, dni: 'El DNI ya está en uso' })
+                flag = true
+            }
+            if (email && clients.find(c => c.email === email)) {
+                setErrors({ ...errors, email: 'El email ya está en uso' })
+                flag = true
+            }
+
+            if (flag) return
+        }
+
         // all handlers need the event, only edit handlers need ID
         // however, always pass the ID
-        const { res, errors } = await handler(e, id)
-        setErrors(errors)
+        const { res, errors: err } = await handler(e, id)
+        setErrors(err)
         if (res) cb(res)
     }
 
@@ -51,6 +63,11 @@ const ClientForm = ({ handler, cb }) => {
                 <label htmlFor='age' className='col-span-1'>
                     <input type="number" id='age' name='age' placeholder='Edad' className='w-full' />
                     <div className='h-6 text-sm text-rose-500'>{errors?.age || ''}</div>
+                </label>
+                {/*email*/}
+                <label htmlFor='email' className='col-span-4'>
+                    <input type="string" id='email' name="email" placeholder='Email' className='w-full' />
+                    <div className='h-6 text-sm text-rose-500'>{errors?.email || ''}</div>
                 </label>
                 {/*telephone*/}
                 <label htmlFor='telephone' className='col-span-4'>

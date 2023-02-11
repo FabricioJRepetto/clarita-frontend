@@ -10,6 +10,7 @@ const CabinDetails = () => {
     const { cabins, isLoading } = useCabins()
     const cabin = cabins ? cabins.find(c => c.id === id) : false
     const reserv = cabin?.current_guest
+    console.log(reserv);
     const [showDetails, setShowDetails] = useState(false)
 
     const toggleDetails = () => {

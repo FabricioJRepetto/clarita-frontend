@@ -1,27 +1,46 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PreReservForm from '@/components/common/forms/PreReservForm'
 import { createSubmit } from '@/utils/clientSubmitHandlers'
 import useClients from '@/hooks/useClients'
 import ReservForm from '@/components/common/forms/ReservForm'
-import { createReserv, validateValues } from '@/utils/reservSubmitHandlers'
+import { createReserv, updateReserv, validateValues } from '@/utils/reservSubmitHandlers'
 import useReservations from '@/hooks/useReservations'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import useCabins from '@/hooks/useCabins'
+import ReservPreview from '@/components/common/forms/ReservPreview'
 
 const CreateReservation = () => {
+    const { id } = useParams()
     const navigate = useNavigate()
-    const { setClients } = useClients()
     const { cabins } = useCabins()
+    const { clients, setClients } = useClients()
+    const { reservations, setReservations } = useReservations(id)
+    const [editData, setEditData] = useState(false)
     const [client, setClient] = useState(false)
     const [preview, setPreview] = useState(false)
     const [errors, setErrors] = useState(false)
-    const { setReservations } = useReservations()
+
+    // if ID, load edit data
+    useEffect(() => {
+        if (id) {
+            const data = reservations.find(r => r.id === id)
+            if (data) {
+                setEditData(() => data)
+                const clientData = clients.find(c => c?.id === data?.client.id)
+                clientData && setClient(() => ({
+                    id: clientData.id,
+                    name: clientData.name
+                }))
+            }
+        }
+        // eslint-disable-next-line
+    }, [id])
 
     // Client
     const afterCreation = (res) => {
         // mutates swr cache
         setClients(res.clientList)
-        // takes new user id for reserv. creation
+        // takes new user id for reserv form
         setClient(() => ({ id: res.newClient.id, name: res.newClient.name }))
     }
     // Reserv
@@ -36,7 +55,9 @@ const CreateReservation = () => {
     }
 
     const handleSubmit = async () => {
-        const res = await createReserv(preview)
+        const fetcher = id ? updateReserv : createReserv
+
+        const res = await fetcher(preview, id)
         console.log(res)
         setErrors(() => res?.errors)
 
@@ -60,22 +81,13 @@ const CreateReservation = () => {
                 {!client && <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />}
 
                 {client && <h2>(02/03) Datos de la reserva</h2>}
-                {client && <p>Cliente: <b>{client.name}</b></p>}
-                {client && <ReservForm handler={validateValues} cb={afterValidate} />}
+                {client && <p>Cliente: <b>{client.name}</b> (cambiar) (editar)</p>}
+                {client && <ReservForm handler={validateValues} cb={afterValidate} edit={editData} />}
             </div>
 
             {preview && <>
                 {preview && <h2>(03/03) Confirmar datos</h2>}
-
-                <p>Cliente: {client.name}</p>
-                <p>Fechas: in {preview.checkin} - out {preview.checkout}</p>
-                <p>Noches: {preview.nights}</p>
-                <p>Cabaña: {cabins.find(c => c.id === preview.cabin).name}</p>
-                <p>Personas: {preview.persons}</p>
-                <p>Pago/seña: {preview.paymentType} - ${preview.amount}</p>
-                <p>Notas: {preview.notes}</p>
-                <br />
-                <button onClick={handleSubmit} className='btn-primary'>Crear Reserva</button>
+                <ReservPreview preview={preview} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
             </>}
 
             {errors?.someError && <p>error: {errors.someError}</p>}

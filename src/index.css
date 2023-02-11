@@ -35,17 +35,21 @@
 
 @layer components {
     .btn-primary {
-        @apply py-2 px-4 bg-blue-500 text-white border-2 border-blue-500 font-semibold rounded-lg shadow-md hover:bg-blue-700 hover:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+        @apply px-8 h-12 bg-blue-500 disabled:bg-gray-500  text-white border-2 border-blue-500 disabled:border-gray-500 font-semibold rounded-lg shadow-md hover:enabled:bg-blue-700 hover:enabled:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition-all duration-100;
     }
     .btn-secondary {
-        @apply btn-primary py-2 px-4 text-blue-400 bg-transparent hover:border-blue-500 hover:bg-transparent hover:text-blue-700 dark:hover:text-white ;
+        @apply btn-primary py-2 px-4 text-blue-400 disabled:text-gray-500 bg-transparent disabled:bg-transparent hover:enabled:border-blue-500 hover:enabled:bg-transparent hover:enabled:text-blue-700 dark:hover:enabled:text-white ;
     }
     .btn-tertiary {
-        @apply btn-primary py-2 px-4 text-blue-400 border-none bg-transparent shadow-none hover:bg-transparent hover:text-blue-700 dark:hover:text-white underline underline-offset-4 decoration-2;
+        @apply btn-primary py-2 px-4 text-blue-400 disabled:text-gray-500 border-none bg-transparent disabled:bg-transparent shadow-none hover:enabled:bg-transparent hover:enabled:text-blue-700 dark:hover:enabled:text-white underline underline-offset-4 decoration-2 focus:ring-0;
     }
     .btn-big {
         @apply  btn-primary w-full text-2xl font-thin;
+    }    
+    .btn-icon {
+        @apply scale-150 text-slate-500 hover:text-black hover:dark:text-white;
     }
+
     .switch-input {
         @apply  h-8 w-fit px-3 flex justify-between items-center border border-slate-700 rounded-2xl;
     }
@@ -54,5 +58,23 @@
     }
     .switch-input span {
         @apply  absolute origin-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full h-4 w-12 bg-slate-300 dark:bg-slate-800;
+    }
+
+    .details-card {
+        @apply grid gap-4 p-2 font-thin rounded;
+    }
+    .details-card section {
+        @apply border border-slate-300 dark:border-slate-800 rounded px-3 py-2;
+    }
+
+    .details-data {
+        @apply pl-8 grid grid-cols-3 items-end;
+    }
+    .details-data p:nth-child(2n -1) {
+        @apply text-gray-500 align-text-bottom col-span-1 capitalize;
+        font-size: .7rem;
+    }
+    .details-data p:nth-child(2n) {
+        @apply col-span-2 text-left capitalize;
     }
 }

@@ -29,7 +29,7 @@ const ReservationDetails = () => {
     return (
         <div>
             <h1>Detalles de reserva</h1>
-            <button className='btn-tertiary'>editar</button>
+            <button className='btn-tertiary' onClick={() => navigate(`/reservations/edit/${id}`)}>editar</button>
             <button className='btn-tertiary' onClick={handleDelete}>eliminar</button>
             {isLoading && <h2>Cargando...</h2>}
             {(isLoading && !reserv) && <h2>Reserva no encontrada</h2>}

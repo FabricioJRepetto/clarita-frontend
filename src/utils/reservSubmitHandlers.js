@@ -43,24 +43,24 @@ export const validateValues = (e) => {
     const values = {}
     Array.from(e.target).map(e => e.name && (values[e.name] = e.value || '-'))
     console.log(values);
+
     // input validator
     const errors = validateReservErrors(values)
     if (errors) return { errors }
 
-
-    // transform dates to correct format
+    // change dates to correct format
     values.checkin = formatDate(values.checkin)
     values.checkout = formatDate(values.checkout)
+    // change currency to number
+    values.amount = Number.parseInt(values.amount.replace(/\D/g, ""))
 
     return { res: values }
 }
 
-export const createReservSubmit = async (e) => {
-    const { res: values, errors } = validateValues(e)
-    if (errors) return { errors }
-
+//? this fn only Posts validated data
+export const createReserv = async (data) => {
     // post on API    
-    const res = await postApi(['/reservation/', values]).catch(err => {
+    const res = await postApi(['/reservation/', data]).catch(err => {
         console.error(err)
         //: TODO: create notification system
         return { errors: { someError: err.message } }
@@ -69,10 +69,25 @@ export const createReservSubmit = async (e) => {
     return res
 }
 
-//? this fn posts the already validated data
-export const createReserv = async (data) => {
+//? this fn only Update validated data
+export const updateReserv = async (data, id) => {
+    // put on API
+    const res = await editApi([`/reservation?id=${id}`, data]).catch(err => {
+        console.error(err)
+        //: TODO: create notification system
+        return { errors: { someError: err.message } }
+    })
+
+    return res
+}
+
+//? this fn Validates AND Posts the data
+export const createReservSubmit = async (e) => {
+    const { res: values, errors } = validateValues(e)
+    if (errors) return { errors }
+
     // post on API    
-    const res = await postApi(['/reservation/', data]).catch(err => {
+    const res = await postApi(['/reservation/', values]).catch(err => {
         console.error(err)
         //: TODO: create notification system
         return { errors: { someError: err.message } }

@@ -16,7 +16,7 @@ export const api = async (key) => {
             Authorization: getCookie('userToken')
         }
     })
-    // console.log('api', response);
+    console.log('api', response);
     if (!response.error) {
         return response
     } else throw new Error(response.error)
@@ -64,21 +64,6 @@ export const postApi = async ([key, data]) => {
     }
 }
 
-export const deleteApi = async (key) => {
-    // se recomienda que swr envíe el token para que indexe la req
-    const { data: response } = await axios.delete(BACK_URL + key, {
-        headers: {
-            Authorization: getCookie('userToken')
-        }
-    })
-    // console.log('deleteApi', response);
-    if (!response.error) {
-        return response
-    } else {
-        throw new Error(response.error)
-    }
-}
-
 export const editApi = async ([key, data]) => {
     // se recomienda que swr envíe el token para que indexe la req
     const { data: response } = await axios.put(BACK_URL + key, data, {
@@ -87,6 +72,21 @@ export const editApi = async ([key, data]) => {
         }
     })
     // console.log('editApi', response);
+    if (!response.error) {
+        return response
+    } else {
+        throw new Error(response.error)
+    }
+}
+
+export const deleteApi = async (key) => {
+    // se recomienda que swr envíe el token para que indexe la req
+    const { data: response } = await axios.delete(BACK_URL + key, {
+        headers: {
+            Authorization: getCookie('userToken')
+        }
+    })
+    // console.log('deleteApi', response);
     if (!response.error) {
         return response
     } else {

@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useClients from '@/hooks/useClients'
 import { deleteApi } from '@/services/api'
-import ClienDetailsCard from '../common/cards/ClientDetailsCard'
+import ClienDetailsCard from '@/components/common/cards/ClientDetailsCard'
+import { MdDelete, MdEdit } from 'react-icons/md';
+import useUser from '@/hooks/useUser'
 
 const ClientDetails = () => {
     const { id } = useParams()
-    const { clients, isLoading, error, setClients } = useClients()
-    const user = clients ? clients.find(u => u.id === id) : false
+    const { user } = useUser()
+    const { clients, error, setClients } = useClients()
+    const client = clients ? clients.find(u => u.id === id) : false
     //: TODO: Create Notification system
     const [someError, setSomeError] = useState('')
 
@@ -32,12 +35,17 @@ const ClientDetails = () => {
 
     return (
         <>
-            {user &&
-                <div className='p-2 my-1 border border-slate-300 dark:border-slate-700 rounded-lg'>
-                    <ClienDetailsCard user={user} />
-                    <br />
-                    <button className='px-2 mx-4' onClick={handleEdit}>editar</button>
-                    <button className='px-2 mx-4' onClick={handleDelete}>borrar</button>
+            {client &&
+                <div className='p-2 my-1 relative border border-slate-200 dark:border-slate-700 rounded-lg'>
+                    <ClienDetailsCard user={client} />
+                    {(user.role === 'admin' || user.role === 'master') && <>
+                        <button className='btn-icon absolute top-8 right-20' onClick={handleEdit}>
+                            <MdEdit />
+                        </button>
+                        <button className='btn-icon absolute top-8 right-9' onClick={handleDelete}>
+                            <MdDelete />
+                        </button>
+                    </>}
                 </div>}
 
             {(error || someError) && <b>error: {error?.message || someError}</b>}

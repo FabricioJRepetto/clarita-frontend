@@ -6,7 +6,7 @@ import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 
 const ReservationMiniCard = ({ data }) => {
     const navigate = useNavigate()
-    const { reservations, isLoading, error } = useReservations()
+    const { reservations } = useReservations()
     const reserv = reservations ? reservations.find(e => e.id === data.reservation_id) : false
 
     return (

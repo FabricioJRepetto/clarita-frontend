@@ -1,4 +1,7 @@
 import { editApi, postApi } from "@/services/api"
+import { emailRe } from "@/utils/formUtils"
+
+
 
 export const validateClientErrors = (values) => {
     let errors = {}
@@ -7,7 +10,13 @@ export const validateClientErrors = (values) => {
 
     if (values.dni === '-') errors.dni = 'Campo requerido'
 
-    if (values.age === '-') errors.age = 'Campo requerido'
+    if (values.email === '-') {
+        errors.email = 'Campo requerido'
+    } else if (!emailRe.test(values.email)) {
+        errors.email = 'Formato de email no válido'
+    }
+
+    // if (values.age === '-') errors.age = 'Campo requerido'
 
     // if there is one, there must be the other
     if (values.vehicleType !== '-' && values.plate === '-') errors.plate = 'Campo requerido'
@@ -47,10 +56,15 @@ export const editSubmit = async (e, id) => {
     // obtengo todos los valores de los inputs 
     const values = {}
     Array.from(e.target).map(e => e.name && (values[e.name] = e.value || '-'))
+    console.log(values);
 
     // reviso errores
     const errors = validateClientErrors(values)
     if (errors) return { errors }
+
+    if (values.age === '-') {
+        delete values.age
+    }
 
     // envio a la db    
     const res = await editApi([`/client?id=${id}`, values]).catch(err => {

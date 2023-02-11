@@ -33,11 +33,12 @@ function App() {
 
                         <Route path="/reservations" element={<Reservations />} />
                         <Route path="/reservations/create" element={<CreateReservation />} />
-                        <Route path="/reservations/edit/:id" element={<Reservations />} />
+                        <Route path="/reservations/edit/:id" element={<CreateReservation />} />
                         <Route path="/reservations/details/:id" element={<ReservationDetails />} />
 
                         <Route path="/cabins" element={<Cabins />} />
                         <Route path="/cabins/details/:id" element={<CabinDetails />} />
+
 
                         <Route path="*" element={<NotFound />} />
                     </Routes>
