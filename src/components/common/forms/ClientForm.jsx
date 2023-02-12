@@ -1,6 +1,6 @@
 import useClients from '@/hooks/useClients'
-import { loadData } from '@/utils/formUtils'
-import React, { useEffect, useState } from 'react'
+import useLoadEditData from '@/hooks/useLoadEditData'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 const ClientForm = ({ handler, cb }) => {
@@ -10,19 +10,13 @@ const ClientForm = ({ handler, cb }) => {
     const { clients } = useClients()
 
     // if ID, load edit data
-    useEffect(() => {
-        if (id) {
-            const data = clients.find(c => c.id === id)
-            data && loadData(data)
-        }
-        // eslint-disable-next-line
-    }, [id])
+    useLoadEditData(clients)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        // if there is not an ID, no need to check uniqueness
-        if (!id) {
+        // check uniqueness
+        if (!id) { // if there is not an ID, no need to check uniqueness
             let flag = false
             const dni = document.getElementById('dni').value,
                 email = document.getElementById('email').value
@@ -42,8 +36,12 @@ const ClientForm = ({ handler, cb }) => {
         // all handlers need the event, only edit handlers need ID
         // however, always pass the ID
         const { res, errors: err } = await handler(e, id)
-        setErrors(err)
-        if (res) cb(res)
+        if (err) {
+            setErrors(() => err)
+            return
+        }
+        if (!res.error) cb(res)
+        else setErrors({ ...errors, someError: res.error })
     }
 
     return (

@@ -3,12 +3,12 @@ import { deleteCookie, getCookie, setCookie } from "@/utils/cookies";
 
 const BACK_URL = import.meta.env.VITE_BACK_URL
 
-const config = {
-    //: TODO: set waiting for response time (failsafe for fatal errors on server and to avoid infinite loadings)
-    headers: {
-        Authorization: getCookie('userToken')
-    }
-};
+// const config = {
+//     //: TODO: set waiting for response time (failsafe for fatal errors on server and to avoid infinite loadings)
+//     headers: {
+//         Authorization: getCookie('userToken')
+//     }
+// };
 
 export const api = async (key) => {
     const { data: response } = await axios(BACK_URL + key, {
@@ -16,7 +16,7 @@ export const api = async (key) => {
             Authorization: getCookie('userToken')
         }
     })
-    console.log('api', response);
+    // console.log('api', response);
     if (!response.error) {
         return response
     } else throw new Error(response.error)
@@ -93,11 +93,3 @@ export const deleteApi = async (key) => {
         throw new Error(response.error)
     }
 }
-
-// const fetcher = (...args) => fetch(...args).then(res => res.json())
-
-// const postFetcher = (...args) => fetch(...args).then(res => res.json())
-
-// const fetchWithToken = (url, token) => fetch(...args).then(res => res.json())
-
-// const { data: user } = useSWR(['/api/user', token], ([url, token]) => fetchWithToken(url, token))

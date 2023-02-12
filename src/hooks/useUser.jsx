@@ -8,7 +8,11 @@ const useUser = () => {
         user: data,
         isLoading,
         error,
-        setUser: mutate
+        setUser: mutate,
+        role: data?.role || undefined,
+        admin: data?.role === 'admin' || data?.role === 'master',
+        master: data?.role === 'master'
+
     }
 }
 

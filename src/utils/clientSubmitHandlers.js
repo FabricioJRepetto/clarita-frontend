@@ -1,8 +1,6 @@
 import { editApi, postApi } from "@/services/api"
 import { emailRe } from "@/utils/formUtils"
 
-
-
 export const validateClientErrors = (values) => {
     let errors = {}
 

@@ -8,8 +8,8 @@ import useUser from '@/hooks/useUser'
 
 const ClientDetails = () => {
     const { id } = useParams()
-    const { user } = useUser()
-    const { clients, error, setClients } = useClients()
+    const { admin } = useUser()
+    const { clients, error, setClients, isLoading } = useClients()
     const client = clients ? clients.find(u => u.id === id) : false
     //: TODO: Create Notification system
     const [someError, setSomeError] = useState('')
@@ -22,9 +22,9 @@ const ClientDetails = () => {
             setSomeError(err.message)
         })
 
-        if (res) {
-            console.log('handleDelete', res);
-            setClients(res)
+        if (!res.error) {
+            console.log('handleDelete', res.message);
+            setClients(res.clientList)
             navigate('/clients')
         }
     }
@@ -35,10 +35,12 @@ const ClientDetails = () => {
 
     return (
         <>
+            {isLoading && <p>Cargando...</p>}
             {client &&
                 <div className='p-2 my-1 relative border border-slate-200 dark:border-slate-700 rounded-lg'>
                     <ClienDetailsCard user={client} />
-                    {(user.role === 'admin' || user.role === 'master') && <>
+
+                    {admin && <>
                         <button className='btn-icon absolute top-8 right-20' onClick={handleEdit}>
                             <MdEdit />
                         </button>

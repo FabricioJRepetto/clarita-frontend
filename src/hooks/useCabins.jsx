@@ -8,7 +8,7 @@ const useCabins = () => {
         cabins: data,
         error,
         isLoading,
-        setCabin: mutate
+        setCabins: mutate
     }
 }
 

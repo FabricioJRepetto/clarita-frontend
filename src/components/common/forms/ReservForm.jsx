@@ -13,8 +13,6 @@ const ReservForm = ({ handler, cb, edit }) => {
     const checkin = useRef(null)
     const checkout = useRef(null)
 
-    //: TODO: Revalidate cabin availability when date is changed 
-    //: TODO: Show available cabins
     //: TODO: calendar (would be good a shortcut here)  
 
     // if edit, load edit data
@@ -42,7 +40,9 @@ const ReservForm = ({ handler, cb, edit }) => {
 
     const datesHandler = (e) => {
         fillDates(e)
-        if (checkin.current.value && checkout.current.value) {
+        // if in edit mode, don't change cabin
+        if (checkin.current.value && checkout.current.value && !edit) {
+            // Looks for available cabins
             datesValidator(cabins, setAvCabins, setErrors)
         } else {
             setAvCabins(() => cabins)
@@ -59,7 +59,10 @@ const ReservForm = ({ handler, cb, edit }) => {
         e.preventDefault()
 
         const { res, errors } = await handler(e)
-        setErrors(() => errors)
+        if (errors) {
+            setErrors(() => errors)
+            return
+        }
         if (!res.error) cb(res)
         else setErrors({ ...errors, someError: res.error })
     }

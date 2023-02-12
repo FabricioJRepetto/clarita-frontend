@@ -98,6 +98,7 @@ export const doDatesOverlap = (a1, a2, b1, b2) => {
 }
 
 //: TODO: replantear el checkeo de fechas, quizas sea mejor hacerlo en el back
+// Looks for available cabins
 export const datesValidator = (cabins, setAvCabins, setErrors) => {
     const IN = document.getElementById('checkin').value,
         OUT = document.getElementById('checkout').value

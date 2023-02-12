@@ -1,8 +1,11 @@
 import { fancyDate } from '@/utils/formatDate'
 import React, { useState } from 'react'
 import ClientDetailsCard from './ClientDetailsCard'
-import { MdPerson } from 'react-icons/md';
+import { MdPerson, MdOutlinePayments, MdHome, MdEvent, MdOutlineInfo, MdStickyNote2, MdOutlineArrowBackIos } from 'react-icons/md';
+import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
+
 import { useNavigate } from 'react-router-dom';
+import { numberToCurrency } from '@/utils/formUtils';
 
 const ReservationCard = ({ data }) => {
     const [clientDetails, setClientDetails] = useState(false)
@@ -13,49 +16,73 @@ const ReservationCard = ({ data }) => {
     }
 
     return (
-        <div className='grid gap-4'>
-            <section className='p-4 rounded-lg bg-slate-100 dark:bg-slate-700'>
-                {clientDetails
-                    ? <div>
-                        <p className='cursor-pointer flex items-center' onClick={toggleClient}><MdPerson className='mr-2' /> Cliente (menos detalles)</p>
-                        <ClientDetailsCard user={data?.client} />
-                    </div>
-                    : <div className='cursor-pointer' onClick={toggleClient}>
-                        <p className='flex items-center'><MdPerson className='mr-2' />Cliente (más detalles)</p>
-                    </div>}
+        <div className='details-card'>
+            <section className='p-4 rounded-lg'>
+                <p className='cursor-pointer txt-n-icon justify-between text-xl'
+                    onClick={toggleClient}>
+                    <p className='txt-n-icon '>
+                        <MdPerson className='mr-2' />
+                        Cliente
+                    </p>
+                    <MdOutlineArrowBackIos className={`${clientDetails ? '-rotate-90' : 'rotate-90'} transition-transform`} />
+                </p>
+                {clientDetails && <ClientDetailsCard user={data?.client} />}
             </section>
-
-            <section>
+            {/*//*ME QUEDÉ ACÁ PROBANDO BOTONES PARA LA CABAÑA */}
+            <button className='btn-primary'>
                 {data?.cabin.name &&
-                    <p onClick={() => navigate(`/cabins/details/${data.cabin.id}`)} className='cursor-pointer'>
-                        Cabaña: <b>{data?.cabin?.name || '?'}
-                        </b> (ir a cacbaña)
+                    <p className='txt-n-icon text-xl cursor-pointer'
+                        onClick={() => navigate(`/cabins/details/${data.cabin.id}`)} >
+                        <MdHome />
+                        <b className='capitalize'>{data?.cabin?.name || '-'}</b> (ir)
                     </p>}
-                <p>Fechas:</p>
-                <p className='mx-2'>checkin: <b>{fancyDate(data?.checkin)}</b></p>
-                <p className='mx-2'>checkout: <b>{fancyDate(data?.checkout)}</b></p>
+            </button>
+
+            <section>
+                <p className='txt-n-icon text-xl'><MdEvent />Fechas</p>
+                <div className='details-data'>
+                    <p>checkin</p>
+                    <p className='txt-n-icon -ml-6'>
+                        <BsFillCaretDownFill className='opacity-75 text-rose-400 dark:text-rose-700' />{fancyDate(data?.checkin)}</p>
+                    <p>checkout</p>
+                    <p className='txt-n-icon -ml-6'>
+                        <BsFillCaretUpFill className='opacity-75 text-green-400 dark:text-green-300' />{fancyDate(data?.checkout)}</p>
+                    <p>total de noches</p>
+                    <p>{data?.nights} {data?.nights > 1 ? 'Noches' : 'Noche'}</p>
+                </div>
             </section>
 
             <section>
-                <p>Personas: <b>{data?.persons}</b></p>
-                <p>Vehículo: <b>{data?.client?.vehicleType || 'No'}</b></p>
-                {data?.client?.plate !== '-' && <p className='mx-2'>Patente: <b>{data?.client?.plate}</b></p>}
+                <p className='txt-n-icon text-xl'><MdOutlineInfo />Extra</p>
+                <div className='details-data'>
+                    <p>Personas</p>
+                    <p>{data?.persons}</p>
+                    <p>Vehículo</p>
+                    <p>{data?.client?.vehicleType === '-' ? 'No' : data?.client?.vehicleType}</p>
+                    {data?.client?.plate !== '-' && <><p>Patente</p> <p>{data?.client?.plate}</p></>}
+                </div>
             </section>
 
             <section>
-                <p>Pago: <b>{data?.paymentType} - ${data?.amount}</b></p>
-                {data?.fees !== '-' && <p>Cuotas: <b>{data?.fees}</b></p>}
-                {data?.percentage !== '-' && <p>Seña: <b>{data?.percentage}</b></p>}
+                <p className='txt-n-icon text-xl'><MdOutlinePayments />Pago</p>
+
+                <div className='details-data'>
+                    <p>Forma de pago</p> <p>{data?.paymentType}</p>
+                    {data?.fees !== '-' && <><p>Cuotas</p> <p>{data?.fees || '-'}</p></>}
+                    <p>Monto</p> <p>{numberToCurrency(data?.amount)}</p>
+                    {data?.percentage !== '-' && <><p>Seña</p><p>{data?.percentage || '-'}</p></>}
+                </div>
             </section>
 
-            <section>
-                <p>Notas: {data?.notes}</p>
-            </section>
+            {data?.notes !== '-' &&
+                <section>
+                    <p className='text-xl flex gap-2 items-center'><MdStickyNote2 />Notas</p>
+                    <p className='ml-2'>{data?.notes}</p>
+                </section>}
 
-            <section>
-                <i className='text-xs opacity-75 mx-2'>ID: {data?.id}</i>
-            </section>
-        </div>
+            <i className='text-xs text-right opacity-50 mx-2'>ID: {data?.id}</i>
+
+        </div >
     )
 }
 

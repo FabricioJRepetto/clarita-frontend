@@ -12,6 +12,7 @@ import CreateReservation from '@/components/reservations/CreateReservation';
 import ReservationDetails from '@/components/reservations/ReservationDetails';
 import Cabins from '@/components/cabins/Cabins';
 import CabinDetails from './components/cabins/CabinDetails';
+import CreateCabin from './components/cabins/CreateCabin';
 
 function App() {
     //! DANGER: possible troublemaker
@@ -37,8 +38,9 @@ function App() {
                         <Route path="/reservations/details/:id" element={<ReservationDetails />} />
 
                         <Route path="/cabins" element={<Cabins />} />
+                        <Route path="/cabins/create" element={<CreateCabin />} />
+                        <Route path="/cabins/edit/:id" element={<CreateCabin />} />
                         <Route path="/cabins/details/:id" element={<CabinDetails />} />
-
 
                         <Route path="*" element={<NotFound />} />
                     </Routes>

@@ -18,10 +18,10 @@ const CreateClient = () => {
     // if there is an ID in params, it means it is an edit,
     // so the form needs the edit submit handler
     return (
-        <div>
+        <>
             <h1>Registrar Cliente</h1>
             <ClientForm handler={id ? editSubmit : createSubmit} cb={afterCreation} />
-        </div>
+        </>
     )
 }
 

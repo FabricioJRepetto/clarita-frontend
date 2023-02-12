@@ -3,7 +3,7 @@ import React from 'react'
 const PageController = ({ page, changePage, elements, EPP }) => {
     return (
         <section className='mt-6 flex justify-center items-center'>
-            <button disabled={page === 1}
+            <button disabled={page <= 1}
                 className='btn-tertiary'
                 onClick={() => changePage('-')}>anterior</button>
 
@@ -11,7 +11,7 @@ const PageController = ({ page, changePage, elements, EPP }) => {
 
             <button disabled={page >= Math.ceil(elements / EPP)}
                 className='btn-tertiary'
-                onClick={changePage}>siguiente</button>
+                onClick={() => changePage('+')}>siguiente</button>
         </section>
     )
 }

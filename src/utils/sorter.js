@@ -9,3 +9,15 @@ export const textSort = (a, b) => {
     }
     return 0;
 }
+
+export const dateSort = (a, b) => {
+    const A = new Date(a),
+        B = new Date(b)
+    if (A < B) {
+        return -1;
+    }
+    if (A > B) {
+        return 1;
+    }
+    return 0;
+}

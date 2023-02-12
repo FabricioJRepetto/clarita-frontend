@@ -7,10 +7,12 @@ import SearchInput from '../common/SearchInput'
 
 const Clients = () => {
     const navigate = useNavigate()
-    const { clients, isLoading, error, setClients } = useClients()
+    const { clients, isLoading } = useClients()
     const [filtered, setFiltered] = useState(false)
+    const [sortKey, setSortKey] = useState('name')
 
     const filter = (key, pattern) => {
+        setSortKey(() => key)
         if (pattern) {
             const newList = fuzzySearch(clients, [key], pattern)
             setFiltered(() => newList)
@@ -27,7 +29,7 @@ const Clients = () => {
             <SearchInput filter={filter} />
 
             {isLoading && <p>Cargando...</p>}
-            <ClientList data={filtered || clients} />
+            <ClientList data={filtered || clients} sortKey={sortKey} />
         </>
     )
 }
