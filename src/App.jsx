@@ -11,8 +11,10 @@ import CreateClient from '@/components/clients/CreateClient';
 import CreateReservation from '@/components/reservations/CreateReservation';
 import ReservationDetails from '@/components/reservations/ReservationDetails';
 import Cabins from '@/components/cabins/Cabins';
-import CabinDetails from './components/cabins/CabinDetails';
-import CreateCabin from './components/cabins/CreateCabin';
+import CabinDetails from '@/components/cabins/CabinDetails';
+import CreateCabin from '@/components/cabins/CreateCabin';
+import ResetPassword from '@/components/user/ResetPassword';
+import Layout from '@/components/common/Layout';
 
 function App() {
     //! DANGER: possible troublemaker
@@ -20,32 +22,46 @@ function App() {
 
     return (
         <div className="min-w-screen min-h-screen px-4 flex flex-col pt-24 pb-40">
-            {(!user || error) && <LoginScreen />}
-            {user &&
-                <>
-                    <Navbar />
-                    <Routes>
-                        <Route path="/" element={<Home />} />
+            <Routes>
+                <Route path='/' element={<Navbar />}>
+                    {(!user?.id || error) &&
+                        <Route path="/" element={<LoginScreen />} />
+                    }
 
-                        <Route path="/clients" element={<Clients />} />
-                        <Route path="/clients/create" element={<CreateClient />} />
-                        <Route path="/clients/edit/:id" element={<CreateClient />} />
-                        <Route path="/clients/details/:id" element={<ClientDetails />} />
+                    <Route path="/user/resetpassword" element={<ResetPassword />} />
 
-                        <Route path="/reservations" element={<Reservations />} />
-                        <Route path="/reservations/create" element={<CreateReservation />} />
-                        <Route path="/reservations/edit/:id" element={<CreateReservation />} />
-                        <Route path="/reservations/details/:id" element={<ReservationDetails />} />
+                    {user?.id &&
+                        <>
+                            <Route path="/" element={<Home />} />
 
-                        <Route path="/cabins" element={<Cabins />} />
-                        <Route path="/cabins/create" element={<CreateCabin />} />
-                        <Route path="/cabins/edit/:id" element={<CreateCabin />} />
-                        <Route path="/cabins/details/:id" element={<CabinDetails />} />
+                            <Route path="clients" element={<Layout />} >
+                                <Route index element={<Clients />} />
+                                <Route path="create" element={<CreateClient />} />
+                                <Route path="edit/:id" element={<CreateClient />} />
+                                <Route path="details/:id" element={<ClientDetails />} />
+                            </Route>
 
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
-                </>
-            }
+                            <Route path="reservations" element={<Layout />} >
+                                <Route index element={<Reservations />} />
+                                <Route path="create" element={<CreateReservation />} />
+                                <Route path="edit/:id" element={<CreateReservation />} />
+                                <Route path="details/:id" element={<ReservationDetails />} />
+                            </Route>
+
+                            <Route path="cabins" element={<Layout />} >
+                                <Route index element={<Cabins />} />
+                                <Route path="create" element={<CreateCabin />} />
+                                <Route path="edit/:id" element={<CreateCabin />} />
+                                <Route path="details/:id" element={<CabinDetails />} />
+                            </Route>
+
+                        </>
+                    }
+
+                    <Route path="*" element={<NotFound />} />
+                </Route>
+            </Routes>
+
         </div>
     )
 }

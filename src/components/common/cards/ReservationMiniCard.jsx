@@ -2,7 +2,7 @@ import useReservations from '@/hooks/useReservations'
 import { fancyDate } from '@/utils/formatDate'
 import { useNavigate } from 'react-router-dom'
 import { MdPerson, MdEvent } from 'react-icons/md';
-import { BsFillArrowRightCircleFill } from 'react-icons/bs';
+import { BsFillCaretRightFill } from 'react-icons/bs';
 
 const ReservationMiniCard = ({ data }) => {
     const navigate = useNavigate()
@@ -19,7 +19,7 @@ const ReservationMiniCard = ({ data }) => {
             <p className='flex items-center'>
                 <MdEvent className='mr-2' />
                 {fancyDate(data.in)}
-                <BsFillArrowRightCircleFill className='mx-2' />
+                <BsFillCaretRightFill className='mx-2 text-gray-500' />
                 {fancyDate(data.out)}
             </p>
         </div>

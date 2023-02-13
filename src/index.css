@@ -23,25 +23,39 @@
     }
 
     input, select, textarea {
+        height: 2.5rem;
         color: #202020;
-        padding: 0 .5rem;
+        padding: 0 1rem;
+        border-radius: .5rem;
         border: #202020 1px solid;
     }
 
-    .logo-font {
-        font-family: 'Courgette', cursive;
+    input:focus {
+        outline: none;
     }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active{
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+    }
+
 }
 
 @layer components {
+
+    .logo-font {
+        @apply text-black dark:text-white cursor-pointer text-3xl;
+        font-family: 'Courgette', cursive;
+    }
     .btn-primary {
-        @apply px-8 h-12 bg-blue-500 disabled:bg-gray-500  text-white border-2 border-blue-500 disabled:border-gray-500 font-semibold rounded-lg shadow-md hover:enabled:bg-blue-700 hover:enabled:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition-all duration-100;
+        @apply px-8 h-10 bg-blue-500 disabled:bg-gray-500  text-white border-2 border-blue-500 disabled:border-gray-500 font-semibold rounded-lg shadow-md hover:enabled:bg-blue-700 hover:enabled:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition-all duration-100;
     }
     .btn-secondary {
         @apply btn-primary py-2 px-4 text-blue-400 disabled:text-gray-500 bg-transparent disabled:bg-transparent hover:enabled:border-blue-500 hover:enabled:bg-transparent hover:enabled:text-blue-700 dark:hover:enabled:text-white ;
     }
     .btn-tertiary {
-        @apply btn-primary py-2 px-4 text-blue-400 disabled:text-gray-500 border-none bg-transparent disabled:bg-transparent shadow-none hover:enabled:bg-transparent hover:enabled:text-blue-700 dark:hover:enabled:text-white underline underline-offset-4 decoration-2 focus:ring-0;
+        @apply w-fit cursor-pointer font-medium text-blue-400 disabled:text-gray-500 hover:enabled:text-blue-700 dark:hover:enabled:text-white underline underline-offset-4 decoration-1;
     }
     .btn-big {
         @apply  btn-primary w-full text-2xl font-thin;
@@ -79,5 +93,12 @@
     }
     .details-data p:nth-child(2n) {
         @apply col-span-2 text-left capitalize;
+    }
+
+    .details-card section:hover .link {
+        @apply text-blue-500 dark:text-blue-400;
+    }
+    .link {
+        @apply text-gray-400 dark:text-gray-600;
     }
 }

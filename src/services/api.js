@@ -30,7 +30,7 @@ export const login = async (data) => {
         //: TODO: expiración del token
         setCookie('userToken', response.token, 1)
         return response
-    } else throw new Error(response.error)
+    } else return response
 }
 
 export const autoLogin = async ([key, token]) => {
@@ -51,6 +51,7 @@ export const autoLogin = async ([key, token]) => {
 
 export const postApi = async ([key, data]) => {
     // se recomienda que swr envíe el token para que indexe la req
+    //: el header puede dar problemas en los post donde no es necesario el header (osea que no hay sesion iniciada, como el cambio de password)
     const { data: response } = await axios.post(BACK_URL + key, data, {
         headers: {
             Authorization: getCookie('userToken')

@@ -142,7 +142,7 @@ const ReservForm = ({ handler, cb, edit }) => {
                 </label>
 
                 <p className='col-span-4'>Notas</p>
-                <textarea name="notes" cols="30" rows="2" placeholder='Notas' className='resize-none col-span-4'></textarea>
+                <textarea name="notes" id='notes' cols="30" rows="2" placeholder='Notas' className='resize-none col-span-4'></textarea>
 
                 <button className='btn-primary col-start-2 col-span-2'>{edit ? 'Guardar' : 'Crear'}</button>
             </form>

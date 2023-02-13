@@ -1,8 +1,8 @@
 import useSWR from 'swr'
+import { getCookie } from "@/utils/cookies"
 
 const useUser = () => {
-    const { data, error, isLoading, mutate } = useSWR('/user/login')
-    // const { data, error, isLoading } = useSWR(userData ? '/user/login' : null, () => login(userData))
+    const { data, error, isLoading, mutate } = useSWR(['/user/login', getCookie('userToken')])
 
     return {
         user: data,

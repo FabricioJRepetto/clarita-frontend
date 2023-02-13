@@ -1,7 +1,7 @@
 import { fancyDate } from '@/utils/formatDate'
 import React, { useState } from 'react'
 import ClientDetailsCard from './ClientDetailsCard'
-import { MdPerson, MdOutlinePayments, MdHome, MdEvent, MdOutlineInfo, MdStickyNote2, MdOutlineArrowBackIos } from 'react-icons/md';
+import { MdPerson, MdOutlinePayments, MdHome, MdEvent, MdOutlineInfo, MdStickyNote2, MdOutlineArrowBackIos, MdOpenInNew } from 'react-icons/md';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 
 import { useNavigate } from 'react-router-dom';
@@ -18,25 +18,26 @@ const ReservationCard = ({ data }) => {
     return (
         <div className='details-card'>
             <section className='p-4 rounded-lg'>
-                <p className='cursor-pointer txt-n-icon justify-between text-xl'
+                <div className='cursor-pointer txt-n-icon justify-between text-xl'
                     onClick={toggleClient}>
                     <p className='txt-n-icon '>
                         <MdPerson className='mr-2' />
                         Cliente
                     </p>
                     <MdOutlineArrowBackIos className={`${clientDetails ? '-rotate-90' : 'rotate-90'} transition-transform`} />
-                </p>
+                </div>
                 {clientDetails && <ClientDetailsCard user={data?.client} />}
             </section>
-            {/*//*ME QUEDÉ ACÁ PROBANDO BOTONES PARA LA CABAÑA */}
-            <button className='btn-primary'>
-                {data?.cabin.name &&
-                    <p className='txt-n-icon text-xl cursor-pointer'
+
+            {data?.cabin.name &&
+                <section>
+                    <p className='txt-n-icon text-xl cursor-pointer hover:border-blue-500'
                         onClick={() => navigate(`/cabins/details/${data.cabin.id}`)} >
                         <MdHome />
-                        <b className='capitalize'>{data?.cabin?.name || '-'}</b> (ir)
-                    </p>}
-            </button>
+                        <b className='capitalize'>{data?.cabin?.name || '-'}</b>
+                        <MdOpenInNew className='link' />
+                    </p>
+                </section>}
 
             <section>
                 <p className='txt-n-icon text-xl'><MdEvent />Fechas</p>
