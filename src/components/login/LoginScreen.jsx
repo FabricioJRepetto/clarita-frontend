@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import useLogin from '@/hooks/useLogin';
-import { mutate } from 'swr';
 import { login, postApi } from '@/services/api';
 import Login from './Login';
 import Signin from './Signin';
 import Password from './Password';
+import LoginMessage from './LoginMessage';
 
 const LoginScreen = () => {
     const [frame, setFrame] = useState(0)
     const [error, setError] = useState(false)
-    const { user, error: hookError, isLoading, reLog } = useLogin()
+    const [message, setMessage] = useState(false)
+    const { user, isLoading, reLog } = useLogin()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -34,12 +35,18 @@ const LoginScreen = () => {
             data = { email };
 
         try {
-            // POST /user/forgotPassword {email}
             const res = await postApi(['/user/forgotPassword', data])
-            console.log(res);
+            if (!!res?.result?.accepted.length) {
+                setError(() => false)
+                console.log('OK');
+            } else {
+                console.log('no OK', res?.error);
+            }
         } catch (err) {
-            console.warn(err?.response?.data?.error);
-            // setError(() => err?.response?.data?.error || err?.message || 'Algo salió mal')
+            console.log('no OK', err)
+        } finally {
+            setFrame(() => 3)
+            setMessage(() => 'Si la dirección es correcta, se envió un correo para continuar con la actualización de tu contraseña.')
         }
     }
 
@@ -47,28 +54,46 @@ const LoginScreen = () => {
         e.preventDefault()
         setError(() => false)
 
-        const [{ value: user_name }, { value: email }, { value: password }] = e.target,
+        const [{ value: user_name }, { value: email }, { value: password }, { value: repeat_password }] = e.target,
             data = { user_name, email, password };
 
+        if (password !== repeat_password) {
+            setError(() => 'Las contraseñas no coinciden')
+            return
+        }
+
         try {
-            // POST /user/signin {user_name, email, password}
-            // const res = await postApi('/user/signin', data)
-            // console.log(res);
+            const res = await postApi(['/user/signin', data])
+            if (!res.error) {
+                //: mostrar mensaje de cuenta creada, un admin tiene que autorizarla
+                //: redirigir al login
+                console.log(res);
+                setMessage(() => 'Tu cuenta se ha creado correctamente, pero, por cuestiones de seguridad, para poder acceder a ella, primero debe ser autorizada por un administrador. Contacta con uno para continuar.')
+                setFrame(() => 3)
+            } else {
+                setError(() => res?.error)
+            }
         } catch (err) {
-            console.warn(err?.response?.message);
+            console.warn(err);
             setError(() => err?.response?.message || 'Algo salió mal')
         }
     }
 
-    const back = () => setFrame(() => 0)
+    const back = () => {
+        setError(() => false)
+        setMessage(() => false)
+        setFrame(() => 0)
+    }
 
     const changePassword = () => {
         setError(() => false)
+        setMessage(() => false)
         setFrame(() => 2)
     }
 
     const createAccount = () => {
         setError(() => false)
+        setMessage(() => false)
         setFrame(() => 1)
         console.log('POST /user/signin {user_name, email, password}')
     }
@@ -76,7 +101,8 @@ const LoginScreen = () => {
     const frames = [
         <Login handler={handleSubmit} error={error} password={changePassword} signIn={createAccount} />,
         <Signin handler={handleSignin} back={back} error={error} />,
-        <Password handler={handlePW} back={back} />
+        <Password handler={handlePW} back={back} />,
+        <LoginMessage message={message} back={back} />
     ]
     const correctFrame = frames[frame]
 

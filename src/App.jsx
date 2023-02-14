@@ -15,6 +15,8 @@ import CabinDetails from '@/components/cabins/CabinDetails';
 import CreateCabin from '@/components/cabins/CreateCabin';
 import ResetPassword from '@/components/user/ResetPassword';
 import Layout from '@/components/common/Layout';
+import Profile from '@/components/user/Profile';
+import Admin from '@/components/admin/Admin';
 
 function App() {
     //! DANGER: possible troublemaker
@@ -54,6 +56,10 @@ function App() {
                                 <Route path="edit/:id" element={<CreateCabin />} />
                                 <Route path="details/:id" element={<CabinDetails />} />
                             </Route>
+
+                            <Route path="user" element={<Profile />} />
+
+                            <Route path="admin" element={<Admin />} />
 
                         </>
                     }

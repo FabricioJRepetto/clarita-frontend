@@ -2,7 +2,7 @@ import React from 'react'
 
 const Login = ({ handler, error, password, signIn }) => {
     return (
-        <form onSubmit={handler} className='flex flex-col gap-8'>
+        <form onSubmit={handler} className='flex flex-col gap-8 fade-in'>
 
             <label htmlFor="login-email" className='flex flex-col gap-2'>
                 <p>Email</p>

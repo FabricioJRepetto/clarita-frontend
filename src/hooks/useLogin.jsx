@@ -3,8 +3,6 @@ import { getCookie } from "@/utils/cookies"
 import useSWR from 'swr'
 
 const useLogin = () => {
-    // const TOKEN = getCookie('userToken')
-
     const { data, error, isLoading, mutate } = useSWR(['/user/login', getCookie('userToken')], autoLogin)
 
     return {

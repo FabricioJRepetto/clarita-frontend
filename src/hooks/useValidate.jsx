@@ -1,13 +1,18 @@
 import { api } from "@/services/api"
+import { useSearchParams } from "react-router-dom"
+import useSWR from 'swr'
 
-const useValidate = async ({ token }) => {
+const useValidateToken = () => {
+    const [searchParams] = useSearchParams({})
+    const token = searchParams.get('token')
 
-    const { data } = await api(`/user/checkPasswordToken?t=${token}`)
+    const { data, error, isLoading } = useSWR(token ? `/user/checkPasswordToken?t=${token}` : null, api)
 
     return {
-        data: data || false,
-        isLoading: !data
+        data,
+        error,
+        isLoading
     }
 }
 
-export default useValidate
+export default useValidateToken
