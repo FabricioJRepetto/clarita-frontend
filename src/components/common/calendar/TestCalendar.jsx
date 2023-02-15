@@ -2,40 +2,37 @@ import useCabins from '@/hooks/useCabins'
 import React from 'react'
 import { useState } from 'react'
 import Calendar from 'react-calendar'
+import CalendarCabinCard from './CalendarCabinCard'
+import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs'
 import './CalendarStyles.css'
+import CabinCard from '../cards/CabinCard'
 
 const TestCalendar = () => {
     const [date, setDate] = useState(new Date().toLocaleDateString('en'))
+    const [selected, setSelected] = useState(false)
     const { cabins, isLoading } = useCabins()
-    // const today = new Date()
-    // const firstDay = new Date(`${today.getUTCMonth() + 1}/1/${today.getUTCFullYear()}`).getUTCDay()
-    // const mm = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-    //     'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
     const handler = (d) => {
         const date = new Date(d).toLocaleDateString('en')
         setDate(() => date)
-
     }
+    const selectCabin = (id) => setSelected(() => id)
 
     return (
-        <section>
-            <header>
-                <h1>Calendario</h1>
-            </header>
-
-            <div>
-                <Calendar onChange={handler} locale={'es-Ar'} />
-            </div>
+        <section style={{ width: '300px' }} className='flex flex-col gap-8 mr-2'>
+            <Calendar onChange={handler} locale={'es-Ar'} />
 
             {isLoading
                 ? <p>Cargando</p>
-                : <div className='flex flex-col gap-1 w-80'>
-                    {date && <p>{date}</p>}
+                : <div className='flex flex-col gap-1'>
                     {cabins && cabins.map(c => (
-                        <p key={c.id} className='rounded-md px-2 w-full bg-slate-800'>{c.identifier}</p>
+                        <CalendarCabinCard key={c.id} data={c} date={date} cb={selectCabin} />
                     ))}
+                    <p className='txt-n-icon w-full justify-center text-xs text-gray-500'><BsFillCaretDownFill /><p>CHECKIN</p><BsFillCaretUpFill /><p>CHECKOUT</p></p>
                 </div>}
+
+
+            {selected && <CabinCard data={cabins.find(c => c.id === selected)} />}
         </section>
     )
 }

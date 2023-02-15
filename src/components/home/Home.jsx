@@ -11,22 +11,29 @@ const Home = () => {
     const navigate = useNavigate()
 
     return (
-        <>
-            <AdminMessage />
-            <section className='grid grid-flow-col gap-2 max-w-7xl m-auto my-2'>
-                <button className="btn-big" onClick={() => navigate('/clients')}>Clientes</button>
-                <button className="btn-big" onClick={() => navigate('/reservations')}>Reservas</button>
-                <button className="btn-big" onClick={() => navigate('/cabins')}>Cabañas</button>
-            </section>
+        <div className='flex justify-between w-auto'>
+            <section className='flex-grow px-4'>
 
-            <section className='max-w-7xl m-auto'>
+                <AdminMessage />
+
                 <CabinsShortcut />
+
+                <div className='grid grid-flow-col gap-2 m-auto my-2'>
+                    <button className="btn-big" onClick={() => navigate('/clients')}>Clientes</button>
+                    <button className="btn-big" onClick={() => navigate('/reservations')}>Reservas</button>
+                    <button className="btn-big" onClick={() => navigate('/cabins')}>Cabañas</button>
+                </div>
+
+                <h1>Presupuesto</h1>
+
+                <h1>Conversor</h1>
+
             </section>
 
-            <section className='max-w-7xl m-auto'>
+            <section className='h-screen border-l border-l-slate-800 m-auto pl-4'>
                 <TestCalendar />
             </section>
-        </>
+        </div>
     )
 }
 

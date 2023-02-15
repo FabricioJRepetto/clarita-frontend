@@ -7,11 +7,10 @@ const CabinsShortcut = () => {
 
     return (
         <div>
-            <p>Cabañas</p>
             {isLoading && <p>Cargando...</p>}
             {error && <p>{error.message || 'Ha ocurrido un error'}</p>}
 
-            <div className='w-full h-20 grid grid-flow-col gap-2 justify-center items-center border border-slate-300 dark:border-slate-700 rounded-lg'>
+            <div className='w-full h-20 grid grid-flow-col gap-2 justify-center items-center'>
                 {cabins && cabins.map(e => (
                     <CabinMiniCard key={e.id} data={e} />
                 ))}
