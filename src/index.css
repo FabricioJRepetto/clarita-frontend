@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+    html {
+        background-color: #202020;
+    }
+
     body {
         font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
     }
@@ -22,12 +26,19 @@
         line-height: 1.1;
     }
 
+    h2 {
+        font-size: 2.5em;
+        line-height: 1.1;
+    }
+
     input, select, textarea {
-        height: 2.5rem;
         color: #202020;
         padding: 0 1rem;
         border-radius: .5rem;
         border: #202020 1px solid;
+    }
+    input, select {
+        height: 2.5rem;
     }
 
     input:focus {
@@ -124,6 +135,26 @@
     .full-h {
         min-height: calc(100vh - 16rem);
     }
+
+    .announcement {
+        @apply min-h-fit p-1 border  rounded flex items-center gap-1;
+    }
+    .info {
+        @apply border-blue-400  text-blue-500 dark:text-blue-400;
+    }
+    .warn {
+        @apply border-amber-400 dark:border-amber-500 text-amber-500 dark:text-amber-400;
+    }
+    .danger {
+        @apply border-rose-500 text-rose-600  dark:text-rose-400;
+    }
+    .fix {
+        @apply border-emerald-500 text-emerald-600 dark:border-emerald-200 dark:text-emerald-200;
+    }
+    .default {
+        @apply border-slate-400 dark:border-slate-700 text-gray-600 dark:text-gray-400;
+    }
+    
 
     .fade-in {
         animation: fadein .3s ease-in forwards;

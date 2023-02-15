@@ -21,6 +21,7 @@ const Navbar = () => {
     //: onClick={handleLogout}
     const handleLogout = () => {
         console.warn('- Log out -');
+        navigate('/login')
         mutate(['/user/login', getCookie('userToken')], false)
         deleteCookie('userToken')
     }

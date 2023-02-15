@@ -5,8 +5,10 @@ import Login from './Login';
 import Signin from './Signin';
 import Password from './Password';
 import LoginMessage from './LoginMessage';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const LoginScreen = () => {
+    const navigate = useNavigate()
     const [frame, setFrame] = useState(0)
     const [error, setError] = useState(false)
     const [message, setMessage] = useState(false)
@@ -22,6 +24,7 @@ const LoginScreen = () => {
 
         if (!user_data.error) {
             reLog(['/user/login', user_data.token])
+            navigate('/')
         } else {
             setError(() => user_data.error)
         }
@@ -65,8 +68,6 @@ const LoginScreen = () => {
         try {
             const res = await postApi(['/user/signin', data])
             if (!res.error) {
-                //: mostrar mensaje de cuenta creada, un admin tiene que autorizarla
-                //: redirigir al login
                 console.log(res);
                 setMessage(() => 'Tu cuenta se ha creado correctamente, pero, por cuestiones de seguridad, para poder acceder a ella, primero debe ser autorizada por un administrador. Contacta con uno para continuar.')
                 setFrame(() => 3)
@@ -95,7 +96,6 @@ const LoginScreen = () => {
         setError(() => false)
         setMessage(() => false)
         setFrame(() => 1)
-        console.log('POST /user/signin {user_name, email, password}')
     }
 
     const frames = [
@@ -107,18 +107,20 @@ const LoginScreen = () => {
     const correctFrame = frames[frame]
 
     return (
-        <div className='flex-1 w-full -mt-40 flex flex-col justify-center'>
-            <div className='w-full md:w-1/2 lg:w-1/4 h-fit m-auto flex flex-col gap-2'>
+        user?.id
+            ? <Navigate to='/' />
+            : <div className='flex-1 w-full flex flex-col justify-center'>
+                <div className='w-full md:w-1/2 lg:w-1/4 h-fit m-auto flex flex-col gap-2'>
 
-                <h1 className='text-center text-8xl my-8 logo-font'>Cabañas Clarita</h1>
+                    <h1 className='text-center text-8xl my-8 logo-font'>Cabañas Clarita</h1>
 
-                {user?.user_name && <p className='text-center'>{`Bienvenido ${user.user_name}`}</p>}
+                    {user?.user_name && <p className='text-center'>{`Bienvenido ${user.user_name}`}</p>}
 
-                {(!isLoading)
-                    ? correctFrame
-                    : <h3>Cargando...</h3>}
+                    {(!isLoading)
+                        ? correctFrame
+                        : <h3>Cargando...</h3>}
+                </div>
             </div>
-        </div>
     )
 }
 

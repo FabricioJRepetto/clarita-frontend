@@ -1,6 +1,7 @@
 import useUser from '@/hooks/useUser'
 import React, { useState } from 'react'
 import AdminUsers from './AdminUsers'
+import Annuncement from './Annuncement'
 
 const Admin = () => {
     const { admin } = useUser()
@@ -13,7 +14,7 @@ const Admin = () => {
 
     const sections = [
         <AdminUsers />,
-        <p>Anuncio: setear anunncio que se meustra en la home.</p>,
+        <Annuncement />,
         <p>Opciones: Conversor de moneda y posibles configuraciones paras futuras implementaciones.</p>
     ]
 
