@@ -2,12 +2,12 @@ import useCabins from '@/hooks/useCabins'
 import React from 'react'
 import { useState } from 'react'
 import Calendar from 'react-calendar'
-import CalendarCabinCard from './CalendarCabinCard'
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs'
+import CalendarMiniCabinCard from './CalendarMiniCabinCard'
+import CalendarCabinCard from './CalendarCabinCard'
 import './CalendarStyles.css'
-import CabinCard from '../cards/CabinCard'
 
-const TestCalendar = () => {
+const CabinsCalendar = () => {
     const [date, setDate] = useState(new Date().toLocaleDateString('en'))
     const [selected, setSelected] = useState(false)
     const { cabins, isLoading } = useCabins()
@@ -16,7 +16,7 @@ const TestCalendar = () => {
         const date = new Date(d).toLocaleDateString('en')
         setDate(() => date)
     }
-    const selectCabin = (id) => setSelected(() => id)
+    const selectCabin = (data) => setSelected(() => data)
 
     return (
         <section style={{ width: '300px' }} className='flex flex-col gap-8 mr-2'>
@@ -24,17 +24,22 @@ const TestCalendar = () => {
 
             {isLoading
                 ? <p>Cargando</p>
-                : <div className='flex flex-col gap-1'>
+                : <div className='grid grid-cols-4 gap-1'>
                     {cabins && cabins.map(c => (
-                        <CalendarCabinCard key={c.id} data={c} date={date} cb={selectCabin} />
+                        <CalendarMiniCabinCard key={c.id} data={c} date={date} cb={selectCabin} />
                     ))}
-                    <p className='txt-n-icon w-full justify-center text-xs text-gray-500'><BsFillCaretDownFill /><p>CHECKIN</p><BsFillCaretUpFill /><p>CHECKOUT</p></p>
+                    <p className='col-span-4 txt-n-icon w-full justify-center text-xs text-gray-500'>
+                        <BsFillCaretDownFill />
+                        CHECKIN
+                        <BsFillCaretUpFill />
+                        CHECKOUT
+                    </p>
                 </div>}
 
 
-            {selected && <CabinCard data={cabins.find(c => c.id === selected)} />}
+            {selected && <CalendarCabinCard data={selected} />}
         </section>
     )
 }
 
-export default TestCalendar
+export default CabinsCalendar

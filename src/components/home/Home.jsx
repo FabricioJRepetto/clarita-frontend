@@ -1,8 +1,7 @@
 import React from 'react'
 // import useUser from '@/hooks/useUser';
 import { useNavigate } from 'react-router-dom';
-import CabinsShortcut from '../cabins/CabinsShortcut';
-import TestCalendar from '../common/calendar/TestCalendar';
+import CabinsCalendar from '../cabins/calendar/CabinsCalendar';
 import AdminMessage from '../common/AdminMessage';
 
 const Home = () => {
@@ -15,8 +14,6 @@ const Home = () => {
             <section className='flex-grow px-4'>
 
                 <AdminMessage />
-
-                <CabinsShortcut />
 
                 <div className='grid grid-flow-col gap-2 m-auto my-2'>
                     <button className="btn-big" onClick={() => navigate('/clients')}>Clientes</button>
@@ -31,7 +28,7 @@ const Home = () => {
             </section>
 
             <section className='h-screen border-l border-l-slate-800 m-auto pl-4'>
-                <TestCalendar />
+                <CabinsCalendar />
             </section>
         </div>
     )
