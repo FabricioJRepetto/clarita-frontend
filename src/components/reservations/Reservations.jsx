@@ -2,6 +2,7 @@ import useReservations from '@/hooks/useReservations'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ReservationList } from './ReservationList'
+import ReservationsPanel from './ReservationsPanel'
 
 const Reservations = () => {
     const navigate = useNavigate()
@@ -17,7 +18,8 @@ const Reservations = () => {
             {isLoading && <p>Cargando...</p>}
             {error && <p>{error || 'Ha ocurrido un error'}</p>}
 
-            <ReservationList data={reservations} />
+            {/* <ReservationList data={reservations} /> */}
+            <ReservationsPanel />
         </div>
     )
 }

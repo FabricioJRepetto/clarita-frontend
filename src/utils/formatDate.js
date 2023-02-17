@@ -5,9 +5,11 @@ export const fancyDate = (date, day = true) => {
     return new Date(date.toString()).toLocaleDateString("es-Ar", opt)
 }
 
-export const correctDate = (date) => {
+export const correctDate = (d) => {
     //? REST OF THE WORLD DATE format dd-mm-yyyy
-    if (!date || typeof date !== 'string') return '-'
+    if (!d) return '-'
+
+    const date = new Date(d)
 
     // const day = new Date(date).getUTCDate(),
     //     month = new Date(date).getUTCMonth() + 1,
@@ -17,9 +19,11 @@ export const correctDate = (date) => {
     return new Date(date).toLocaleDateString('es-Ar')
 }
 
-export const formatDate = (date) => {
+export const formatDate = (d) => {
     //? EN format mm-dd-yyyy
-    if (!date || typeof date !== 'string') return '-'
+    if (!d) return '-'
+
+    const date = new Date(d)
 
     const day = new Date(date).getUTCDate(),
         month = new Date(date).getUTCMonth() + 1,
@@ -28,8 +32,10 @@ export const formatDate = (date) => {
     return `${month}/${day}/${year}`
 }
 
-export const deformatDate = (date) => {
-    if (!date || typeof date !== 'string') return '-'
+export const deformatDate = (d) => {
+    if (!d) return '-'
+
+    const date = new Date(d)
 
     //? 2023-02-23 yyyy-mm-dd
     const day = new Date(date).getUTCDate(),

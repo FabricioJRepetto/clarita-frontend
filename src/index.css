@@ -154,7 +154,18 @@
     .default {
         @apply border-slate-400 dark:border-slate-700 text-gray-600 dark:text-gray-400;
     }
-    
+
+    .ellipsis {
+        @apply text-ellipsis whitespace-nowrap overflow-hidden;
+    }
+
+    .tr {
+        @apply grid grid-flow-col ;
+    }
+    .tr > div {
+        @apply relative text-center h-12 w-28 px-4 pt-2 border-r border-b;
+        /* height: 3rem; */
+    }
 
     .fade-in {
         animation: fadein .3s ease-in forwards;
