@@ -4,7 +4,7 @@ import { MdPerson, MdEvent, MdHome } from 'react-icons/md';
 import { fancyDate } from '@/utils/formatDate';
 import { BsFillCaretRightFill } from 'react-icons/bs';
 
-
+//: TODO: esto no se usa?
 export const ReservationList = ({ data }) => {
     const navigate = useNavigate()
     return (

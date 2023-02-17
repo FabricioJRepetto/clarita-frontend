@@ -23,7 +23,7 @@ const ReservCard = ({ data }) => {
 
             <span className={`h-10 w-12 flex gap-1 absolute left-0 justify-center items-center ${checkin === 'pre' ? 'rounded-r-3xl' : 'rounded-3xl'} bg-blue-700`}><MdPeople />{pax}</span>
 
-            <span className={`flex items-center h-5 ${expand ? 'w-10 px-2 mx-0 opacity-100' : 'w-0 px-0 opacity-0'} ml-14  overflow-hidden bg-rose-500 rounded-lg transition-all text-white`}>ver</span>
+            <span className={`flex items-center h-5 ${expand ? 'w-10 px-2 mx-0 opacity-100' : 'w-0 px-0 opacity-0'} ml-14  overflow-hidden bg-rose-600 rounded-lg transition-all text-white`}>ver</span>
 
             <p className='ellipsis pl-2'>{name}</p>
         </div>

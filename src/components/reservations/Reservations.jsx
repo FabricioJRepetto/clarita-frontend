@@ -18,8 +18,8 @@ const Reservations = () => {
             {isLoading && <p>Cargando...</p>}
             {error && <p>{error || 'Ha ocurrido un error'}</p>}
 
-            {/* <ReservationList data={reservations} /> */}
             <ReservationsPanel />
+            {/* <ReservationList data={reservations} /> */}
         </div>
     )
 }

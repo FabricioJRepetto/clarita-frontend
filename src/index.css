@@ -163,8 +163,22 @@
         @apply grid grid-flow-col ;
     }
     .tr > div {
-        @apply relative text-center h-12 w-28 px-4 pt-2 border-r border-b;
-        /* height: 3rem; */
+        @apply relative flex  items-center justify-center w-28 border-r border-b border-slate-700;
+        height: calc(3rem + 1px);
+    }
+
+    .tc {
+        @apply grid grid-flow-row sticky left-0 bg-slate-900 z-20;
+    }
+    .tc > div {
+        @apply align-middle text-center w-44 px-4 pt-2 border-r border-b border-r-slate-400 border-b-slate-600 bg-slate-800/30;
+        height: calc(3rem + 1px);
+    }
+    .tr > div > p {
+        @apply py-0 leading-5;
+    }
+    .tc > div > p {
+        @apply pt-1 capitalize;
     }
 
     .fade-in {

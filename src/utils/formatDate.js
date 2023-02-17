@@ -8,21 +8,14 @@ export const fancyDate = (date, day = true) => {
 export const correctDate = (d) => {
     //? REST OF THE WORLD DATE format dd-mm-yyyy
     if (!d) return '-'
-
     const date = new Date(d)
 
-    // const day = new Date(date).getUTCDate(),
-    //     month = new Date(date).getUTCMonth() + 1,
-    //     year = new Date(date).getUTCFullYear()
-
-    // return `${day}/${month}/${year}`
     return new Date(date).toLocaleDateString('es-Ar')
 }
 
 export const formatDate = (d) => {
     //? EN format mm-dd-yyyy
     if (!d) return '-'
-
     const date = new Date(d)
 
     const day = new Date(date).getUTCDate(),
@@ -34,7 +27,6 @@ export const formatDate = (d) => {
 
 export const deformatDate = (d) => {
     if (!d) return '-'
-
     const date = new Date(d)
 
     //? 2023-02-23 yyyy-mm-dd
@@ -43,4 +35,13 @@ export const deformatDate = (d) => {
         year = new Date(date).getUTCFullYear()
 
     return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`
+}
+
+
+export const dayName = (d) => {
+    //? ES string day
+    if (!d) return '-'
+    const date = formatDate(d)
+
+    return new Date(date).toLocaleDateString("es-Ar", { weekday: 'long' })
 }
