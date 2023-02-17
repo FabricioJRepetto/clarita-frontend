@@ -27,7 +27,7 @@ function App() {
     // }
 
     return (
-        <div className="min-h-screen h-fit overflow-x-hidden overflow-y-auto transition-colors duration-300  pt-24 pb-40">
+        <div className="min-h-screen h-fit overflow-x-hidden overflow-y-auto transition-colors duration-300 pl-48 pt-24">
 
             <Routes>
                 <Route path='/' element={<Navbar />}>

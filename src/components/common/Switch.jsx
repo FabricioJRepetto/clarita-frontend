@@ -12,20 +12,20 @@ const Switch = ({ options, cb, state = false }) => {
 
     return (
         <div onClick={handler} className='switch-input cursor-pointer'>
-            {!C && <div className='mr-6'>
-                <p className={on ? 'font-semibold' : 'text-gray-500'}>{A}</p>
+            {!C && <div className='mr-1'>
+                <p className={on ? 'text-gray-400 dark:text-gray-500' : 'font-semibold'}>{A}</p>
             </div>}
 
-            <div className='w-8 relative mx-1'>
+            <div className='w-5 mx-4 relative'>
                 <div className={`switch-indicator ${on ? 'ml-4' : `-ml-4 ${C ? 'bg-gray-700' : ''}`}`}></div>
                 <span></span>
             </div>
 
-            {(!C && B) && <div className='ml-4'>
-                <p className={on ? 'text-gray-500' : 'font-semibold'}>{B}</p>
+            {(!C && B) && <div className='ml-1'>
+                <p className={on ? 'font-semibold' : 'text-gray-400 dark:text-gray-500'}>{B}</p>
             </div>}
-            {C && <div className='ml-4'>
-                <p className={on ? 'font-semibold' : 'text-gray-500'}>{C}</p>
+            {C && <div className='ml-1'>
+                <p className={on ? 'font-semibold' : 'text-gray-400 dark:text-gray-500'}>{C}</p>
             </div>}
         </div>
     )

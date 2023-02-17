@@ -100,6 +100,7 @@ const ReservationsPanel = ({ DAYS = 30 }) => {
     const clickUp = () => {
         if (selectMode) {
             setSelectMode(() => false)
+            //: TODO: falta enviar fechas al form de reservas y LISTO :)
             console.log(`%c 📆 Crear reserva desde ${correctDate(start)} al ${correctDate(end)} `, 'background-color: #0ea5e9; color: #ffffff; font-weight: bold;');
         }
     }
@@ -116,10 +117,10 @@ const ReservationsPanel = ({ DAYS = 30 }) => {
     }
 
     return (
-        <section className='flex w-screen overflow-x-auto border-t border-slate-700'>
+        <section className='flex w-full overflow-x-auto'>
 
             <div className='tc'>
-                <div>
+                <div className='rounded-tl-xl border-t border-slate-700'>
                     <p>Cabañas</p>
                 </div>
                 {Object.entries(template).map(c => (
@@ -130,7 +131,7 @@ const ReservationsPanel = ({ DAYS = 30 }) => {
             </div>
 
             <div>
-                <div className='tr bg-slate-900'>
+                <div className='tr bg-slate-900 border-t border-slate-700'>
                     {dates.map(d => (
                         <div key={d} className={`bg-slate-800/30 flex-col px-4 ${d.getDate() === 1 ? 'bg-blue-500/20' : ''}`}>
                             <p className='capitalize'>{dayName(d)}</p>
