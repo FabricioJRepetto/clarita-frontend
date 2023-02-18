@@ -13,8 +13,6 @@ const ReservForm = ({ handler, cb, edit }) => {
     const checkin = useRef(null)
     const checkout = useRef(null)
 
-    //: TODO: calendar (would be good a shortcut here)  
-
     // if edit, load edit data
     useEffect(() => {
         if (edit) {

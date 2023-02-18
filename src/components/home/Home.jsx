@@ -17,7 +17,7 @@ const Home = () => {
 
                 <div className='grid grid-flow-col gap-2 m-auto my-2'>
                     <button className="btn-big" onClick={() => navigate('/clients')}>Clientes</button>
-                    <button className="btn-big" onClick={() => navigate('/reservations')}>Reservas</button>
+                    <button className="btn-big" onClick={() => navigate('/reservations/create')}>Crear Reserva</button>
                     <button className="btn-big" onClick={() => navigate('/cabins')}>Cabañas</button>
                 </div>
 

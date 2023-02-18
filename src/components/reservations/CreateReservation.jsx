@@ -8,6 +8,8 @@ import useReservations from '@/hooks/useReservations'
 import { useNavigate, useParams } from 'react-router-dom'
 import useCabins from '@/hooks/useCabins'
 import ReservPreview from '@/components/common/forms/ReservPreview'
+import { MdEmail, MdCall, MdPlace, MdDirectionsCar, MdEdit, MdDelete } from 'react-icons/md';
+
 
 const CreateReservation = () => {
     const { id } = useParams()
@@ -39,10 +41,11 @@ const CreateReservation = () => {
     // Client
     const afterCreation = (res) => {
         // mutates swr cache
-        setClients(res.clientList)
+        setClient(res.clientList)
         // takes new user id for reserv form
         setClient(() => ({ id: res.newClient.id, name: res.newClient.name }))
     }
+
     // Reserv
     const afterValidate = (reserv) => {
         if (!client.id) return
@@ -68,16 +71,62 @@ const CreateReservation = () => {
         }
     }
 
-    const back = () => {
-        if (preview) setPreview(false)
-        else setClient(false)
+    // const back = () => {
+    //     if (preview) setPreview(false)
+    //     else setClient(false)
+    // }
+
+    const handleEditClient = (e) => {
+        console.log('edit');
+
     }
 
     return (
-        <div>
+        <div className='reserv-container'>
             <h1>Registrar reserva</h1>
 
-            <div className={preview ? 'hidden' : ''}>
+            <section>
+                <p>Cliente</p>
+                <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />
+            </section>
+
+            {client &&
+                <section>
+                    <p>Resumen de cliente</p>
+
+                    <div className='pt-2'>
+                        <p className='txt-n-icon ml-2 font-semibold text-gray-500 dark:text-gray-400'>{client?.name}</p>
+                        <p className='txt-n-icon ml-2 text-gray-500 dark:text-gray-400'>
+                            <MdEmail />{client?.email || '-'}
+                        </p>
+                        <p className='txt-n-icon ml-2 text-gray-500 dark:text-gray-400'>
+                            <MdCall />{client?.telephone || '-'}
+                        </p>
+                        <p className='txt-n-icon ml-2 text-gray-500 dark:text-gray-400'>
+                            <MdPlace />{client?.nationality || '-'}
+                        </p>
+                        <p className='txt-n-icon ml-2 text-gray-500 dark:text-gray-400'>
+                            <MdDirectionsCar />{client?.vehicle || '-'}
+                        </p>
+                    </div>
+
+                    <button className='btn-icon absolute top-6 right-9' onClick={handleEditClient}>
+                        <MdEdit />
+                    </button>
+
+                </section>}
+
+            <section>
+                <p>Reserva</p>
+                <ReservForm handler={validateValues} cb={afterValidate} edit={editData} />
+            </section>
+
+            <section>
+
+            </section>
+
+
+            {/* <div className={preview ? 'hidden' : ''}>
                 {!client && <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />}
 
                 {client && <h2>(02/03) Datos de la reserva</h2>}
@@ -88,10 +137,10 @@ const CreateReservation = () => {
             {preview && <>
                 {preview && <h2>(03/03) Confirmar datos</h2>}
                 <ReservPreview preview={preview} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
-            </>}
+            </>} */}
 
             {errors?.someError && <p>error: {errors.someError}</p>}
-            {client && <button onClick={back} className='btn-tertiary'>volver</button>}
+            {/* {client && <button onClick={back} className='btn-tertiary'>volver</button>} */}
         </div>
     )
 }

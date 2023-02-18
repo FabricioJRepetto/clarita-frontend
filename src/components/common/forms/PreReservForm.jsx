@@ -1,7 +1,8 @@
-import useClients from '@/hooks/useClients'
-import { fuzzySearch } from '@/utils/fuzzySearch'
 import React, { useState } from 'react'
+import useClients from '@/hooks/useClients'
 import ClientForm from './ClientForm'
+import { fuzzySearch } from '@/utils/fuzzySearch'
+import { MdSearch } from 'react-icons/md';
 
 const PreReservForm = ({ setClient, handler, cb }) => {
     const [newClient, setNewClient] = useState(false)
@@ -16,31 +17,46 @@ const PreReservForm = ({ setClient, handler, cb }) => {
     }
 
     const selectClient = (client) => {
+        document.getElementById('client-search').value = ''
+        setFiltered(() => false)
+
         const aux = {
             id: client.id,
-            name: client.name
+            name: client.name,
+            nationality: client.nationality,
+            vehicle: client.vehicle || false,
+            telephone: client.telephone,
+            email: client.email
         }
-        setClient(() => aux)
+        console.log(aux);
+        setClient(aux)
     }
 
     //: TODO: Refact search input
     return (
-        <div>
-            <h2>(01/03) Seleccionar o crear un cliente</h2>
-            <button onClick={() => setNewClient(!newClient)} className='btn-primary'>Nuevo Cliente</button>
-            <br />
+        <div className='grid grid-cols-4 gap-4 w-96 p-2'>
+
+            <button onClick={() => setNewClient(!newClient)} className='btn-primary col-span-4'>Nuevo Cliente</button>
+
             {newClient && <ClientForm handler={handler} cb={cb} />}
-            <br />
+
             {!newClient &&
-                <>
-                    <input type="text" onChange={(e) => filter('name', e.target.value)} />
-                    <section>
-                        {filtered && filtered.map(c => (
-                            <p key={c.id} onClick={() => selectClient(c)}><b>{c.name}</b> <i className='opacity-75'>dni: {c.dni}</i></p>
-                        ))}
-                    </section>
-                </>}
-        </div>
+                <section className='relative col-span-4'>
+
+                    <span className='relative w-full'>
+                        <MdSearch className='input-icon' />
+                        <input type="text" placeholder='Buscar' id='client-search' onChange={(e) => filter('name', e.target.value)} className='w-full' />
+                    </span>
+
+                    {!!filtered.length &&
+                        <div className='h-fit min-w-full absolute top-10 left-0 bg-slate-900 flex flex-col gap-1 p-2 rounded-lg border border-slate-800 z-10'>
+                            {filtered.map(c => (
+                                <p key={c.id} onClick={() => selectClient(c)} className='cursor-pointer hover:bg-slate-800'><b>{c.name}</b> <i className='opacity-75'>dni: {c.dni}</i></p>
+                            ))}
+                        </div>}
+
+                </section>}
+        </div >
     )
 }
 
