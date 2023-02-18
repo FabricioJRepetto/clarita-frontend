@@ -33,12 +33,15 @@
 
     input, select, textarea {
         color: #202020;
-        padding: 0 1rem;
         border-radius: .5rem;
         border: #202020 1px solid;
     }
     input, select {
+        padding: 0 1rem;
         height: 2.5rem;
+    }
+    textarea {
+        padding: .5rem 1rem;
     }
 
     input:focus {

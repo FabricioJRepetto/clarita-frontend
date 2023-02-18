@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PreReservForm from '@/components/common/forms/PreReservForm'
-import { createSubmit } from '@/utils/clientSubmitHandlers'
+import { createSubmit, editSubmit } from '@/utils/clientSubmitHandlers'
 import useClients from '@/hooks/useClients'
 import ReservForm from '@/components/common/forms/ReservForm'
 import { createReserv, updateReserv, validateValues } from '@/utils/reservSubmitHandlers'
@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import useCabins from '@/hooks/useCabins'
 import ReservPreview from '@/components/common/forms/ReservPreview'
 import { MdEmail, MdCall, MdPlace, MdDirectionsCar, MdEdit, MdDelete } from 'react-icons/md';
+import ReservationClientPreview from './ReservationClientPreview'
 
 
 const CreateReservation = () => {
@@ -41,9 +42,16 @@ const CreateReservation = () => {
     // Client
     const afterCreation = (res) => {
         // mutates swr cache
-        setClient(res.clientList)
+        setClients(res.clientList)
         // takes new user id for reserv form
-        setClient(() => ({ id: res.newClient.id, name: res.newClient.name }))
+        setClient(() => ({
+            id: res.newClient.id,
+            name: res.newClient.name,
+            email: res.newClient.email,
+            telephone: res.newClient.telephone,
+            vehicleType: res.newClient.vehicleType,
+            nationality: res.newClient.nationality
+        }))
     }
 
     // Reserv
@@ -71,16 +79,6 @@ const CreateReservation = () => {
         }
     }
 
-    // const back = () => {
-    //     if (preview) setPreview(false)
-    //     else setClient(false)
-    // }
-
-    const handleEditClient = (e) => {
-        console.log('edit');
-
-    }
-
     return (
         <div className='reserv-container'>
             <h1>Registrar reserva</h1>
@@ -92,28 +90,7 @@ const CreateReservation = () => {
 
             {client &&
                 <section>
-                    <p>Resumen de cliente</p>
-
-                    <div className='pt-2'>
-                        <p className='txt-n-icon ml-2 font-semibold text-gray-500 dark:text-gray-400'>{client?.name}</p>
-                        <p className='txt-n-icon ml-2 text-gray-500 dark:text-gray-400'>
-                            <MdEmail />{client?.email || '-'}
-                        </p>
-                        <p className='txt-n-icon ml-2 text-gray-500 dark:text-gray-400'>
-                            <MdCall />{client?.telephone || '-'}
-                        </p>
-                        <p className='txt-n-icon ml-2 text-gray-500 dark:text-gray-400'>
-                            <MdPlace />{client?.nationality || '-'}
-                        </p>
-                        <p className='txt-n-icon ml-2 text-gray-500 dark:text-gray-400'>
-                            <MdDirectionsCar />{client?.vehicle || '-'}
-                        </p>
-                    </div>
-
-                    <button className='btn-icon absolute top-6 right-9' onClick={handleEditClient}>
-                        <MdEdit />
-                    </button>
-
+                    <ReservationClientPreview client={client} cb={afterCreation} />
                 </section>}
 
             <section>
@@ -122,7 +99,8 @@ const CreateReservation = () => {
             </section>
 
             <section>
-
+                <p>Confirmar datos</p>
+                <ReservPreview preview={preview} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
             </section>
 
 
@@ -136,11 +114,9 @@ const CreateReservation = () => {
 
             {preview && <>
                 {preview && <h2>(03/03) Confirmar datos</h2>}
-                <ReservPreview preview={preview} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
             </>} */}
 
             {errors?.someError && <p>error: {errors.someError}</p>}
-            {/* {client && <button onClick={back} className='btn-tertiary'>volver</button>} */}
         </div>
     )
 }

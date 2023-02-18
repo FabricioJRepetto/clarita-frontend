@@ -16,6 +16,11 @@ const PreReservForm = ({ setClient, handler, cb }) => {
         } else setFiltered(() => false)
     }
 
+    const newClientHandler = () => {
+        setClient(false)
+        setNewClient(!newClient)
+    }
+
     const selectClient = (client) => {
         document.getElementById('client-search').value = ''
         setFiltered(() => false)
@@ -24,19 +29,21 @@ const PreReservForm = ({ setClient, handler, cb }) => {
             id: client.id,
             name: client.name,
             nationality: client.nationality,
-            vehicle: client.vehicle || false,
+            vehicleType: client.vehicleType,
             telephone: client.telephone,
             email: client.email
         }
-        console.log(aux);
         setClient(aux)
     }
 
     //: TODO: Refact search input
     return (
-        <div className='grid grid-cols-4 gap-4 w-96 p-2'>
+        <div className='grid grid-cols-4 gap-4 w-96 py-2'>
 
-            <button onClick={() => setNewClient(!newClient)} className='btn-primary col-span-4'>Nuevo Cliente</button>
+            <button onClick={newClientHandler}
+                className={`${newClient ? 'btn-tertiary' : 'btn-primary'} col-span-4`}>
+                {newClient ? 'volver' : 'Nuevo Cliente'}
+            </button>
 
             {newClient && <ClientForm handler={handler} cb={cb} />}
 
@@ -45,7 +52,7 @@ const PreReservForm = ({ setClient, handler, cb }) => {
 
                     <span className='relative w-full'>
                         <MdSearch className='input-icon' />
-                        <input type="text" placeholder='Buscar' id='client-search' onChange={(e) => filter('name', e.target.value)} className='w-full' />
+                        <input autoComplete='off' type="text" placeholder='Buscar' id='client-search' onChange={(e) => filter('name', e.target.value)} className='w-full' />
                     </span>
 
                     {!!filtered.length &&
