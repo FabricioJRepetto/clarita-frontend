@@ -1,5 +1,5 @@
 import useUser from '@/hooks/useUser'
-import { postApi } from '@/services/api'
+import { deleteApi, postApi } from '@/services/api'
 import React from 'react'
 import { useState } from 'react'
 import AnnounCard from '../common/cards/AnnounCard'
@@ -23,13 +23,26 @@ const Annuncement = () => {
         }
     }
 
+    const deleteHandler = async (e) => {
+        e.preventDefault()
+        //: TODO: Notification system
+        try {
+            const res = await deleteApi('/user/admin/announcement')
+            console.log(res)
+        } catch (err) {
+            console.warn(err?.message);
+        }
+    }
+
     // info, warn, danger, fix
 
     return (
         <div className='grid gap-4'>
-            <section>
+            <section className='relative'>
                 <h2>Anuncio</h2>
                 <p>Crear anuncio que se meustra en la home</p>
+                <button onClick={deleteHandler}
+                    className="btn-secondary absolute top-0 right-0">eliminar anuncio actual</button>
             </section>
 
             <section>

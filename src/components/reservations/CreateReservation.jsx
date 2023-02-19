@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useClients from '@/hooks/useClients'
 import useCabins from '@/hooks/useCabins'
@@ -10,7 +10,15 @@ import ReservPreview from '@/components/common/forms/ReservPreview'
 import { createSubmit } from '@/utils/clientSubmitHandlers'
 import { createReserv, updateReserv, validateValues } from '@/utils/reservSubmitHandlers'
 
-const CreateReservation = () => {
+const CreateReservation = ({ panelData = false, cb }) => {
+    /*
+    ? data may be: checkin, checkout and cabin selected from de reservation panel
+        {
+            checkin: '', <== deformatedDate
+            checkout: '', <== deformatedDate
+            cabin: '' <== cabin ID
+        }
+    */
     const { id } = useParams()
     const navigate = useNavigate()
     const { cabins } = useCabins()
@@ -20,6 +28,7 @@ const CreateReservation = () => {
     const [client, setClient] = useState(false)
     const [preview, setPreview] = useState(false)
     const [errors, setErrors] = useState(false)
+    const guest = useRef(null)
 
     // if ID, load edit data
     useEffect(() => {
@@ -56,12 +65,21 @@ const CreateReservation = () => {
         }))
     }
 
+
     // Reserv
     const afterValidate = (reserv) => {
-        if (!client.id) return
+        if (!client.id) {
+            setErrors(() => ({ ...errors, client: 'Selecciona o registra un huesped' }))
+            guest.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "nearest",
+            });
+            return
+        }
 
         const data = {
-            client: client.id,
+            client: client?.id,
             ...reserv
         }
         setPreview(() => data)
@@ -71,34 +89,40 @@ const CreateReservation = () => {
         const fetcher = id ? updateReserv : createReserv
 
         const res = await fetcher(preview, id)
-        console.log(res)
         setErrors(() => res?.errors)
 
         if (!res.errors) {
             // mutates reservations cache
             setReservations(res.reservationsList)
-            navigate('/reservations')
+            panelData
+                ? cb()
+                : navigate('/reservations')
         }
     }
 
     return (
         <div className='reserv-container'>
-            <h1>Registrar reserva</h1>
+            <p className='text-2xl'>Registrar reserva</p>
 
-            <section>
-                <p>Huesped</p>
-                <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />
-            </section>
+            {!preview &&
+                <>
+                    <section ref={guest}>
+                        <p>Huesped</p>
+                        {errors?.client && <p className='error'>{errors.client}</p>}
+                        <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />
+                    </section>
 
-            {client &&
-                <section>
-                    <ReservationClientPreview client={client} cb={afterCreation} />
-                </section>}
+                    {client &&
+                        <section>
+                            <ReservationClientPreview client={client} cb={afterCreation} />
+                        </section>}
 
-            <section className={preview ? 'hidden' : ''}>
-                <p>Reserva</p>
-                <ReservForm handler={validateValues} cb={afterValidate} edit={editData} />
-            </section>
+                    <section className={preview ? 'hidden' : ''}>
+                        <p>Reserva</p>
+                        <ReservForm handler={validateValues} cb={afterValidate} edit={editData} panelData={panelData} />
+                    </section>
+                </>
+            }
 
             {preview &&
                 <section>
@@ -106,7 +130,7 @@ const CreateReservation = () => {
                     <ReservPreview preview={preview} back={() => setPreview(() => false)} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
                 </section>}
 
-            {errors?.someError && <p>error: {errors.someError}</p>}
+            {errors?.someError && <p className='error'>{errors.someError}</p>}
         </div>
     )
 }

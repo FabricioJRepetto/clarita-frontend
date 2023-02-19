@@ -1,5 +1,5 @@
-import { country } from '@/utils/country';
 import React from 'react'
+import Flag from '@/components/common/Flag';
 import { MdEmail, MdCall, MdAccountBox, MdDirectionsCar, MdPlace, MdStickyNote2 } from 'react-icons/md';
 
 const ClientDetailsCard = ({ user }) => {
@@ -27,10 +27,10 @@ const ClientDetailsCard = ({ user }) => {
             </section>
 
             <section>
-                <p className='text-xl flex gap-2 items-center'><MdPlace />Origen</p>
+                <p className='text-xl flex gap-2 items-center'><MdPlace />Origen </p>
                 <div className='details-data'>
                     <p>Nacionalidad </p>
-                    <p>{country(user?.nationality) || '-'}</p>
+                    <p className='txt-n-icon'>{user?.nationality || '-'}<Flag code={user?.country_code} /></p>
                     <p>procedencia </p>
                     <p>{user?.provenance || '-'}</p>
                     <p>dirección </p>

@@ -1,5 +1,6 @@
 import { editApi, postApi } from "@/services/api"
 import { emailRe } from "@/utils/formUtils"
+import { country, countryCode } from "./country"
 
 export const validateClientErrors = (values) => {
     let errors = {}
@@ -36,6 +37,10 @@ export const createSubmit = async (e) => {
     const errors = validateClientErrors(values)
     if (errors) return { errors }
 
+    if (values.nationality !== '-') {
+        values.country_code = countryCode(values.nationality)
+    }
+
     // post on API    
     const res = await postApi(['/client/', values]).catch(err => {
         console.error(err)
@@ -59,6 +64,10 @@ export const editSubmit = async (e, id) => {
     // reviso errores
     const errors = validateClientErrors(values)
     if (errors) return { errors }
+
+    if (values.nationality !== '-') {
+        values.country_code = countryCode(values.nationality)
+    }
 
     if (values.age === '-') {
         delete values.age

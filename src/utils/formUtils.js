@@ -126,18 +126,20 @@ export const datesValidator = (cabins, setAvCabins, setErrors) => {
             return aux
         })
         // enable select input
-        select.disabled = false
+        select && (select.disabled = false)
         // set new cabin list for render
         setAvCabins(() => avCabins)
     } else {
         // disable select input
-        select.disabled = true
-        select.value = false
+        select && (select.disabled = true)
+        select && (select.value = false)
         // set error
         setErrors(errors => ({
             ...errors,
-            checkin: 'No hay cabañas disponibles para estas fechas'
+            checkin: 'No hay alojamiento disponible para estas fechas'
         }))
+        // set new cabin list for render
+        setAvCabins(() => cabins)
     }
 }
 

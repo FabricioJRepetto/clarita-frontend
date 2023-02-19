@@ -37,7 +37,9 @@ const CabinsCalendar = () => {
                 </div>}
 
 
-            {selected && <CalendarCabinCard data={selected} />}
+            {selected
+                ? <CalendarCabinCard data={selected} />
+                : <p className='w-full text-center text-xs text-gray-500 select-none'>SELECCIONA UN ALOJAMIENTO PARA VER DETALLES</p>}
         </section>
     )
 }

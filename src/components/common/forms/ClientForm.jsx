@@ -105,8 +105,8 @@ const ClientForm = ({ handler, cb, edit_id }) => {
                     {/* <input type="text" id='nationality' name="nationality" placeholder='Nacionalidad' className='w-full' /> */}
                     <select id='nationality' name="nationality" defaultValue='' className='w-full' >
                         <option disabled={true} value="">Nacionalidad</option>
-                        {Object.entries(countries).map(e => (
-                            <option key={e[0]} value={e[0]}>{e[1]}</option>
+                        {Object.values(countries).map((e, i) => (
+                            <option key={e + i} value={e}>{e}</option>
                         ))}
                     </select>
                     <div className='pl-2 h-6 text-sm text-rose-500'></div>

@@ -4,7 +4,7 @@ import Switch from '@/components/common/Switch'
 import { datesValidator, fillDates, numberToCurrency, numberToPercentage } from '@/utils/formUtils'
 import { deformatDate } from '@/utils/formatDate'
 
-const ReservForm = ({ handler, cb, edit }) => {
+const ReservForm = ({ handler, cb, edit, panelData }) => {
     const [advance, setAdvance] = useState(false)
     const [file, setFile] = useState(false)
     const [fees, setFees] = useState(false)
@@ -14,7 +14,27 @@ const ReservForm = ({ handler, cb, edit }) => {
     const checkin = useRef(null)
     const checkout = useRef(null)
 
-    console.log(edit);
+    // if panelData, load panel data
+    useEffect(() => {
+        if (panelData) {
+            const aux = Object.entries(panelData)
+            aux.forEach(e => {
+                const key = e[0],
+                    input = document.getElementById(key),
+                    value = e[1];
+
+                if (input) {
+                    if (key === 'checkin' || key === 'checkout') {
+                        input.value = deformatDate(value)
+                    } else {
+                        input.value = value
+                    }
+                }
+            })
+        }
+        // eslint-disable-next-line
+    }, [panelData])
+
     // if edit, load edit data
     useEffect(() => {
         if (edit) {
@@ -64,11 +84,15 @@ const ReservForm = ({ handler, cb, edit }) => {
 
         const { res, errors } = await handler(e)
         if (errors) {
+            console.log(errors);
             setErrors(() => errors)
             return
         }
-        if (!res.error) cb(res)
-        else setErrors({ ...errors, someError: res.error })
+        console.log(res);
+        if (!res.error) {
+            setErrors(() => false)
+            cb(res)
+        } else setErrors({ ...errors, someError: res.error })
     }
 
     const formatCurrency = (e) => {
@@ -136,6 +160,7 @@ const ReservForm = ({ handler, cb, edit }) => {
                         <option value="Tarjeta de débito">Tarjeta de débito</option>
                         <option value="Transferencia">Transferencia</option>
                         <option value="MercadoPago">MercadoPago</option>
+                        <option value="Western Union">Western Union</option>
                         <option value="Otro">Otro</option>
                     </select>
                     <div className='error'>{errors?.paymentType || ''}</div>

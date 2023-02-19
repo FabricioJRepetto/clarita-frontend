@@ -13,6 +13,7 @@ const CalendarCabinCard = ({ data }) => {
         inToday,
         outToday,
         id,
+        cabin_id,
         checkin,
         checkout
     } = data || false
@@ -22,7 +23,7 @@ const CalendarCabinCard = ({ data }) => {
     const client = reservations.find(r => r.id === id)?.client?.name
 
     return (
-        <div onClick={() => navigate(`/cabins/details/${id}`)}
+        <div onClick={() => navigate(`/cabins/details/${cabin_id}`)}
             className='h-36 p-3 flex flex-col justify-between relative cursor-pointer border border-slate-300 dark:border-slate-700 rounded-lg hover:border-blue-400 hover:dark:border-slate-500'>
 
             <section>

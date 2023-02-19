@@ -6,13 +6,13 @@ import AnnounCard from './cards/AnnounCard'
 const AdminMessage = () => {
     const { data } = useAnnoun()
 
-    const dev = false
-    // const dev = {
-    //     title: false,
-    //     text: 'Agregada función de calendario',
-    //     from: 'Desarrollador',
-    //     style: 'fix'
-    // }
+    // const dev = false
+    const dev = {
+        title: 'Versión preliminar',
+        text: 'Comienzan las pruebas! La página continúa en desarrollo, por favor, comunicar todo error y/o sugerencias.',
+        from: 'Desarrollador',
+        style: 'fix'
+    }
 
     return (
         <div className='flex flex-col gap-1'>

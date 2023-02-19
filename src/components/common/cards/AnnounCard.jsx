@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MdInfoOutline, MdWarningAmber, MdOutlineDangerous, MdOutlineBuildCircle, MdOutlineCircleNotifications } from 'react-icons/md';
 
 const AnnounCard = ({ data }) => {
@@ -17,15 +17,19 @@ const AnnounCard = ({ data }) => {
         default: <MdOutlineCircleNotifications className='text-xl' />,
     }
 
+    const [expanded, setExpanded] = useState(false)
+
     return (
-        <div className={`announcement ${style ? style : 'default'} fade-in justify-between`}>
-            <p className='txt-n-icon'>
+        <div onClick={() => setExpanded(() => !expanded)}
+            className={`announcement ${style ? style : 'default'} h-fit`}>
+
+            <p className='txt-n-icon min-w-max mb-auto'>
                 {icon[style || 'default']}
                 <b>{title ? title + ': ' : ''}</b>
-                {text}
             </p>
-            <i className='opacity-60 px-4 capitalize'>{from || ''}</i>
-        </div>
+            <div className={`${expanded ? '' : 'ellipsis'}`} >{text}</div>
+            {from && <i className='absolute bottom-1 right-2 text-sm opacity-60 capitalize'>{from}</i>}
+        </div >
     )
 }
 

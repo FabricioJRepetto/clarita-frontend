@@ -32,7 +32,7 @@ export const validateReservErrors = (values, client) => {
 
     if (values.amount === '-') errors.amount = 'Campo requerido'
 
-    if (values.percentage === '-') errors.percentage = 'Campo requerido'
+    if (values.paymentStatus === 'false' && values.percentage === '-') errors.percentage = 'Campo requerido'
 
     if (!!Object.keys(errors).length) {
         return errors
@@ -45,7 +45,6 @@ export const validateValues = (e) => {
     // get all input values 
     const values = {}
     Array.from(e.target).map(e => e.name && (values[e.name] = e.value || '-'))
-    console.log(values);
 
     // input validator
     const errors = validateReservErrors(values)

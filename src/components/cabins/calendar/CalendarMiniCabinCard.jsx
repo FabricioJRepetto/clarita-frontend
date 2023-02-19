@@ -44,6 +44,7 @@ const CalendarMiniCabinCard = ({ data, date, cb }) => {
     const selectCabin = () => {
         const aux = {
             name: data.name,
+            cabin_id: data.id,
             inToday: check === 'IN',
             outToday: check === 'OUT',
         }

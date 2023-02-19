@@ -9,7 +9,7 @@ const CabinCard = ({ data }) => {
     const {
         id,
         name,
-        // identifier,
+        identifier,
         current_guest,
         reservations
     } = data
@@ -20,6 +20,7 @@ const CabinCard = ({ data }) => {
     } = current_guest || false
 
     const navigate = useNavigate()
+    // check if the reserv checkin or checkout was today
     const { inToday, outToday } = checksChecker(checkin, checkout)
 
     return (
@@ -47,6 +48,10 @@ const CabinCard = ({ data }) => {
             </section>
 
             <div className={`h-3 w-3 rounded-full absolute top-4 right-4 ${(!!current_guest && !outToday) ? 'bg-rose-400 dark:bg-rose-700' : 'bg-green-400 dark:bg-green-300'}`}></div>
+
+            <div className='absolute top-4 right-4 -z-10 opacity-5 font-bold text-3xl'>
+                <h1>{identifier}</h1>
+            </div>
         </div >
     )
 }

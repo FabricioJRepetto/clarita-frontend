@@ -1,6 +1,5 @@
+import Flag from '@/components/common/Flag';
 import NoPayment from '@/components/common/NoPayment';
-import countries from '@/countryList';
-import { flag } from '@/utils/flag';
 import React, { useState } from 'react'
 import { MdPeople } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +12,7 @@ const ReservCard = ({ data }) => {
         pax,
         name,
         checkin,
-        nationality,
+        country_code,
         paymentStatus
     } = data
     const [expand, setExpand] = useState(false)
@@ -38,7 +37,7 @@ const ReservCard = ({ data }) => {
             {paymentStatus === false && <NoPayment />}
 
             <p className='txt-n-icon ellipsis pl-2'>
-                <img src={flag(nationality)} width={20} alt='flag' />
+                <Flag code={country_code} />
                 {name}
             </p>
         </div>
