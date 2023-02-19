@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import PreReservForm from '@/components/common/forms/PreReservForm'
-import { createSubmit, editSubmit } from '@/utils/clientSubmitHandlers'
-import useClients from '@/hooks/useClients'
-import ReservForm from '@/components/common/forms/ReservForm'
-import { createReserv, updateReserv, validateValues } from '@/utils/reservSubmitHandlers'
-import useReservations from '@/hooks/useReservations'
 import { useNavigate, useParams } from 'react-router-dom'
+import useClients from '@/hooks/useClients'
 import useCabins from '@/hooks/useCabins'
+import useReservations from '@/hooks/useReservations'
+import PreReservForm from '@/components/common/forms/PreReservForm'
+import ReservationClientPreview from '@/components/common/forms/ReservationClientPreview'
+import ReservForm from '@/components/common/forms/ReservForm'
 import ReservPreview from '@/components/common/forms/ReservPreview'
-import { MdEmail, MdCall, MdPlace, MdDirectionsCar, MdEdit, MdDelete } from 'react-icons/md';
-import ReservationClientPreview from './ReservationClientPreview'
-
+import { createSubmit } from '@/utils/clientSubmitHandlers'
+import { createReserv, updateReserv, validateValues } from '@/utils/reservSubmitHandlers'
 
 const CreateReservation = () => {
     const { id } = useParams()
@@ -32,9 +30,13 @@ const CreateReservation = () => {
                 const clientData = clients.find(c => c?.id === data?.client.id)
                 clientData && setClient(() => ({
                     id: clientData.id,
-                    name: clientData.name
+                    name: clientData.name,
+                    email: clientData.email,
+                    telephone: clientData.telephone,
+                    vehicleType: clientData.vehicleType,
+                    nationality: clientData.nationality
                 }))
-            }
+            } else console.error('# Reservation not found');
         }
         // eslint-disable-next-line
     }, [id])
@@ -84,7 +86,7 @@ const CreateReservation = () => {
             <h1>Registrar reserva</h1>
 
             <section>
-                <p>Cliente</p>
+                <p>Huesped</p>
                 <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />
             </section>
 
@@ -93,28 +95,16 @@ const CreateReservation = () => {
                     <ReservationClientPreview client={client} cb={afterCreation} />
                 </section>}
 
-            <section>
+            <section className={preview ? 'hidden' : ''}>
                 <p>Reserva</p>
                 <ReservForm handler={validateValues} cb={afterValidate} edit={editData} />
             </section>
 
-            <section>
-                <p>Confirmar datos</p>
-                <ReservPreview preview={preview} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
-            </section>
-
-
-            {/* <div className={preview ? 'hidden' : ''}>
-                {!client && <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />}
-
-                {client && <h2>(02/03) Datos de la reserva</h2>}
-                {client && <p>Cliente: <b>{client.name}</b> (cambiar) (editar)</p>}
-                {client && <ReservForm handler={validateValues} cb={afterValidate} edit={editData} />}
-            </div>
-
-            {preview && <>
-                {preview && <h2>(03/03) Confirmar datos</h2>}
-            </>} */}
+            {preview &&
+                <section>
+                    <p>Resumen</p>
+                    <ReservPreview preview={preview} back={() => setPreview(() => false)} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
+                </section>}
 
             {errors?.someError && <p>error: {errors.someError}</p>}
         </div>

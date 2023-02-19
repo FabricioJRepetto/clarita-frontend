@@ -1,5 +1,6 @@
 import { editApi, postApi } from "@/services/api"
-import { formatDate } from "./formatDate"
+import { deformatDate, formatDate } from "./formatDate"
+import { setNIGHTS } from "./formUtils"
 
 export const validateReservErrors = (values, client) => {
     let errors = {}
@@ -11,13 +12,11 @@ export const validateReservErrors = (values, client) => {
 
     if (values.checkout === '-') errors.checkout = 'Campo requerido'
 
-    //: TODO: checkin no puede ser anterior a hoy
+    //* TODO: alertar que el checkin es anterior a hoy
 
-    //: TODO: checkout no puede ser anterior a hoy
+    if (values.nights === '-') errors.nights = 'Campo requerido'
 
-    //: TODO: checkin y checkout no pueden ser la misma fecha ?
-
-    //: TODO: cantidad de noches no concuerda con checkin y checkout ?
+    if (parseInt(values.nights) !== setNIGHTS(formatDate(values.checkin), formatDate(values.checkout))) errors.nights = 'La cantidad de noches no concuerda con las fechas'
 
     if (new Date(values.checkin) > new Date(values.checkout)) errors.checkin = 'El checkin no puede ser posterior al checkout'
 
@@ -27,9 +26,13 @@ export const validateReservErrors = (values, client) => {
 
     if (values.paymentType === '-') errors.paymentType = 'Campo requerido'
 
+    if (values.currency === '-') errors.currency = 'Campo requerido'
+
     if (values.paymentType === 'Tarjeta de crédito' && values.fees === '-') errors.fees = 'Campo requerido'
 
     if (values.amount === '-') errors.amount = 'Campo requerido'
+
+    if (values.percentage === '-') errors.percentage = 'Campo requerido'
 
     if (!!Object.keys(errors).length) {
         return errors
@@ -52,7 +55,11 @@ export const validateValues = (e) => {
     values.checkin = formatDate(values.checkin)
     values.checkout = formatDate(values.checkout)
     // change currency to number
-    values.amount = Number.parseInt(values.amount.replace(/\D/g, ""))
+    values.amount = parseInt(values.amount.replace(/\D/g, ""))
+    // change percentage to number
+    values.percentage = parseInt(values.percentage.replace(/\D/g, ""))
+    // change paymentStatus to boolean
+    values.paymentStatus = values.paymentStatus === 'true'
 
     return { res: values }
 }

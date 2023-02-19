@@ -1,3 +1,6 @@
+import NoPayment from '@/components/common/NoPayment';
+import countries from '@/countryList';
+import { flag } from '@/utils/flag';
 import React, { useState } from 'react'
 import { MdPeople } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
@@ -11,11 +14,18 @@ const ReservCard = ({ data }) => {
         name,
         checkin,
         nationality,
+        paymentStatus
     } = data
     const [expand, setExpand] = useState(false)
 
+    const goToReserv = (e) => {
+        e.stopPropagation()
+        navigate(`/reservations/details/${id}`)
+        return null
+    }
+
     return (
-        <div onClick={() => navigate(`/reservations/details/${id}`)}
+        <div onClick={goToReserv}
             onMouseEnter={() => setExpand(true)}
             onMouseLeave={() => setExpand(false)}
             style={{ width: `${(nights < 2 && expand) ? 14 : (nights * 7)}rem` }}
@@ -23,9 +33,14 @@ const ReservCard = ({ data }) => {
 
             <span className={`h-10 w-12 flex gap-1 absolute left-0 justify-center items-center ${checkin === 'pre' ? 'rounded-r-3xl' : 'rounded-3xl'} bg-blue-700`}><MdPeople />{pax}</span>
 
-            <span className={`flex items-center h-5 ${expand ? 'w-10 px-2 mx-0 opacity-100' : 'w-0 px-0 opacity-0'} ml-14  overflow-hidden bg-rose-600 rounded-lg transition-all text-white`}>ver</span>
+            <span className={`flex items-center h-5 ${expand ? 'w-10 px-2 mx-0 mr-2 opacity-100' : 'w-0 px-0 opacity-0'} ml-14  overflow-hidden bg-rose-600 rounded-lg transition-all text-white`}>ver</span>
 
-            <p className='ellipsis pl-2'>{name}</p>
+            {paymentStatus === false && <NoPayment />}
+
+            <p className='txt-n-icon ellipsis pl-2'>
+                <img src={flag(nationality)} width={20} alt='flag' />
+                {name}
+            </p>
         </div>
     )
 }

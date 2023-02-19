@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const Tile = ({ mode, disabled = false, cb }) => {
+const Tile = ({ mode, disabled = false, cb, side }) => {
     const [active, setActive] = useState(false)
 
     useEffect(() => {
@@ -14,7 +14,7 @@ const Tile = ({ mode, disabled = false, cb }) => {
 
     return (
         < div onMouseEnter={mode ? hover : null} onMouseDown={() => setActive(() => true)}
-            className={`h-full w-1/2 ${active ? 'bg-sky-500' : 'hover:bg-slate-500/20'} ${disabled ? 'pointer-events-none' : ''}`}></div>
+            className={`h-full w-1/2 ${active ? 'bg-orange-500' : 'hover:bg-slate-500/20'} ${disabled ? 'pointer-events-none' : ''}`}></div>
     )
 }
 

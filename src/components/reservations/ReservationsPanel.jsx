@@ -68,7 +68,8 @@ const ReservationsPanel = ({ DAYS = 30 }) => {
                         name: R.client.name,
                         nationality: R.client.nationality,
                         checkin: false,
-                        checkout: false
+                        checkout: false,
+                        paymentStatus: R?.paymentStatus
                     }
                     reserv.checkin = checkinToday(date, R.checkin)
 
@@ -92,28 +93,38 @@ const ReservationsPanel = ({ DAYS = 30 }) => {
     const [start, setStart] = useState(false)
     const [end, setEnd] = useState(false)
 
+    const reset = () => {
+        setSelectMode(() => false)
+        setStart(() => false)
+        setEnd(() => false)
+    }
+
     const clickDown = (date) => {
         setSelectMode(() => true)
         setStart(() => date)
     }
 
     const clickUp = () => {
-        if (selectMode) {
-            setSelectMode(() => false)
+        if (selectMode && end) {
             //: TODO: falta enviar fechas al form de reservas y LISTO :)
             console.log(`%c 📆 Crear reserva desde ${correctDate(start)} al ${correctDate(end)} `, 'background-color: #0ea5e9; color: #ffffff; font-weight: bold;');
-        }
+
+            reset()
+            // setSelectMode(() => false)
+            // setStart(() => false)
+            // setEnd(() => false)
+        } else reset()
     }
 
     const mouseEnter = (date) => {
         // si se selecciona hacia atras, se desactiva el modo
-        if (date < start) setSelectMode(() => false)
+        if (date < start) reset()
         setEnd(() => date)
     }
 
     const frontierPolice = () => {
         // checkea si el mouse se fue a la fila de otra cabaña
-        selectMode && setSelectMode(() => false)
+        selectMode && reset()
     }
 
     return (
@@ -150,14 +161,8 @@ const ReservationsPanel = ({ DAYS = 30 }) => {
                                 {/* {tile?.reserv ? '@' : '·'} */}
                                 {tile?.reserv?.checkin && <ReservCard data={tile.reserv} />}
 
-                                <Tile mode={selectMode} disabled={tile?.reserv && !tile?.reserv?.checkin} cb={() => mouseEnter(tile.date)} />
+                                <Tile mode={selectMode} disabled={tile?.reserv && !tile?.reserv?.checkin} cb={() => mouseEnter(tile.date)} side />
                                 <Tile mode={selectMode} disabled={tile?.reserv} cb={() => mouseEnter(tile.date)} />
-
-                                {/* <div className={`h-full w-1/2 hover:bg-slate-500/20`}
-                                    onMouseEnter={() => setEnd(() => tile.date)}></div>
-                                <div className={`${tile?.reserv ? 'pointer-events-none' : ''} h-full w-1/2 hover:bg-slate-500/20`}
-                                    onMouseEnter={() => setEnd(() => tile.date)}></div> */}
-
                             </div>
                         ))}
 

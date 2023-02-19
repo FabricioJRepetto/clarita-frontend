@@ -20,7 +20,7 @@ const NavList = () => {
             </li>
 
             <li onClick={() => navigate('/clients')}
-                className={`${path === '/clients' ? 'text-blue-500' : ''}`}>
+                className={`${path.includes('/clients') ? 'text-blue-500' : ''}`}>
                 {path.includes('/clients')
                     ? <MdPerson className='text-blue-500' />
                     : <MdPermIdentity className='text-gray-500' />}
@@ -28,7 +28,7 @@ const NavList = () => {
             </li>
 
             <li onClick={() => navigate('/reservations')}
-                className={`${path === '/reservations' ? 'text-blue-500' : ''}`}>
+                className={`${path.includes('/reservations') ? 'text-blue-500' : ''}`}>
                 {path.includes('/reservations')
                     ? <MdToday className='text-blue-500' />
                     : <MdOutlineToday className='text-gray-500' />}
@@ -36,7 +36,7 @@ const NavList = () => {
             </li>
 
             <li onClick={() => navigate('/cabins')}
-                className={`${path === '/cabins' ? 'text-blue-500' : ''}`}>
+                className={`${path.includes('/cabins') ? 'text-blue-500' : ''}`}>
                 {path.includes('/cabins')
                     ? <MdHolidayVillage className='text-blue-500' />
                     : <MdOutlineHolidayVillage className='text-gray-500' />}
@@ -51,9 +51,9 @@ const NavList = () => {
             </li>
 
             {admin && <li onClick={() => navigate('/admin')}
-                className={`${path === '/admin' ? 'text-blue-500' : ''}`}>
+                className={`${path.includes('/admin') ? 'text-orange-500' : ''}`}>
                 {path.includes('/admin')
-                    ? <MdLocalPolice className='text-blue-500' />
+                    ? <MdLocalPolice className='text-orange-500' />
                     : <MdOutlineLocalPolice className='text-gray-500' />}
                 Admin
             </li>}

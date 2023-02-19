@@ -97,8 +97,6 @@ export const doDatesOverlap = (a1, a2, b1, b2) => {
         return false
 }
 
-
-
 //: TODO: replantear el checkeo de fechas, quizas sea mejor hacerlo en el back
 // Looks for available cabins
 export const datesValidator = (cabins, setAvCabins, setErrors) => {
@@ -148,4 +146,12 @@ export const numberToCurrency = (num) => {
     let n = String(num).replace('$', '').replace('.', '')
     if (n.length === 0) return ''
     return '$' + n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+}
+
+export const numberToPercentage = (num) => {
+    // format number XXX to %XXX
+    let n = String(num).replace('%', '')
+    if (n.length === 0) return ''
+    if (parseInt(n) > 100) return '%100'
+    return '%' + n.replace(/\D/g, "")
 }

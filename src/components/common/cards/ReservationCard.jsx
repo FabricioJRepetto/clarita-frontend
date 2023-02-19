@@ -1,11 +1,21 @@
 import { fancyDate } from '@/utils/formatDate'
 import React, { useState } from 'react'
 import ClientDetailsCard from './ClientDetailsCard'
-import { MdPerson, MdOutlinePayments, MdHome, MdEvent, MdOutlineInfo, MdStickyNote2, MdOutlineArrowBackIos, MdOpenInNew } from 'react-icons/md';
+import {
+    MdPerson,
+    MdOutlinePayments,
+    MdHome,
+    MdEvent,
+    MdOutlineInfo,
+    MdStickyNote2,
+    MdOutlineArrowBackIos,
+    MdOpenInNew
+} from 'react-icons/md';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 
 import { useNavigate } from 'react-router-dom';
 import { numberToCurrency } from '@/utils/formUtils';
+import NoPayment from '../NoPayment';
 
 const ReservationCard = ({ data }) => {
     const [clientDetails, setClientDetails] = useState(false)
@@ -68,10 +78,20 @@ const ReservationCard = ({ data }) => {
                 <p className='txt-n-icon text-xl'><MdOutlinePayments />Pago</p>
 
                 <div className='details-data'>
+                    <p>Estado del pago</p>
+
+                    <p>{data?.paymentStatus === false
+                        ? <span className='txt-n-icon -ml-6 text-rose-500'>
+                            <NoPayment />Incompleto
+                        </span>
+                        : <span >Completo</span>}
+                    </p>
+
                     <p>Forma de pago</p> <p>{data?.paymentType}</p>
                     {data?.fees !== '-' && <><p>Cuotas</p> <p>{data?.fees || '-'}</p></>}
+                    <p>Divisa</p> <p>{data?.currency}</p>
                     <p>Monto</p> <p>{numberToCurrency(data?.amount)}</p>
-                    {data?.percentage !== '-' && <><p>Seña</p><p>{data?.percentage || '-'}</p></>}
+                    {data?.percentage !== '-' && <><p>Seña</p><p>%{data?.percentage || '-'}</p></>}
                 </div>
             </section>
 

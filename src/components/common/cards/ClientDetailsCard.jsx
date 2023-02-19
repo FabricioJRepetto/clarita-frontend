@@ -1,3 +1,4 @@
+import { country } from '@/utils/country';
 import React from 'react'
 import { MdEmail, MdCall, MdAccountBox, MdDirectionsCar, MdPlace, MdStickyNote2 } from 'react-icons/md';
 
@@ -29,7 +30,7 @@ const ClientDetailsCard = ({ user }) => {
                 <p className='text-xl flex gap-2 items-center'><MdPlace />Origen</p>
                 <div className='details-data'>
                     <p>Nacionalidad </p>
-                    <p>{user?.nationality || '-'}</p>
+                    <p>{country(user?.nationality) || '-'}</p>
                     <p>procedencia </p>
                     <p>{user?.provenance || '-'}</p>
                     <p>dirección </p>

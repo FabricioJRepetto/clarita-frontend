@@ -2,6 +2,7 @@ import useClients from '@/hooks/useClients'
 import useLoadEditData from '@/hooks/useLoadEditData'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import countries from '@/countryList'
 
 const ClientForm = ({ handler, cb, edit_id }) => {
     // if there is an ID, it means the form is in edition mode
@@ -97,12 +98,20 @@ const ClientForm = ({ handler, cb, edit_id }) => {
                     <div className='pl-2 h-6 text-sm text-rose-500'></div>
                 </label>
                 <p className='col-span-4'>Origen</p>
+
                 {/*nationality*/}
                 <label htmlFor='nationality' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>nacionalidad</p>
-                    <input type="text" id='nationality' name="nationality" placeholder='Nacionalidad' className='w-full' />
+                    {/* <input type="text" id='nationality' name="nationality" placeholder='Nacionalidad' className='w-full' /> */}
+                    <select id='nationality' name="nationality" defaultValue='' className='w-full' >
+                        <option disabled={true} value="">Nacionalidad</option>
+                        {Object.entries(countries).map(e => (
+                            <option key={e[0]} value={e[0]}>{e[1]}</option>
+                        ))}
+                    </select>
                     <div className='pl-2 h-6 text-sm text-rose-500'></div>
                 </label>
+
                 {/*provenance*/}
                 <label htmlFor='provenance' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>procedencia</p>
