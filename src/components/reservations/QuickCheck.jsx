@@ -18,6 +18,7 @@ const QuickCheck = () => {
         e.preventDefault()
         if (checkin.current.value && checkout.current.value) {
             // Looks for available cabins
+            //: TODO: checkear si compara bien cuando se le pasan fechas de diferentes meses
             datesValidator(cabins, setAvCabins, setMessage)
         }
     }

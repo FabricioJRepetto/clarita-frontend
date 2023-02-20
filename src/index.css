@@ -68,10 +68,10 @@
     }
 
     .btn-primary {
-        @apply px-8 h-10 bg-blue-500 disabled:bg-gray-500  text-white border-2 border-blue-500 disabled:border-gray-500 font-semibold rounded-lg shadow-md hover:enabled:bg-blue-700 hover:enabled:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition-all duration-100;
+        @apply px-8 h-10 bg-blue-500 disabled:brightness-50  text-white border-2 border-blue-500 font-semibold rounded-lg shadow-md hover:enabled:bg-blue-700 hover:enabled:border-blue-700 focus:outline-none ring-0 transition-all duration-100;
     }
     .btn-secondary {
-        @apply btn-primary py-2 px-4 text-blue-400 disabled:text-gray-500 bg-transparent disabled:bg-transparent hover:enabled:border-blue-500 hover:enabled:bg-transparent hover:enabled:text-blue-700 dark:hover:enabled:text-white ;
+        @apply px-8 h-10 text-blue-400 disabled:brightness-50 border-2 border-blue-500 font-semibold rounded-lg hover:enabled:border-blue-600 hover:enabled:text-blue-700 dark:hover:enabled:text-blue-500;
     }
     .btn-tertiary {
         @apply w-fit cursor-pointer font-medium text-blue-400 disabled:text-gray-500 hover:enabled:text-blue-700 dark:hover:enabled:text-white underline underline-offset-4 decoration-1;
@@ -81,6 +81,13 @@
     }    
     .btn-icon {
         @apply scale-150 text-slate-500 hover:text-black hover:dark:text-white;
+    }
+
+    .btn-admin-p {
+        @apply px-8 h-10 bg-orange-500 disabled:brightness-50 text-slate-900 border-2 border-orange-500 font-semibold rounded-sm shadow-md hover:enabled:bg-orange-600 hover:enabled:border-orange-600 focus:outline-none ring-0 transition-all duration-100;
+    }
+    .btn-admin-s {
+        @apply px-8 h-10 disabled:brightness-75  text-orange-500 border-2 border-orange-500 font-semibold rounded-sm shadow-md hover:enabled:border-orange-700 hover:enabled:text-orange-600 focus:outline-none ring-0 transition-all duration-100;
     }
 
     .txt-n-icon {
@@ -148,7 +155,7 @@
     }
 
     .panel-opt {
-        @apply relative h-8 px-4 py-5 text-lg flex w-full justify-between items-center hover:bg-slate-100 hover:dark:bg-slate-800;
+        @apply relative h-8 px-4 py-5 text-lg flex w-full justify-between items-center hover:text-orange-500;
     }
 
     .reserv-container {

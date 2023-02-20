@@ -42,7 +42,7 @@ const Annuncement = () => {
                 <h2>Anuncio</h2>
                 <p>Crear anuncio que se meustra en la home</p>
                 <button onClick={deleteHandler}
-                    className="btn-secondary absolute top-0 right-0">eliminar anuncio actual</button>
+                    className="btn-admin-s absolute top-0 right-0">eliminar anuncio actual</button>
             </section>
 
             <section>
@@ -75,7 +75,7 @@ const Annuncement = () => {
                     </select>
                 </label>
 
-                <button type='submit' className='btn-primary col-span-4'>{'Guardar'}</button>
+                <button type='submit' className='btn-admin-p col-span-4'>Guardar</button>
 
             </form>
         </div>
