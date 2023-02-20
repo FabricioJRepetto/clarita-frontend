@@ -3,7 +3,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import CabinsCalendar from '../cabins/calendar/CabinsCalendar';
 import AdminMessage from '../common/AdminMessage';
-import QuickCheck from '../reservations/QuickCheck';
+// import QuickCheck from '../reservations/QuickCheck';
 
 const Home = () => {
     // const { user, isLoading, error, setUser } = useUser()
