@@ -19,7 +19,7 @@ const Home = () => {
                     <button className="btn-big" onClick={() => navigate('/reservations/create')}>Crear Reserva</button>
                 </div>
 
-                <div>
+                {/* <div>
                     <QuickCheck />
                 </div>
 
@@ -27,7 +27,7 @@ const Home = () => {
 
                 <h1>Presupuesto</h1>
 
-                <h1>Conversor</h1>
+                <h1>Conversor</h1> */}
 
             </section>
 
