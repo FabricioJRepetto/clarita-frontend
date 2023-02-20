@@ -6,7 +6,7 @@ const Flag = ({ code }) => {
 
     return (
         URL
-            ? <img src={URL} width={20} alt='flag' />
+            ? <img src={URL} width={20} alt='flag' className='flag' />
             : null
     )
 }

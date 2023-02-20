@@ -21,7 +21,7 @@ const NavUser = () => {
     return (
         <div onMouseEnter={() => setProfileMenu(true)}
             onMouseLeave={() => setProfileMenu(false)}
-            className='flex items-center relative w-full h-4 px-1 '>
+            className='flex items-center relative w-full h-4 px-1 cursor-pointer'>
             <MdAccountCircle className='absolute left-1 top-0' />
             <p className='ellipsis pl-6'>{user?.user_name || 'Usuario'}</p>
             <NavMenu visible={profileMenu} logout={handleLogout} />

@@ -84,10 +84,10 @@
     }
 
     .btn-admin-p {
-        @apply px-8 h-10 bg-orange-500 disabled:brightness-50 text-slate-900 border-2 border-orange-500 font-semibold rounded-sm shadow-md hover:enabled:bg-orange-600 hover:enabled:border-orange-600 focus:outline-none ring-0 transition-all duration-100;
+        @apply px-8 h-10 bg-orange-500 disabled:brightness-50 text-white dark:text-slate-900 border-2 border-orange-500 font-semibold rounded-sm shadow-md hover:enabled:bg-orange-600 hover:enabled:border-orange-600 focus:outline-none ring-0 transition-all duration-100;
     }
     .btn-admin-s {
-        @apply px-8 h-10 disabled:brightness-75  text-orange-500 border-2 border-orange-500 font-semibold rounded-sm shadow-md hover:enabled:border-orange-700 hover:enabled:text-orange-600 focus:outline-none ring-0 transition-all duration-100;
+        @apply px-8 h-10 disabled:brightness-75  text-orange-500 border-2 border-orange-500 font-semibold rounded-sm shadow-md hover:enabled:border-orange-600 hover:enabled:dark:border-orange-700 hover:enabled:text-orange-600 focus:outline-none ring-0 transition-all duration-100;
     }
 
     .txt-n-icon {
@@ -224,6 +224,10 @@
         @apply absolute right-2 text-gray-500/80 pointer-events-none;
         font-size: 1.7rem;
         top: -0.25rem;
+    }
+
+    .flag {
+        margin-top: -1px;
     }
 
     .fade-in {

@@ -15,7 +15,7 @@ const NavList = () => {
                 className={`${path === '/' ? 'text-blue-500' : ''}`}>
                 {path === '/'
                     ? <MdHome className='text-blue-500' />
-                    : <MdOutlineHome className='text-gray-500' />}
+                    : <MdOutlineHome className='text-gray-400' />}
                 Home
             </li>
 
@@ -23,7 +23,7 @@ const NavList = () => {
                 className={`${path.includes('/clients') ? 'text-blue-500' : ''}`}>
                 {path.includes('/clients')
                     ? <MdPerson className='text-blue-500' />
-                    : <MdPermIdentity className='text-gray-500' />}
+                    : <MdPermIdentity className='text-gray-400' />}
                 Clientes
             </li>
 
@@ -31,7 +31,7 @@ const NavList = () => {
                 className={`${path.includes('/reservations') ? 'text-blue-500' : ''}`}>
                 {path.includes('/reservations')
                     ? <MdToday className='text-blue-500' />
-                    : <MdOutlineToday className='text-gray-500' />}
+                    : <MdOutlineToday className='text-gray-400' />}
                 Reservas
             </li>
 
@@ -39,14 +39,14 @@ const NavList = () => {
                 className={`${path.includes('/cabins') ? 'text-blue-500' : ''}`}>
                 {path.includes('/cabins')
                     ? <MdHolidayVillage className='text-blue-500' />
-                    : <MdOutlineHolidayVillage className='text-gray-500' />}
+                    : <MdOutlineHolidayVillage className='text-gray-400' />}
                 Cabañas
             </li>
 
-            <li className={`${path === '' ? '' : ''}`}>
+            <li className={`pointer-events-none text-gray-400 ${path === '' ? '' : ''}`}>
                 {path === ''
                     ? <MdMonetizationOn className='text-blue-500' />
-                    : <MdAttachMoney className='text-gray-500' />}
+                    : <MdAttachMoney className='text-gray-400' />}
                 Cuentas
             </li>
 
@@ -54,7 +54,7 @@ const NavList = () => {
                 className={`${path.includes('/admin') ? 'text-orange-500' : ''}`}>
                 {path.includes('/admin')
                     ? <MdLocalPolice className='text-orange-500' />
-                    : <MdOutlineLocalPolice className='text-gray-500' />}
+                    : <MdOutlineLocalPolice className='text-gray-400' />}
                 Admin
             </li>}
         </ul>
