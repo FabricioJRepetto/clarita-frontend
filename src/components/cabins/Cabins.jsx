@@ -18,7 +18,7 @@ const Cabins = () => {
 
             <div className='grid grid-cols-4 gap-2 my-2'>
                 {isLoading && <p>Cargando...</p>}
-                {error && <p>{error || 'Ha ocurrido un error'}</p>}
+                {error && <p>{error?.message || 'Ha ocurrido un error'}</p>}
 
                 {cabins && cabins.map(e => (
                     <CabinCard key={e.id} data={e} />

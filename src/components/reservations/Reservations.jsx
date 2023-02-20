@@ -27,7 +27,7 @@ const Reservations = () => {
             </section>
 
             {isLoading && <p>Cargando...</p>}
-            {error && <p>{error || 'Ha ocurrido un error'}</p>}
+            {error && <p>{error?.message || 'Ha ocurrido un error'}</p>}
 
             <section className='flex  gap-2 pb-4'>
                 <label htmlFor="startDate">
