@@ -1,4 +1,4 @@
-export const templateMaker = (cabins) => {
+export const templateMaker = (cabins = []) => {
     const template = {}
     cabins.map(c => template[c.id] = [])
     return template
