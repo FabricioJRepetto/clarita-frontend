@@ -36,6 +36,11 @@ const PreReservForm = ({ setClient, handler, cb }) => {
         setClient(aux)
     }
 
+    const afterCreation = (res) => {
+        setNewClient(() => false)
+        cb(res)
+    }
+
     //: TODO: Refact search input
     return (
         <div className='grid grid-cols-4 gap-4 w-96 py-2'>
@@ -45,7 +50,7 @@ const PreReservForm = ({ setClient, handler, cb }) => {
                 {newClient ? 'volver' : 'Nuevo Cliente'}
             </button>
 
-            {newClient && <ClientForm handler={handler} cb={cb} />}
+            {newClient && <ClientForm handler={handler} cb={afterCreation} />}
 
             {!newClient &&
                 <section className='relative col-span-4'>

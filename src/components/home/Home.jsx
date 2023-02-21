@@ -2,7 +2,7 @@ import React from 'react'
 // import useUser from '@/hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 import CabinsCalendar from '../cabins/calendar/CabinsCalendar';
-import AdminMessage from '../common/AdminMessage';
+import AdminMessage from '../common/misc/AdminMessage';
 // import QuickCheck from '../reservations/QuickCheck';
 
 const Home = () => {

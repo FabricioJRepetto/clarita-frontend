@@ -1,5 +1,5 @@
-import Flag from '@/components/common/Flag';
-import NoPayment from '@/components/common/NoPayment';
+import Flag from '@/components/common/misc/Flag';
+import NoPayment from '@/components/common/misc/NoPayment';
 import React, { useState } from 'react'
 import { MdPeople } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';

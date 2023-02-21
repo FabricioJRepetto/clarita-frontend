@@ -15,7 +15,7 @@ import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 
 import { useNavigate } from 'react-router-dom';
 import { numberToCurrency } from '@/utils/formUtils';
-import NoPayment from '../NoPayment';
+import NoPayment from '../misc/NoPayment';
 
 const ReservationCard = ({ data }) => {
     const [clientDetails, setClientDetails] = useState(false)
@@ -89,9 +89,10 @@ const ReservationCard = ({ data }) => {
 
                     <p>Forma de pago</p> <p>{data?.paymentType}</p>
                     {data?.fees !== '-' && <><p>Cuotas</p> <p>{data?.fees || '-'}</p></>}
-                    <p>Divisa</p> <p>{data?.currency}</p>
+                    {(data?.mpDetails && data?.mpDetails !== '-') && <><p>Cuenta de MP</p> <p>{data?.mpDetails || '-'}</p></>}
+                    <p>Divisa</p> <p>{data?.currency || '-'}</p>
                     <p>Monto</p> <p>{numberToCurrency(data?.amount)}</p>
-                    {data?.percentage !== '-' && <><p>Seña</p><p>%{data?.percentage || '-'}</p></>}
+                    {(data?.percentage && data?.percentage !== '-') && <><p>Seña</p><p>%{data?.percentage || '-'}</p></>}
                 </div>
             </section>
 

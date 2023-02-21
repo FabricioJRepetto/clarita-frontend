@@ -1,6 +1,6 @@
 import useAnnoun from '@/hooks/useAnnoun'
 import React from 'react'
-import AnnounCard from './cards/AnnounCard'
+import AnnounCard from '../cards/AnnounCard'
 
 
 const AdminMessage = () => {

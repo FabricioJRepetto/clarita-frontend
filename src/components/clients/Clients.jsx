@@ -3,7 +3,7 @@ import ClientList from '@/components/clients/ClientList'
 import useClients from '@/hooks/useClients'
 import { useNavigate } from 'react-router-dom'
 import { fuzzySearch } from '@/utils/fuzzySearch'
-import SearchInput from '../common/SearchInput'
+import SearchInput from '../common/misc/SearchInput'
 
 const Clients = () => {
     const navigate = useNavigate()

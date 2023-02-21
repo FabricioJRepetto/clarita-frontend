@@ -1,5 +1,5 @@
 import React from 'react'
-import Flag from '@/components/common/Flag';
+import Flag from '@/components/common/misc/Flag';
 import { MdEmail, MdCall, MdAccountBox, MdDirectionsCar, MdPlace, MdStickyNote2 } from 'react-icons/md';
 
 const ClientDetailsCard = ({ user }) => {

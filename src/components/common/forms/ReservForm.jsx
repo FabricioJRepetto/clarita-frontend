@@ -1,13 +1,14 @@
 import useCabins from '@/hooks/useCabins'
 import React, { useEffect, useRef, useState } from 'react'
-import Switch from '@/components/common/Switch'
+import Switch from '@/components/common/misc/Switch'
 import { datesValidator, fillDates, numberToCurrency, numberToPercentage } from '@/utils/formUtils'
 import { deformatDate } from '@/utils/formatDate'
 
 const ReservForm = ({ handler, cb, edit, panelData }) => {
     const [advance, setAdvance] = useState(false)
-    const [file, setFile] = useState(false)
+    // const [file, setFile] = useState(false)
     const [fees, setFees] = useState(false)
+    const [mp, setMp] = useState(false)
     const [errors, setErrors] = useState(false)
     const { cabins, isLoading } = useCabins()
     const [avCabins, setAvCabins] = useState(cabins)
@@ -76,6 +77,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
     const paymentSelect = (e) => {
         e.preventDefault()
         if (e.target.value === 'Tarjeta de crédito') setFees(() => true)
+        else if (e.target.value === 'MercadoPago') setMp(() => true)
         else setFees(() => false)
     }
 
@@ -174,6 +176,13 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 </label>
                 <label className={`col-span-2 ${fees ? '' : 'hidden'}`}></label>
 
+                {/*mpDetails*/}
+                <label htmlFor='fees' className={`col-span-4 ${mp ? '' : 'hidden'}`}>
+                    <p className='text-gray-500 pl-2'>Cuenta utilizada</p>
+                    <input type="text" id='mpDetails' name='mpDetails' placeholder='Usuario de MercadoPago' className='w-full' />
+                    <div className='error'>{errors?.mpDetails || ''}</div>
+                </label>
+
                 {/*currency*/}
                 <label htmlFor='currency' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>divisa</p>
@@ -212,22 +221,21 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 </section>
 
                 {/*//:comprobante*/}
-                <p className='col-span-4'>Comprobante</p>
+                {/* <p className='col-span-4'>Comprobante</p>
                 <section className='col-span-4 grid grid-cols-4 gap-2 w-full'>
-                    {/*switch file*/}
+                
                     <label className='col-span-2'>
                         <p className='text-gray-500 pl-1'>adjuntar comprobante</p>
                         <Switch options={['No', 'Si']} cb={() => setFile(!file)} state={file} />
                         <div className='error'>{errors?.file || ''}</div>
                     </label>
-
-                    {/*file input*/}
+                    
                     <label htmlFor='comprobante' className={`col-span-2 ${file ? '' : 'hidden'}`}>
                         <p className='text-gray-500 pl-2'>seleccionar archivo</p>
                         <input type="file" id='comprobante' name='comprobante' placeholder='$' className='w-full' />
                         <div className='error'>{errors?.comprobante || ''}</div>
                     </label>
-                </section>
+                </section> */}
 
                 <p className='col-span-4'>Notas</p>
                 <textarea name="notes" id='notes' cols="30" rows="2" placeholder='Notas' className='resize-none col-span-4'></textarea>

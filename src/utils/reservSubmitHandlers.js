@@ -30,6 +30,8 @@ export const validateReservErrors = (values, client) => {
 
     if (values.paymentType === 'Tarjeta de crédito' && values.fees === '-') errors.fees = 'Campo requerido'
 
+    if (values.paymentType === 'MercadoPago' && values.mpDetails === '-') errors.mpDetails = 'Campo requerido'
+
     if (values.amount === '-') errors.amount = 'Campo requerido'
 
     if (values.paymentStatus === 'false' && values.percentage === '-') errors.percentage = 'Campo requerido'
@@ -55,10 +57,10 @@ export const validateValues = (e) => {
     values.checkout = formatDate(values.checkout)
     // change currency to number
     values.amount = parseInt(values.amount.replace(/\D/g, ""))
-    // change percentage to number
-    values.percentage = parseInt(values.percentage.replace(/\D/g, ""))
     // change paymentStatus to boolean
     values.paymentStatus = values.paymentStatus === 'true'
+    // change percentage to number
+    !values.paymentStatus && (values.percentage = parseInt(values.percentage.replace(/\D/g, "")))
 
     return { res: values }
 }

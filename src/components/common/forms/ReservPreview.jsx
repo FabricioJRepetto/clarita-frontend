@@ -20,8 +20,9 @@ const ReservPreview = ({ preview, back, client, cabin, handler }) => {
             <section>
                 <p>Pago: {preview.paymentStatus ? '(completo)' : '(adelanto)'}</p>
                 <p className='ml-2'>forma: <b>{preview.paymentType}</b></p>
+                {preview.fees !== '-' && <p className='ml-2'>cuotas: <b>{preview.fees}</b></p>}
+                {preview.mpDetails !== '-' && <p className='ml-2'>cuenta de MP: <b>{preview.mpDetails}</b></p>}
                 <p className='ml-2'>monto: <b>{numberToCurrency(preview.amount)} {preview.currency}</b></p>
-                {preview.fees !== '-' && <p>cuotas: <b>{preview.fees}</b></p>}
                 {(!preview.paymentStatus && preview.percentage !== '-') && <p>Adelanto del <b>%{preview.percentage}</b></p>}
             </section>
 
