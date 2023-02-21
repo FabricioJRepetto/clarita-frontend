@@ -1,47 +1,62 @@
 import React from 'react'
-import { approve, deleteUser, email, password, role } from '@/components/admin/adminHandlers';
-import { MdVpnKey, MdMilitaryTech, MdEmail, MdGppBad, MdGppGood } from 'react-icons/md';
+import { MdVpnKey, MdEmail, MdGppBad, MdGppGood, MdPersonOff, MdDoubleArrow } from 'react-icons/md';
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, handler }) => {
 
+    const change = (e) => {
+        handler(e.target.id, user.id)
+    }
+
+    const roleColor = {
+        master: 'text-rose-500',
+        admin: 'text-orange-500',
+        staff: 'text-blue-500',
+    }
 
     return (
-        <div key={user?.id} className='p-4 w-full flex justify-between rounded-md border border-slate-800'>
-            <section>
-                <b className='text-lg capitalize'>{user?.user_name}</b>
+        <div key={user?.id} className='flex flex-col justify-between border border-slate-800 rounded-md'>
 
-                <p className='txt-n-icon cursor-pointer'
-                    onClick={() => role(user?.id, 'newRole')}>
-                    Rol: {user?.role} <MdMilitaryTech />
-                </p>
-
-                <p className='txt-n-icon cursor-pointer'
-                    onClick={() => email(user?.id, 'email@lol.com')}>
-                    Email: {user?.email} <MdEmail />
-                </p>
-
-                <div className='txt-n-icon'
-                    onClick={() => approve(user?.id, !user?.approved)}>
-                    Estado de la cuenta: {user?.approved
-                        ? <p className='txt-n-icon cursor-pointer px-2 py-1 rounded-md hover:bg-gray-300 hover:dark:bg-slate-800 text-emerald-500 underline underline-offset-2' >Autorizada <MdGppGood /></p>
-                        : <p className='txt-n-icon cursor-pointer px-2 py-1 rounded-md hover:bg-gray-300 hover:dark:bg-slate-800 text-rose-500 underline underline-offset-2'>No autorizada <MdGppBad /></p>}
+            <section className='grid p-6'>
+                <div className='text-xl capitalize '>
+                    <b>
+                        {user?.user_name}
+                    </b>
+                    <i className='text-gray-500 dark:text-gray-600 text-sm ml-2'>ID: {user.id}</i>
                 </div>
-                <i className='text-gray-500'>ID: {user.id}</i>
+
+                <p className='txt-n-icon cursor-pointer capitalize admin-acount-status'
+                    onClick={change} id='role'>
+                    <MdDoubleArrow className={`text-lg rotate-90 ${user?.role ? roleColor[user?.role] : 'text-gray-400 dark:text-gray-600'}`} />
+                    {user?.role || 'Sin rol'}
+                </p>
+
+                <p className='txt-n-icon cursor-pointer admin-acount-status'
+                    onClick={change} id='email'>
+                    <MdEmail />
+                    {user?.email}
+                </p>
+
+                {user?.approved
+                    ? <p className='txt-n-icon admin-acount-status text-emerald-500' onClick={change} id='approve'>
+                        <MdGppGood />
+                        Cuenta autorizada
+                    </p>
+                    : <p className='txt-n-icon admin-acount-status text-rose-500' onClick={change} id='approve'>
+                        <MdGppBad />
+                        Cuenta no autorizada
+                    </p>}
+
             </section>
 
-
-            <section className='grid grid-cols-1 gap-2 w-64'>
-
+            <section className='flex gap-2 w-full p-4 bg-gray-200 dark:bg-slate-800/50'>
                 <button className='btn-admin-p txt-n-icon justify-center'
-                    onClick={() => password(user?.id, 'contraseña')}>
+                    onClick={change} id='password'>
                     Cambiar contraseña <MdVpnKey />
                 </button>
-
                 <button className='btn-admin-s txt-n-icon justify-center'
-                    onClick={() => deleteUser(user?.id)}>
-                    Eliminar usuario <MdVpnKey />
+                    onClick={change} id='delete-user'>
+                    Eliminar usuario <MdPersonOff />
                 </button>
-
             </section>
 
         </div>

@@ -11,20 +11,20 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className={`w-48 h-screen p-6 text-lg fixed top-0 left-0 flex flex-col justify-between items-center z-50 ${user?.id ? '' : 'hidden'} border-r border-r-slate-800`}>
+            <nav className={`w-48 h-screen text-lg fixed top-0 left-0 flex flex-col justify-between items-center z-50 ${user?.id ? '' : 'hidden'} border-r border-r-slate-800`}>
 
-                <div className='flex flex-col gap-4'>
-                    <h2 onClick={() => navigate('/')} className='logo-font'>Cabañas Clarita</h2>
+                <div className='flex flex-col gap-4 w-full pt-4'>
+                    <h2 onClick={() => navigate('/')} className=' mx-auto logo-font'>Cabañas Clarita</h2>
                     <NavList />
                 </div>
 
-                <div className='w-full flex flex-col gap-4 items-start pb-2'>
+                <div className='w-full flex flex-col gap-4 items-start pb-2 pl-7'>
                     <NavUser />
                     <SwitchTheme />
                 </div>
             </nav>
 
-            <div className='px-4'>
+            <div>
                 <Outlet />
             </div>
         </>

@@ -45,7 +45,7 @@ const Annuncement = () => {
                     className="btn-admin-s absolute top-0 right-0">eliminar anuncio actual</button>
             </section>
 
-            <section>
+            <section className='w-screen-md max-w-screen-md'>
                 <p className='text-gray-500'>Vista previa</p>
                 <AnnounCard data={{ title, text, style, from }} />
             </section>
