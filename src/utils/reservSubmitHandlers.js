@@ -2,6 +2,8 @@ import { editApi, postApi } from "@/services/api"
 import { formatDate } from "./formatDate"
 import { setNIGHTS } from "./formUtils"
 
+//: TODO: Organiza todo esta mierda
+
 export const validateReservErrors = (values, client) => {
     let errors = {}
 
@@ -34,7 +36,7 @@ export const validateReservErrors = (values, client) => {
 
     if (values.amount === '-') errors.amount = 'Campo requerido'
 
-    if (values.paymentStatus === 'false' && values.percentage === '-') errors.percentage = 'Campo requerido'
+    if (values.advance === 'true' && values.percentage === '-') errors.percentage = 'Campo requerido'
 
     if (!!Object.keys(errors).length) {
         return errors
@@ -54,8 +56,7 @@ export const validateReservExtraFormErrors = (values, id) => {
 
     if (values[`${id}amount`] === '-') errors[`${id}amount`] = 'Campo requerido'
 
-    //: TODO: cambiar manera de detectar una seña
-    // if (values.paymentStatus === 'false' && values.percentage === '-') errors[`${id}percentage`] = 'Campo requerido'
+    if (values[`${id}advance`] === 'true' && values[`${id}percentage`] === '-') errors[`${id}percentage`] = 'Campo requerido'
 
     if (!!Object.keys(errors).length) {
         return errors
@@ -69,7 +70,7 @@ export const validateValues = (e) => {
     Array.from(e.target).map(e => {
         if (e.name) {
             if (/^extra/.test(e.name)) {
-                const form = e.name.slice(0, 10)
+                const form = e.name.split('-')[0]
                 if (!extraPayments.hasOwnProperty(form)) {
                     extraPayments[form] = {}
                 }
@@ -91,22 +92,51 @@ export const validateValues = (e) => {
     if (mainErr) errors = { ...mainErr }
 
     Object.entries(extraPayments).forEach(e => {
-        const id = e[0],
+        const id = e[0] + '-',
             err = validateReservExtraFormErrors(e[1], id)
         if (err) errors = { ...errors, ...err }
     })
-    console.log(errors);
+    // console.log(errors);
     if (!!Object.keys(errors).length) return { errors }
 
     // change dates to correct format
     values.checkin = formatDate(values.checkin)
     values.checkout = formatDate(values.checkout)
-    // change currency to number
-    values.amount = parseInt(values.amount.replace(/\D/g, ""))
     // change paymentStatus to boolean
     values.paymentStatus = values.paymentStatus === 'true'
+
+    // change currency to number
+    values.amount = parseInt(values.amount.replace(/\D/g, ""))
     // change percentage to number
-    !values.paymentStatus && (values.percentage = parseInt(values.percentage.replace(/\D/g, "")))
+    values.percentage === '-'
+        ? values.percentage = null
+        : values.percentage = parseInt(values.percentage.replace(/\D/g, ""))
+
+    // format extra payments values
+    let finalExtras = []
+    for (const extra in extraPayments) {
+        if (Object.hasOwnProperty.call(extraPayments, extra)) {
+            const values = extraPayments[extra],
+                aux = {
+                    id: extra
+                }
+
+            aux.paymentType = values[`${extra}-paymentType`]
+            aux.currency = values[`${extra}-currency`]
+            aux.fees = values[`${extra}-fees`]
+            aux.mpDetails = values[`${extra}-mpDetails`]
+
+            aux.amount = parseInt(values[`${extra}-amount`].replace(/\D/g, ""))
+            values[`${extra}-percentage`] === '-'
+                ? aux.percentage = null
+                : aux.percentage = parseInt(values[`${extra}-percentage`].replace(/\D/g, ""))
+
+            finalExtras.push(aux)
+        }
+    }
+
+    // add extra payments to final values
+    values.extraPayments = finalExtras
 
     return { res: values }
 }

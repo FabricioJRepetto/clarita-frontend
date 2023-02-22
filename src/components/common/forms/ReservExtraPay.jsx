@@ -1,27 +1,20 @@
 import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Switch from '../misc/Switch'
 
-const ReservExtraPay = ({ remove, error, ID }) => {
-    const [fees, setFees] = useState(false)
-    const [mp, setMp] = useState(false)
+const ReservExtraPay = ({ remove, errors, ID }) => {
+    const [paymentTypeDetails, setPaymentTypeDetails] = useState(null)
     const [advance, setAdvance] = useState(false)
-    const [errors, setErrors] = useState({})
-
-    useEffect(() => {
-        console.log(error);
-        error && setErrors(() => error)
-    }, [error])
 
     const paymentSelect = (e) => {
         e.preventDefault()
-        if (e.target.value === 'Tarjeta de crédito') setFees(() => true)
-        else if (e.target.value === 'MercadoPago') setMp(() => true)
-        else setFees(() => false)
+        if (e.target.value === 'Tarjeta de crédito') setPaymentTypeDetails(() => 'fees')
+        else if (e.target.value === 'MercadoPago') setPaymentTypeDetails(() => 'mp')
+        else setPaymentTypeDetails(() => null)
     }
 
     return (
-        <section id={ID} className='relative col-span-4'>
+        <div className='relative grid gap-2 grid-cols-4 col-span-4 border-t border-t-slate-800'>
             <button type='button' onClick={() => remove(ID)} className='btn-tertiary absolute top-4 right-0'>quitar</button>
 
             <p className='col-span-4 text-xl mt-4 -ml-2'>Pago Extra</p>
@@ -42,18 +35,18 @@ const ReservExtraPay = ({ remove, error, ID }) => {
             </label>
 
             {/*fees*/}
-            <label htmlFor={`${ID}fees`} className={`col-span-2 ${fees ? '' : 'hidden'}`}>
+            <label htmlFor={`${ID}fees`} className={`col-span-2 ${paymentTypeDetails === 'fees' ? '' : 'hidden'}`}>
                 <p className='text-gray-500 pl-2'>Cantidad de cuotas</p>
                 <input type="Number" id={`${ID}fees`} name={`${ID}fees`} placeholder='Cuotas' className='w-full' />
                 <div className='error'>{errors[`${ID}fees`] || ''}</div>
             </label>
-            <label className={`col-span-2 ${fees ? '' : 'hidden'}`}></label>
+            <label className={`col-span-2 ${paymentTypeDetails === 'fees' ? '' : 'hidden'}`}></label>
 
             {/*mpDetails*/}
-            <label htmlFor={`${ID}mpDetails`} className={`col-span-4 ${mp ? '' : 'hidden'}`}>
+            <label htmlFor={`${ID}mpDetails`} className={`col-span-4 ${paymentTypeDetails === 'mp' ? '' : 'hidden'}`}>
                 <p className='text-gray-500 pl-2'>Cuenta utilizada</p>
-                <input type="text" id={`${ID}fees`} name={`${ID}fees`} placeholder='Usuario de MercadoPago' className='w-full' />
-                <div className='error'>{errors[`${ID}fees`] || ''}</div>
+                <input type="text" id={`${ID}mpDetails`} name={`${ID}mpDetails`} placeholder='Usuario de MercadoPago' className='w-full' />
+                <div className='error'>{errors[`${ID}mpDetails`] || ''}</div>
             </label>
 
             {/*currency*/}
@@ -83,6 +76,7 @@ const ReservExtraPay = ({ remove, error, ID }) => {
                     <p className='text-gray-500 pl-1'>es una seña</p>
                     <Switch options={['No', 'Si']} cb={() => setAdvance(!advance)} state={advance} />
                     <div className='error'>{errors?.advance || ''}</div>
+                    <input type="hidden" id={`${ID}advance`} name={`${ID}advance`} value={advance} className='w-full' />
                 </label>
 
                 {/*percentage para señas*/}
@@ -92,7 +86,7 @@ const ReservExtraPay = ({ remove, error, ID }) => {
                     <div className='error'>{errors[`${ID}percentage`] || ''}</div>
                 </label>
             </section>
-        </section>
+        </div>
     )
 }
 

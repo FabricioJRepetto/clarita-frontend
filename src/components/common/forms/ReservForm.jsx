@@ -1,19 +1,22 @@
 import useCabins from '@/hooks/useCabins'
 import React, { useEffect, useRef, useState } from 'react'
 import Switch from '@/components/common/misc/Switch'
-import { datesValidator, fillDates } from '@/utils/formUtils'
+import { datesValidator, fillDates, numberToCurrency } from '@/utils/formUtils'
 import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
 import { deformatDate } from '@/utils/formatDate'
 import ReservExtraPay from './ReservExtraPay'
 
 const ReservForm = ({ handler, cb, edit, panelData }) => {
     const [advance, setAdvance] = useState(false)
-    // const [file, setFile] = useState(false)
     const [extraPayment, setExtraPayment] = useState([])
     const [paymentTypeDetails, setPaymentTypeDetails] = useState(false)
+    const [paymentStatus, setPaymentStatus] = useState(false)
+    // const [total, setTotal] = useState(false)
     const [errors, setErrors] = useState(false)
+
     const { cabins, isLoading } = useCabins()
     const [avCabins, setAvCabins] = useState(cabins)
+
     const checkin = useRef(null)
     const checkout = useRef(null)
 
@@ -43,6 +46,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
         if (edit) {
             const aux = Object.entries(edit)
             aux.forEach(e => {
+                //: TODO: si el e es extraPayments, etc.
                 const key = e[0],
                     input = document.getElementById(key),
                     value = e[1];
@@ -52,7 +56,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                         input.value = deformatDate(value)
                     } else if (key === 'cabin') {
                         input.value = value.id
-                    } else if (key === 'percentage' && value !== '-') {
+                    } else if (key === 'percentage' && value) {
                         setAdvance(() => true)
                         input.value = value
                     } else {
@@ -63,6 +67,31 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
         }
         // eslint-disable-next-line
     }, [edit])
+
+    //: TOTAL
+    const totalHandler = (e) => {
+        // const fees = document.getElementById('fees').value,
+        //     value = parseInt(document.getElementById('amount').value.replace(/\D/g, "")),
+        //     total = fees ? value * fees : value
+        // let extras = 0
+
+        // if (!!extraPayment?.length) {
+        //     for (let i = 0; i < extraPayment.length; i++) {
+        //         const id = extraPayment[i],
+        //             amount = document.getElementById(id + 'amount').value,
+        //             fees = document.getElementById(id + 'fees').value
+
+
+        //         extras += fees
+        //             ? amount * fees
+        //             : amount
+        //     }
+        // }
+
+        // const finalTotal = total + extras
+        // console.log('total: ', finalTotal);
+        // setTotal(() => finalTotal)
+    }
 
     const datesHandler = (e) => {
         // autofill checkin, checkout or nights
@@ -88,12 +117,11 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 
         const { res, errors } = await handler(e)
         if (errors) {
-            console.log(errors);
+            console.log('errores?');
             setErrors(() => errors)
-            setExtraPayment(curr => curr)
             return
         }
-        // console.log(res);
+        console.log(res);
         if (!res.error) {
             setErrors(() => false)
             cb(res)
@@ -109,15 +137,8 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 
     const addExtraPay = () => {
         setExtraPayment(curr => {
-            // validator uses 10 digits IDs
-            // if this length is greater than 9 will cause problems
-            if (curr.length >= 9) return curr
-
-            const id = `extra${1 + curr.length}form`
-            const aux = {
-                id,
-                comp: <ReservExtraPay key={id} remove={removeExtraPay} error={errors} ID={id} />
-            }
+            const id = `extra${1 + curr.length}-`
+            const aux = { id }
             return [...curr, aux]
         })
     }
@@ -213,7 +234,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 {/*amount*/}
                 <label htmlFor='amount' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>monto</p>
-                    <input type="String" id='amount' name='amount' placeholder='$' className='w-full' onKeyUp={formatCurrency} />
+                    <input type="String" id='amount' name='amount' placeholder='$' className='w-full' onKeyUp={formatCurrency} onChange={e => totalHandler(e.target.value)} />
                     <div className='error'>{errors?.amount || ''}</div>
                 </label>
 
@@ -223,6 +244,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                         <p className='text-gray-500 pl-1'>es una seña</p>
                         <Switch options={['No', 'Si']} cb={() => setAdvance(!advance)} state={advance} />
                         <div className='error'>{errors?.advance || ''}</div>
+                        <input type="hidden" id='advance' name='advance' value={advance} className='w-full' />
                     </label>
 
                     {/*percentage para señas*/}
@@ -233,9 +255,11 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                     </label>
                 </section>
 
-                {/*//: PAGOS EXTRA */}
+                {/*//? PAGOS EXTRA */}
                 {!!extraPayment?.length && <>
-                    {extraPayment.map(e => e.comp)}
+                    {extraPayment.map(e => (
+                        <ReservExtraPay key={e.id} remove={removeExtraPay} errors={errors} ID={e.id} />
+                    ))}
                 </>}
 
                 <button type='button'
@@ -244,24 +268,36 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                     + Pago Extra
                 </button>
 
+                {/*//? paymentStatus */}
+                <label htmlFor='paymentStatus' className={`col-span-4 mt-4 pt-4 border-t border-b border-t-slate-800 border-b-slate-800`}>
 
+                    {/*//: TOTAL */}
+                    {/* <label className='col-span-4 flex justify-between items-baseline border-b border-b-slate-800 mb-4 pb-4'>
+                        <p className='text-xl'>Total</p>
+                        <b className='text-2xl'>{numberToCurrency(total)}</b>
+                    </label> */}
 
-                <p className='col-span-4'>Notas</p>
-                <textarea name="notes" id='notes' cols="30" rows="2" placeholder='Notas' className='resize-none col-span-4'></textarea>
+                    <label className='col-span-2 '>
+                        <p>Estado del pago</p>
+                        <Switch options={['Completo']} cb={() => setPaymentStatus(!paymentStatus)} state={paymentStatus} />
+                    </label>
 
-                {/*paymentStatus*/}
-                <label htmlFor='paymentStatus' className={`col-span-4 mt-4`}>
-                    <span className='text-lg text-gray-500'>El pago se guardará como
-                        {advance
-                            ? <b className='text-lg text-rose-500'>{` incompleto`}</b>
-                            : <b className='text-lg text-emerald-500'>{` completo`}</b>
+                    <span className='text-lg text-gray-500'>
+                        El pago de la reserva se guardará como
+                        {paymentStatus
+                            ? <b className='text-lg text-emerald-500 uppercase'>{` completo`}</b>
+                            : <b className='text-lg text-rose-500 uppercase'>{` incompleto`}</b>
                         }
                     </span>
-                    <input type="hidden" id='paymentStatus' name='paymentStatus' value={!advance} className='w-full' />
+                    <input type="hidden" id='paymentStatus' name='paymentStatus' value={paymentStatus} className='w-full' />
                     <div className='error'>{errors?.paymentStatus || ''}</div>
                 </label>
 
-                <button className='btn-primary col-start-2 col-span-2'>{edit ? 'Guardar' : 'Continuar'}</button>
+                {/*//? NOTAS */}
+                <p className='col-span-4'>Notas</p>
+                <textarea name="notes" id='notes' cols="30" rows="2" placeholder='Notas' className='resize-none col-span-4'></textarea>
+
+                <button className='btn-primary col-start-2 col-span-2 mt-8'>{edit ? 'Guardar' : 'Continuar'}</button>
             </form>
             {errors?.someError && <b>error: {errors.someError}</b>}
         </>
@@ -269,3 +305,26 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 }
 
 export default ReservForm
+
+
+/*
+    - reserva -
+        checkin
+        checkout
+        nights
+        pax
+        cabin
+
+    - pagos -
+        paymentType
+            · fees
+            · mp acount
+        currency
+        amount
+        advance
+            · percentage
+    
+    - pagos extra -
+    - notas -
+    - estado del pago -
+*/

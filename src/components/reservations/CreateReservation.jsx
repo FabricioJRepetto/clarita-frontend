@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useClients from '@/hooks/useClients'
 import useCabins from '@/hooks/useCabins'
@@ -11,8 +11,7 @@ import { createSubmit } from '@/utils/clientSubmitHandlers'
 import { createReserv, updateReserv, validateValues } from '@/utils/reservSubmitHandlers'
 
 const CreateReservation = ({ panelData = false, cb }) => {
-    /*
-    ? data may be: checkin, checkout and cabin selected from de reservation panel
+    /* //? data may be: checkin, checkout and cabin selected from de reservation panel
         {
             checkin: '', <== deformatedDate
             checkout: '', <== deformatedDate
@@ -77,8 +76,29 @@ const CreateReservation = ({ panelData = false, cb }) => {
             return
         }
 
+        const getTotal = (e) => {
+            let aux = e.fees !== '-'
+                ? e.amount * e.fees
+                : e.amount
+
+            if (!!e?.extraPayments?.length) {
+                for (let i = 0; i < e.extraPayments.length; i++) {
+                    const extra = e.extraPayments[i];
+
+                    aux += extra.fees !== '-'
+                        ? extra.amount * extra.fees
+                        : extra.amount
+                }
+            }
+
+            return aux
+        }
+
+        const total = getTotal(reserv)
+
         const data = {
             client: client?.id,
+            total,
             ...reserv
         }
         setPreview(() => data)
