@@ -8,8 +8,8 @@ const AdminMessage = () => {
 
     // const dev = false
     const dev = {
-        title: 'Versión preliminar',
-        text: 'Comienzan las pruebas! La página continúa en desarrollo, por favor, comunicar todo error y/o sugerencias.',
+        title: 'Nuevo!',
+        text: 'Opción para agregar multiples pagos a una reserva y perfil de administrador. Ahora las reservas muestran fechas de creación/edición y su creador.',
         from: 'Desarrollador',
         style: 'fix'
     }

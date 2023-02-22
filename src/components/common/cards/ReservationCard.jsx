@@ -122,7 +122,12 @@ const ReservationCard = ({ data }) => {
                     <p className='ml-2'>{data?.notes}</p>
                 </section>}
 
-            <i className='text-xs text-right opacity-50 mx-2'>ID: {data?.id}</i>
+            <div className='text-xs text-right opacity-50 mx-2'>
+                <p>creación: {fancyDate(data.createdAt, true, true) || '-'}</p>
+                <p>última edición: {fancyDate(data.updatedAt, true, true) || '-'}</p>
+                <p>por: {data.creator || '-'}</p>
+                <i>ID: {data?.id}</i>
+            </div>
 
         </div >
     )
