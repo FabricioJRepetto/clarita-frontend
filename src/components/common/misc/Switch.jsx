@@ -23,7 +23,7 @@ const Switch = ({ options, cb, state = false }) => {
                 </div>}
 
                 <div className='w-5 mx-4 relative'>
-                    <div className={`switch-indicator ${on ? 'ml-4' : `-ml-4 ${C ? 'bg-gray-700' : ''}`}`}></div>
+                    <div className={`switch-indicator ${on ? 'ml-4' : `-ml-4 `}`}></div>
                     <span></span>
                 </div>
 

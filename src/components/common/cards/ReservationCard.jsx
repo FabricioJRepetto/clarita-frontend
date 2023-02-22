@@ -1,5 +1,5 @@
 import { fancyDate } from '@/utils/formatDate'
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import ClientDetailsCard from './ClientDetailsCard'
 import {
     MdPerson,
@@ -15,7 +15,7 @@ import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 
 import { useNavigate } from 'react-router-dom';
 import { numberToCurrency } from '@/utils/formUtils';
-import NoPayment from '../NoPayment';
+import NoPayment from '../misc/NoPayment';
 
 const ReservationCard = ({ data }) => {
     const [clientDetails, setClientDetails] = useState(false)
@@ -64,7 +64,7 @@ const ReservationCard = ({ data }) => {
             </section>
 
             <section>
-                <p className='txt-n-icon text-xl'><MdOutlineInfo />Extra</p>
+                <p className='txt-n-icon text-xl'><MdOutlineInfo />Extras</p>
                 <div className='details-data'>
                     <p>Personas</p>
                     <p>{data?.persons}</p>
@@ -75,7 +75,7 @@ const ReservationCard = ({ data }) => {
             </section>
 
             <section>
-                <p className='txt-n-icon text-xl'><MdOutlinePayments />Pago</p>
+                <p className='txt-n-icon text-xl'><MdOutlinePayments />{data?.extraPayments?.length ? 'Pagos' : 'Pago'}</p>
 
                 <div className='details-data'>
                     <p>Estado del pago</p>
@@ -84,15 +84,36 @@ const ReservationCard = ({ data }) => {
                         ? <span className='txt-n-icon -ml-6 text-rose-500'>
                             <NoPayment />Incompleto
                         </span>
-                        : <span >Completo</span>}
+                        : <span className='text-emerald-500'>Completo</span>}
                     </p>
+                </div>
 
+                {!!data?.extraPayments?.length && <p className='pl-4 mt-4 text-gray-600 dark:text-gray-400'>Pago #1</p>}
+                <div className='details-data'>
                     <p>Forma de pago</p> <p>{data?.paymentType}</p>
                     {data?.fees !== '-' && <><p>Cuotas</p> <p>{data?.fees || '-'}</p></>}
-                    <p>Divisa</p> <p>{data?.currency}</p>
-                    <p>Monto</p> <p>{numberToCurrency(data?.amount)}</p>
-                    {data?.percentage !== '-' && <><p>Seña</p><p>%{data?.percentage || '-'}</p></>}
+                    {(data?.mpDetails && data?.mpDetails !== '-') && <><p>Cuenta de MP</p> <p>{data?.mpDetails || '-'}</p></>}
+                    {/* <p>Divisa</p> <p>{data?.currency || '-'}</p> */}
+                    <p>Monto</p> <p>{numberToCurrency(data?.amount)} <i className='text-sm text-gray-500'>{data?.currency || '-'}</i></p>
+                    {(data?.percentage && data?.percentage !== '-') && <><p>Seña</p><p>%{data?.percentage || '-'}</p></>}
                 </div>
+
+                {!!data?.extraPayments?.length &&
+                    data.extraPayments.map((e, i) => (
+                        <Fragment key={'extra' + i}>
+                            <p className='pl-4 mt-4 text-gray-600 dark:text-gray-400'>Pago #{2 + i}</p>
+                            <div className='details-data'>
+                                <p>Forma de pago</p> <p>{e?.paymentType}</p>
+                                {e?.fees !== '-' && <><p>Cuotas</p> <p>{e?.fees || '-'}</p></>}
+                                {(e?.mpDetails && e?.mpDetails !== '-') && <><p>Cuenta de MP</p> <p>{e?.mpDetails || '-'}</p></>}
+                                {/* <p>Divisa</p> <p>{e?.currency || '-'}</p> */}
+                                <p>Monto</p> <p>{numberToCurrency(e?.amount)} <i className='text-sm text-gray-500'>{data?.currency || '-'}</i></p>
+                                {(e?.percentage && e?.percentage !== '-') && <><p>Seña</p><p>%{e?.percentage || '-'}</p></>}
+                            </div>
+                        </Fragment>
+                    ))
+                }
+
             </section>
 
             {data?.notes !== '-' &&
@@ -101,7 +122,12 @@ const ReservationCard = ({ data }) => {
                     <p className='ml-2'>{data?.notes}</p>
                 </section>}
 
-            <i className='text-xs text-right opacity-50 mx-2'>ID: {data?.id}</i>
+            <div className='text-xs text-right opacity-50 mx-2'>
+                <p>creación: {fancyDate(data.createdAt, true, true) || '-'}</p>
+                <p>última edición: {fancyDate(data.updatedAt, true, true) || '-'}</p>
+                <p>por: {data.creator || '-'}</p>
+                <i>ID: {data?.id}</i>
+            </div>
 
         </div >
     )

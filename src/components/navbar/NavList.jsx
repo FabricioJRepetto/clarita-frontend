@@ -10,48 +10,48 @@ const NavList = () => {
     const path = useCurrentPath()
 
     return (
-        <ul className='navList'>
+        <ul className='navList w-full'>
             <li onClick={() => navigate('/')}
-                className={`${path === '/' ? 'text-blue-500' : 'text-gray-400'}`}>
+                className={`${path === '/' ? 'text-white dark:bg-slate-800' : 'text-gray-400'}`}>
                 {path === '/'
-                    ? <MdHome className='text-blue-500' />
+                    ? <MdHome className='text-white' />
                     : <MdOutlineHome className='text-gray-400' />}
                 Home
             </li>
 
             <li onClick={() => navigate('/clients')}
-                className={`${path.includes('/clients') ? 'text-blue-500' : 'text-gray-400'}`}>
+                className={`${path.includes('/clients') ? 'text-white dark:bg-slate-800' : 'text-gray-400'}`}>
                 {path.includes('/clients')
-                    ? <MdPerson className='text-blue-500' />
+                    ? <MdPerson className='text-white' />
                     : <MdPermIdentity className='text-gray-400' />}
                 Clientes
             </li>
 
             <li onClick={() => navigate('/reservations')}
-                className={`${path.includes('/reservations') ? 'text-blue-500' : 'text-gray-400'}`}>
+                className={`${path.includes('/reservations') ? 'text-white dark:bg-slate-800' : 'text-gray-400'}`}>
                 {path.includes('/reservations')
-                    ? <MdToday className='text-blue-500' />
+                    ? <MdToday className='text-white' />
                     : <MdOutlineToday className='text-gray-400' />}
                 Reservas
             </li>
 
             <li onClick={() => navigate('/cabins')}
-                className={`${path.includes('/cabins') ? 'text-blue-500' : 'text-gray-400'}`}>
+                className={`${path.includes('/cabins') ? 'text-white dark:bg-slate-800' : 'text-gray-400'}`}>
                 {path.includes('/cabins')
-                    ? <MdHolidayVillage className='text-blue-500' />
+                    ? <MdHolidayVillage className='text-white' />
                     : <MdOutlineHolidayVillage className='text-gray-400' />}
                 Cabañas
             </li>
 
             <li className={`pointer-events-none text-gray-400 ${path === '' ? '' : ''}`}>
                 {path === ''
-                    ? <MdMonetizationOn className='text-blue-500' />
+                    ? <MdMonetizationOn className='text-white dark:bg-slate-800' />
                     : <MdAttachMoney className='text-gray-400' />}
                 Cuentas
             </li>
 
             {admin && <li onClick={() => navigate('/admin')}
-                className={`${path.includes('/admin') ? 'text-orange-500' : 'text-gray-400'}`}>
+                className={`${path.includes('/admin') ? 'text-orange-500 dark:bg-slate-800' : 'text-gray-400'}`}>
                 {path.includes('/admin')
                     ? <MdLocalPolice className='text-orange-500' />
                     : <MdOutlineLocalPolice className='text-gray-400' />}

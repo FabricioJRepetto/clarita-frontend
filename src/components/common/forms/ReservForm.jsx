@@ -1,16 +1,22 @@
 import useCabins from '@/hooks/useCabins'
 import React, { useEffect, useRef, useState } from 'react'
-import Switch from '@/components/common/Switch'
+import Switch from '@/components/common/misc/Switch'
 import { datesValidator, fillDates, numberToCurrency, numberToPercentage } from '@/utils/formUtils'
+import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
 import { deformatDate } from '@/utils/formatDate'
+import ReservExtraPay from './ReservExtraPay'
 
 const ReservForm = ({ handler, cb, edit, panelData }) => {
     const [advance, setAdvance] = useState(false)
-    const [file, setFile] = useState(false)
-    const [fees, setFees] = useState(false)
+    const [extraPayment, setExtraPayment] = useState([])
+    const [paymentTypeDetails, setPaymentTypeDetails] = useState(false)
+    const [paymentStatus, setPaymentStatus] = useState(false)
+    // const [total, setTotal] = useState(false)
     const [errors, setErrors] = useState(false)
+
     const { cabins, isLoading } = useCabins()
     const [avCabins, setAvCabins] = useState(cabins)
+
     const checkin = useRef(null)
     const checkout = useRef(null)
 
@@ -39,27 +45,92 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
     useEffect(() => {
         if (edit) {
             const aux = Object.entries(edit)
+            // for standar values...
             aux.forEach(e => {
                 const key = e[0],
-                    input = document.getElementById(key),
-                    value = e[1];
+                    value = e[1],
+                    input = document.getElementById(key)
 
                 if (input) {
                     if (key === 'checkin' || key === 'checkout') {
                         input.value = deformatDate(value)
+
                     } else if (key === 'cabin') {
                         input.value = value.id
-                    } else if (key === 'percentage' && value !== '-') {
+
+                    } else if (key === 'amount') {
+                        input.value = numberToCurrency(value)
+
+                    } else if (key === 'percentage' && value && value !== '-') {
                         setAdvance(() => true)
-                        input.value = value
+                        input.value = numberToPercentage(value)
+
+                    } else if (key === 'paymentStatus' && value) {
+                        setPaymentStatus(() => true)
+
                     } else {
-                        input.value = value
+                        input.value = value !== '-' ? value : null
                     }
                 }
             })
+            // for extra payments values...
+            if (!!edit?.extraPayments?.length) {
+                // set ids to render the extra forms
+                const ids = edit?.extraPayments.map(e => `${e.id}-`)
+                setExtraPayment(() => ids)
+
+                // timeout to wait the state to triger the render
+                setTimeout(() => {
+                    edit?.extraPayments.forEach(extra => {
+                        const { id } = extra
+                        Object.entries(extra).forEach(e => {
+                            const key = e[0],
+                                value = e[1],
+                                input = document.getElementById(`${id}-${key}`)
+
+                            if (input) {
+                                if (key === 'amount' && value !== '-') {
+                                    input.value = numberToCurrency(value)
+
+                                } else if (key === 'percentage' && value && value !== '-') {
+                                    input.value = numberToPercentage(value)
+
+                                } else {
+                                    input.value = value !== '-' ? value : null
+                                }
+                            }
+                        })
+                    })
+                }, 100);
+            }
         }
         // eslint-disable-next-line
     }, [edit])
+
+    //: TOTAL
+    const totalHandler = (e) => {
+        // const fees = document.getElementById('fees').value,
+        //     value = parseInt(document.getElementById('amount').value.replace(/\D/g, "")),
+        //     total = fees ? value * fees : value
+        // let extras = 0
+
+        // if (!!extraPayment?.length) {
+        //     for (let i = 0; i < extraPayment.length; i++) {
+        //         const id = extraPayment[i],
+        //             amount = document.getElementById(id + 'amount').value,
+        //             fees = document.getElementById(id + 'fees').value
+
+
+        //         extras += fees
+        //             ? amount * fees
+        //             : amount
+        //     }
+        // }
+
+        // const finalTotal = total + extras
+        // console.log('total: ', finalTotal);
+        // setTotal(() => finalTotal)
+    }
 
     const datesHandler = (e) => {
         // autofill checkin, checkout or nights
@@ -75,8 +146,9 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 
     const paymentSelect = (e) => {
         e.preventDefault()
-        if (e.target.value === 'Tarjeta de crédito') setFees(() => true)
-        else setFees(() => false)
+        if (e.target.value === 'Tarjeta de crédito') setPaymentTypeDetails(() => 'fees')
+        else if (e.target.value === 'MercadoPago') setPaymentTypeDetails(() => 'mp')
+        else setPaymentTypeDetails(() => false)
     }
 
     const handleSubmit = async (e) => {
@@ -84,27 +156,27 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 
         const { res, errors } = await handler(e)
         if (errors) {
-            console.log(errors);
             setErrors(() => errors)
             return
         }
-        console.log(res);
         if (!res.error) {
             setErrors(() => false)
             cb(res)
         } else setErrors({ ...errors, someError: res.error })
     }
 
-    const formatCurrency = (e) => {
-        e.preventDefault()
-        const value = e.target.value
-        e.target.value = numberToCurrency(value)
+    const removeExtraPay = (id) => {
+        setExtraPayment(curr => {
+            const aux = curr.filter(e => e !== id)
+            return aux
+        })
     }
 
-    const formatPercentage = (e) => {
-        e.preventDefault()
-        const value = e.target.value
-        e.target.value = numberToPercentage(value)
+    const addExtraPay = () => {
+        setExtraPayment(curr => {
+            const id = `extra${1 + curr.length}-`
+            return [...curr, id]
+        })
     }
 
     return (
@@ -167,12 +239,19 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 </label>
 
                 {/*fees*/}
-                <label htmlFor='fees' className={`col-span-2 ${fees ? '' : 'hidden'}`}>
+                <label htmlFor='fees' className={`col-span-2 ${paymentTypeDetails === 'fees' ? '' : 'hidden'}`}>
                     <p className='text-gray-500 pl-2'>Cantidad de cuotas</p>
                     <input type="Number" id='fees' name='fees' placeholder='Cuotas' className='w-full' />
                     <div className='error'>{errors?.fees || ''}</div>
                 </label>
-                <label className={`col-span-2 ${fees ? '' : 'hidden'}`}></label>
+                <label className={`col-span-2 ${paymentTypeDetails === 'fees' ? '' : 'hidden'}`}></label>
+
+                {/*mpDetails*/}
+                <label htmlFor='mpDetails' className={`col-span-4 ${paymentTypeDetails === 'mp' ? '' : 'hidden'}`}>
+                    <p className='text-gray-500 pl-2'>Cuenta utilizada</p>
+                    <input type="text" id='mpDetails' name='mpDetails' placeholder='Usuario de MercadoPago' className='w-full' />
+                    <div className='error'>{errors?.mpDetails || ''}</div>
+                </label>
 
                 {/*currency*/}
                 <label htmlFor='currency' className='col-span-2'>
@@ -191,7 +270,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 {/*amount*/}
                 <label htmlFor='amount' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>monto</p>
-                    <input type="String" id='amount' name='amount' placeholder='$' className='w-full' onKeyUp={formatCurrency} />
+                    <input type="text" id='amount' name='amount' placeholder='$' className='w-full' onKeyUp={formatCurrency} onChange={e => totalHandler(e.target.value)} />
                     <div className='error'>{errors?.amount || ''}</div>
                 </label>
 
@@ -201,50 +280,60 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                         <p className='text-gray-500 pl-1'>es una seña</p>
                         <Switch options={['No', 'Si']} cb={() => setAdvance(!advance)} state={advance} />
                         <div className='error'>{errors?.advance || ''}</div>
+                        <input type="hidden" id='advance' name='advance' value={advance} className='w-full' />
                     </label>
 
                     {/*percentage para señas*/}
                     <label htmlFor='percentage' className={`col-span-2 ${advance ? '' : 'hidden'}`}>
                         <p className='text-gray-500 pl-2'>pocentaje del total</p>
-                        <input type="String" id='percentage' name='percentage' placeholder='%' className='w-full' onKeyUp={formatPercentage} />
+                        <input type="text" id='percentage' name='percentage' placeholder='%' className='w-full' onKeyUp={formatPercentage} />
                         <div className='error'>{errors?.percentage || ''}</div>
                     </label>
                 </section>
 
-                {/*//:comprobante*/}
-                <p className='col-span-4'>Comprobante</p>
-                <section className='col-span-4 grid grid-cols-4 gap-2 w-full'>
-                    {/*switch file*/}
-                    <label className='col-span-2'>
-                        <p className='text-gray-500 pl-1'>adjuntar comprobante</p>
-                        <Switch options={['No', 'Si']} cb={() => setFile(!file)} state={file} />
-                        <div className='error'>{errors?.file || ''}</div>
+                {/*//? PAGOS EXTRA */}
+                {!!extraPayment?.length && <>
+                    {extraPayment.map(id => (
+                        <ReservExtraPay key={id} remove={removeExtraPay} errors={errors} ID={id} />
+                    ))}
+                </>}
+
+                <button type='button'
+                    onClick={addExtraPay}
+                    className='btn-secondary col-start-2 col-span-2'>
+                    + Pago Extra
+                </button>
+
+                {/*//? paymentStatus */}
+                <label htmlFor='paymentStatus' className={`col-span-4 mt-4 pt-4 border-t border-b border-t-slate-800 border-b-slate-800`}>
+
+                    {/*//: TOTAL */}
+                    {/* <label className='col-span-4 flex justify-between items-baseline border-b border-b-slate-800 mb-4 pb-4'>
+                        <p className='text-xl'>Total</p>
+                        <b className='text-2xl'>{numberToCurrency(total)}</b>
+                    </label> */}
+
+                    <label className='col-span-2 '>
+                        <p>Estado del pago</p>
+                        <Switch options={['Completo']} cb={() => setPaymentStatus(!paymentStatus)} state={paymentStatus} />
                     </label>
 
-                    {/*file input*/}
-                    <label htmlFor='comprobante' className={`col-span-2 ${file ? '' : 'hidden'}`}>
-                        <p className='text-gray-500 pl-2'>seleccionar archivo</p>
-                        <input type="file" id='comprobante' name='comprobante' placeholder='$' className='w-full' />
-                        <div className='error'>{errors?.comprobante || ''}</div>
-                    </label>
-                </section>
-
-                <p className='col-span-4'>Notas</p>
-                <textarea name="notes" id='notes' cols="30" rows="2" placeholder='Notas' className='resize-none col-span-4'></textarea>
-
-                {/*paymentStatus*/}
-                <label htmlFor='paymentStatus' className={`col-span-4 mt-4`}>
-                    <span className='text-lg text-gray-500'>El pago se guardará como
-                        {advance
-                            ? <b className='text-lg text-rose-500'>{` incompleto`}</b>
-                            : <b className='text-lg text-emerald-500'>{` completo`}</b>
+                    <span className='text-lg text-gray-500'>
+                        El pago de la reserva se guardará como
+                        {paymentStatus
+                            ? <b className='text-lg text-emerald-500 uppercase'>{` completo`}</b>
+                            : <b className='text-lg text-rose-500 uppercase'>{` incompleto`}</b>
                         }
                     </span>
-                    <input type="hidden" id='paymentStatus' name='paymentStatus' value={!advance} className='w-full' />
+                    <input type="hidden" id='paymentStatus' name='paymentStatus' value={paymentStatus} className='w-full' />
                     <div className='error'>{errors?.paymentStatus || ''}</div>
                 </label>
 
-                <button className='btn-primary col-start-2 col-span-2'>{edit ? 'Guardar' : 'Continuar'}</button>
+                {/*//? NOTAS */}
+                <p className='col-span-4'>Notas</p>
+                <textarea name="notes" id='notes' cols="30" rows="2" placeholder='Notas' className='resize-none col-span-4'></textarea>
+
+                <button className='btn-primary col-start-2 col-span-2 mt-8'>{edit ? 'Guardar' : 'Continuar'}</button>
             </form>
             {errors?.someError && <b>error: {errors.someError}</b>}
         </>
@@ -252,3 +341,26 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 }
 
 export default ReservForm
+
+
+/*
+    - reserva -
+        checkin
+        checkout
+        nights
+        pax
+        cabin
+
+    - pagos -
+        paymentType
+            · fees
+            · mp acount
+        currency
+        amount
+        advance
+            · percentage
+    
+    - pagos extra -
+    - notas -
+    - estado del pago -
+*/

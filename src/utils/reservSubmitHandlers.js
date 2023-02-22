@@ -2,6 +2,8 @@ import { editApi, postApi } from "@/services/api"
 import { formatDate } from "./formatDate"
 import { setNIGHTS } from "./formUtils"
 
+//: TODO: Organiza todo esta mierda
+
 export const validateReservErrors = (values, client) => {
     let errors = {}
 
@@ -30,35 +32,111 @@ export const validateReservErrors = (values, client) => {
 
     if (values.paymentType === 'Tarjeta de crédito' && values.fees === '-') errors.fees = 'Campo requerido'
 
+    if (values.paymentType === 'MercadoPago' && values.mpDetails === '-') errors.mpDetails = 'Campo requerido'
+
     if (values.amount === '-') errors.amount = 'Campo requerido'
 
-    if (values.paymentStatus === 'false' && values.percentage === '-') errors.percentage = 'Campo requerido'
+    if (values.advance === 'true' && values.percentage === '-') errors.percentage = 'Campo requerido'
 
     if (!!Object.keys(errors).length) {
         return errors
-    }
+    } else return false
+}
 
-    return false
+export const validateReservExtraFormErrors = (values, id) => {
+    let errors = {}
+
+    if (values[`${id}paymentType`] === '-') errors[`${id}paymentType`] = 'Campo requerido'
+
+    if (values[`${id}currency`] === '-') errors[`${id}currency`] = 'Campo requerido'
+
+    if (values[`${id}paymentType`] === 'Tarjeta de crédito' && values[`${id}fees`] === '-') errors[`${id}fees`] = 'Campo requerido'
+
+    if (values[`${id}paymentType`] === 'MercadoPago' && values[`${id}mpDetails`] === '-') errors[`${id}mpDetails`] = 'Campo requerido'
+
+    if (values[`${id}amount`] === '-') errors[`${id}amount`] = 'Campo requerido'
+
+    if (values[`${id}advance`] === 'true' && values[`${id}percentage`] === '-') errors[`${id}percentage`] = 'Campo requerido'
+
+    if (!!Object.keys(errors).length) {
+        return errors
+    } else return false
 }
 
 export const validateValues = (e) => {
     // get all input values 
     const values = {}
-    Array.from(e.target).map(e => e.name && (values[e.name] = e.value || '-'))
+    const extraPayments = {}
+    Array.from(e.target).map(e => {
+        if (e.name) {
+            if (/^extra/.test(e.name)) {
+                const form = e.name.split('-')[0]
+                if (!extraPayments.hasOwnProperty(form)) {
+                    extraPayments[form] = {}
+                }
+                extraPayments[form][e.name] = e.value || '-'
+
+            } else {
+                values[e.name] = e.value || '-'
+            }
+        }
+        return 'hola'
+    })
+    // console.log(values)
+    // console.log(extraPayments)
 
     // input validator
-    const errors = validateReservErrors(values)
-    if (errors) return { errors }
+    let errors = {},
+        mainErr = validateReservErrors(values)
+
+    if (mainErr) errors = { ...mainErr }
+
+    Object.entries(extraPayments).forEach(e => {
+        const id = e[0] + '-',
+            err = validateReservExtraFormErrors(e[1], id)
+        if (err) errors = { ...errors, ...err }
+    })
+    // console.log(errors);
+    if (!!Object.keys(errors).length) return { errors }
 
     // change dates to correct format
     values.checkin = formatDate(values.checkin)
     values.checkout = formatDate(values.checkout)
+    // change paymentStatus to boolean
+    values.paymentStatus = values.paymentStatus === 'true'
+
     // change currency to number
     values.amount = parseInt(values.amount.replace(/\D/g, ""))
     // change percentage to number
-    values.percentage = parseInt(values.percentage.replace(/\D/g, ""))
-    // change paymentStatus to boolean
-    values.paymentStatus = values.paymentStatus === 'true'
+    values.percentage === '-'
+        ? values.percentage = null
+        : values.percentage = parseInt(values.percentage.replace(/\D/g, ""))
+
+    // format extra payments values
+    let finalExtras = []
+    for (const extra in extraPayments) {
+        if (Object.hasOwnProperty.call(extraPayments, extra)) {
+            const values = extraPayments[extra],
+                aux = {
+                    id: extra
+                }
+
+            aux.paymentType = values[`${extra}-paymentType`]
+            aux.currency = values[`${extra}-currency`]
+            aux.fees = values[`${extra}-fees`]
+            aux.mpDetails = values[`${extra}-mpDetails`]
+
+            aux.amount = parseInt(values[`${extra}-amount`].replace(/\D/g, ""))
+            values[`${extra}-percentage`] === '-'
+                ? aux.percentage = null
+                : aux.percentage = parseInt(values[`${extra}-percentage`].replace(/\D/g, ""))
+
+            finalExtras.push(aux)
+        }
+    }
+
+    // add extra payments to final values
+    values.extraPayments = finalExtras
 
     return { res: values }
 }

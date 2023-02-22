@@ -23,7 +23,7 @@ const AnnounCard = ({ data }) => {
         <div onClick={() => setExpanded(() => !expanded)}
             className={`announcement ${style ? style : 'default'} h-fit`}>
 
-            <p className='txt-n-icon min-w-max mb-auto'>
+            <p className='txt-n-icon min-w-max max-w-max mb-auto'>
                 {icon[style || 'default']}
                 <b>{title ? title + ': ' : ''}</b>
             </p>

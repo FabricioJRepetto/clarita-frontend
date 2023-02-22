@@ -84,10 +84,10 @@
     }
 
     .btn-admin-p {
-        @apply px-8 h-10 bg-orange-500 disabled:brightness-50 text-white dark:text-slate-900 border-2 border-orange-500 font-semibold rounded-sm shadow-md hover:enabled:bg-orange-600 hover:enabled:border-orange-600 focus:outline-none ring-0 transition-all duration-100;
+        @apply px-8 h-10 bg-orange-500 disabled:brightness-50 text-white dark:text-slate-900 border-2 border-orange-500 font-semibold rounded-sm shadow-md hover:enabled:brightness-125 focus:outline-none ring-0 transition-all duration-100;
     }
     .btn-admin-s {
-        @apply px-8 h-10 disabled:brightness-75  text-orange-500 border-2 border-orange-500 font-semibold rounded-sm shadow-md hover:enabled:border-orange-600 hover:enabled:dark:border-orange-700 hover:enabled:text-orange-600 focus:outline-none ring-0 transition-all duration-100;
+        @apply px-8 h-10 disabled:brightness-75  text-orange-500 border-2 border-orange-600 font-semibold rounded-sm shadow-md hover:enabled:brightness-125 focus:outline-none ring-0 transition-all duration-100;
     }
 
     .txt-n-icon {
@@ -144,11 +144,11 @@
     }
 
     .navList {
-        @apply flex flex-col gap-3;
+        @apply flex flex-col;
     }
     .navList > li {
-        @apply txt-n-icon gap-4 cursor-pointer 
-        hover:text-blue-400;
+        @apply txt-n-icon pl-7 py-2 gap-4 w-full cursor-pointer 
+        hover:text-white hover:dark:bg-slate-800;
     }
     .navList > li:last-child {
         @apply hover:text-orange-400;
@@ -169,7 +169,7 @@
     }
 
     .full-h {
-        min-height: calc(100vh - 16rem);
+        height: calc(100vh - 6rem);
     }
 
     .announcement {
@@ -220,6 +220,10 @@
         @apply pt-1 capitalize;
     }
 
+    .admin-acount-status {
+        @apply cursor-pointer w-max pl-2 pr-4 py-1 rounded-md hover:bg-gray-300 hover:dark:bg-slate-800;        
+    }
+
     .input-icon {
         @apply absolute right-2 text-gray-500/80 pointer-events-none;
         font-size: 1.7rem;
@@ -228,6 +232,21 @@
 
     .flag {
         margin-top: -1px;
+    }
+
+    .modal-container {
+        @apply fixed top-0 left-0 bottom-0 right-0 z-50 backdrop-brightness-75;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content {
+        @apply w-fit h-fit border border-slate-800 rounded-md px-6 py-4 bg-slate-900;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .fade-in {

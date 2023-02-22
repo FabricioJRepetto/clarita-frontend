@@ -2,7 +2,7 @@ import React from 'react'
 // import useUser from '@/hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 import CabinsCalendar from '../cabins/calendar/CabinsCalendar';
-import AdminMessage from '../common/AdminMessage';
+import AdminMessage from '../common/misc/AdminMessage';
 // import QuickCheck from '../reservations/QuickCheck';
 
 const Home = () => {
@@ -11,7 +11,7 @@ const Home = () => {
 
     return (
         <div className='flex justify-between w-auto fade-in'>
-            <section className='flex-grow px-4'>
+            <section className='flex-grow'>
 
                 <AdminMessage />
 
@@ -31,7 +31,7 @@ const Home = () => {
 
             </section>
 
-            <section className='h-screen border-l border-l-slate-800 m-auto pl-4'>
+            <section className='full-h border-l border-l-slate-800 m-auto ml-4 pl-4'>
                 <CabinsCalendar />
             </section>
         </div>

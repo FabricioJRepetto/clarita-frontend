@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Switch from '../common/Switch'
+import Switch from '../common/misc/Switch'
 import { MdLightMode, MdDarkMode } from 'react-icons/md';
 import { toggleTheme } from '@/utils/toggleTheme';
-import { useLocation } from 'react-router-dom';
 
 const SwitchTheme = () => {
     // const { } = useLocation()

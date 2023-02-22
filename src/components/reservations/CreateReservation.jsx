@@ -11,8 +11,7 @@ import { createSubmit } from '@/utils/clientSubmitHandlers'
 import { createReserv, updateReserv, validateValues } from '@/utils/reservSubmitHandlers'
 
 const CreateReservation = ({ panelData = false, cb }) => {
-    /*
-    ? data may be: checkin, checkout and cabin selected from de reservation panel
+    /* //? data may be: checkin, checkout and cabin selected from de reservation panel
         {
             checkin: '', <== deformatedDate
             checkout: '', <== deformatedDate
@@ -65,7 +64,6 @@ const CreateReservation = ({ panelData = false, cb }) => {
         }))
     }
 
-
     // Reserv
     const afterValidate = (reserv) => {
         if (!client.id) {
@@ -78,8 +76,29 @@ const CreateReservation = ({ panelData = false, cb }) => {
             return
         }
 
+        const getTotal = (e) => {
+            let aux = e.fees !== '-'
+                ? e.amount * e.fees
+                : e.amount
+
+            if (!!e?.extraPayments?.length) {
+                for (let i = 0; i < e.extraPayments.length; i++) {
+                    const extra = e.extraPayments[i];
+
+                    aux += extra.fees !== '-'
+                        ? extra.amount * extra.fees
+                        : extra.amount
+                }
+            }
+
+            return aux
+        }
+
+        const total = getTotal(reserv)
+
         const data = {
             client: client?.id,
+            total,
             ...reserv
         }
         setPreview(() => data)
@@ -99,35 +118,35 @@ const CreateReservation = ({ panelData = false, cb }) => {
                 : navigate('/reservations')
         }
     }
+    const backToEdit = () => {
+        setErrors(() => (false))
+        setPreview(() => false)
+    }
 
     return (
         <div className='reserv-container'>
             <p className='text-2xl'>Registrar reserva</p>
 
-            {!preview &&
-                <>
-                    <section ref={guest}>
-                        <p>Huesped</p>
-                        {errors?.client && <p className='error'>{errors.client}</p>}
-                        <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />
-                    </section>
+            <section ref={guest} className={preview ? 'hidden' : ''}>
+                <p>Huesped</p>
+                {errors?.client && <p className='error'>{errors.client}</p>}
+                <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />
+            </section>
 
-                    {client &&
-                        <section>
-                            <ReservationClientPreview client={client} cb={afterCreation} />
-                        </section>}
+            {client &&
+                <section className={preview ? 'hidden' : ''}>
+                    <ReservationClientPreview client={client} cb={afterCreation} />
+                </section>}
 
-                    <section className={preview ? 'hidden' : ''}>
-                        <p>Reserva</p>
-                        <ReservForm handler={validateValues} cb={afterValidate} edit={editData} panelData={panelData} />
-                    </section>
-                </>
-            }
+            <section className={preview ? 'hidden' : ''}>
+                <p>Reserva</p>
+                <ReservForm handler={validateValues} cb={afterValidate} edit={editData} panelData={panelData} />
+            </section>
 
             {preview &&
                 <section>
                     <p>Resumen</p>
-                    <ReservPreview preview={preview} back={() => setPreview(() => false)} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
+                    <ReservPreview preview={preview} back={backToEdit} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
                 </section>}
 
             {errors?.someError && <p className='error'>{errors.someError}</p>}

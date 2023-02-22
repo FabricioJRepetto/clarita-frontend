@@ -1,7 +1,7 @@
 import { textSort } from '@/utils/sorter'
 import React, { useMemo, useState } from 'react'
 import ClientMiniCard from '../common/cards/ClientMiniCard'
-import PageController from '../common/PageController'
+import PageController from '../common/misc/PageController'
 
 const ClientList = ({ data, sortKey }) => {
     const EPP = 5 // Elements Per Page

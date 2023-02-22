@@ -1,7 +1,13 @@
-export const fancyDate = (date, day = true) => {
+export const fancyDate = (date, day = true, hour = false) => {
     //? ES string format
     const opt = { year: "numeric", month: "long", day: 'numeric' }
     day && (opt.weekday = 'long')
+    if (hour) {
+        opt.hour = "numeric"
+        opt.minute = "numeric"
+        opt.timeZoneName = "short"
+        opt.timeZone = 'America/Buenos_Aires'
+    }
     return new Date(date.toString()).toLocaleDateString("es-Ar", opt)
 }
 
