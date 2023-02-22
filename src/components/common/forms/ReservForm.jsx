@@ -1,14 +1,16 @@
 import useCabins from '@/hooks/useCabins'
 import React, { useEffect, useRef, useState } from 'react'
 import Switch from '@/components/common/misc/Switch'
-import { datesValidator, fillDates, numberToCurrency, numberToPercentage } from '@/utils/formUtils'
+import { datesValidator, fillDates } from '@/utils/formUtils'
+import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
 import { deformatDate } from '@/utils/formatDate'
+import ReservExtraPay from './ReservExtraPay'
 
 const ReservForm = ({ handler, cb, edit, panelData }) => {
     const [advance, setAdvance] = useState(false)
     // const [file, setFile] = useState(false)
-    const [fees, setFees] = useState(false)
-    const [mp, setMp] = useState(false)
+    const [extraPayment, setExtraPayment] = useState([])
+    const [paymentTypeDetails, setPaymentTypeDetails] = useState(false)
     const [errors, setErrors] = useState(false)
     const { cabins, isLoading } = useCabins()
     const [avCabins, setAvCabins] = useState(cabins)
@@ -76,9 +78,9 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 
     const paymentSelect = (e) => {
         e.preventDefault()
-        if (e.target.value === 'Tarjeta de crédito') setFees(() => true)
-        else if (e.target.value === 'MercadoPago') setMp(() => true)
-        else setFees(() => false)
+        if (e.target.value === 'Tarjeta de crédito') setPaymentTypeDetails(() => 'fees')
+        else if (e.target.value === 'MercadoPago') setPaymentTypeDetails(() => 'mp')
+        else setPaymentTypeDetails(() => false)
     }
 
     const handleSubmit = async (e) => {
@@ -88,25 +90,36 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
         if (errors) {
             console.log(errors);
             setErrors(() => errors)
+            setExtraPayment(curr => curr)
             return
         }
-        console.log(res);
+        // console.log(res);
         if (!res.error) {
             setErrors(() => false)
             cb(res)
         } else setErrors({ ...errors, someError: res.error })
     }
 
-    const formatCurrency = (e) => {
-        e.preventDefault()
-        const value = e.target.value
-        e.target.value = numberToCurrency(value)
+    const removeExtraPay = (id) => {
+        setExtraPayment(curr => {
+            const aux = curr.filter(e => e.id !== id)
+            return aux
+        })
     }
 
-    const formatPercentage = (e) => {
-        e.preventDefault()
-        const value = e.target.value
-        e.target.value = numberToPercentage(value)
+    const addExtraPay = () => {
+        setExtraPayment(curr => {
+            // validator uses 10 digits IDs
+            // if this length is greater than 9 will cause problems
+            if (curr.length >= 9) return curr
+
+            const id = `extra${1 + curr.length}form`
+            const aux = {
+                id,
+                comp: <ReservExtraPay key={id} remove={removeExtraPay} error={errors} ID={id} />
+            }
+            return [...curr, aux]
+        })
     }
 
     return (
@@ -169,15 +182,15 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 </label>
 
                 {/*fees*/}
-                <label htmlFor='fees' className={`col-span-2 ${fees ? '' : 'hidden'}`}>
+                <label htmlFor='fees' className={`col-span-2 ${paymentTypeDetails === 'fees' ? '' : 'hidden'}`}>
                     <p className='text-gray-500 pl-2'>Cantidad de cuotas</p>
                     <input type="Number" id='fees' name='fees' placeholder='Cuotas' className='w-full' />
                     <div className='error'>{errors?.fees || ''}</div>
                 </label>
-                <label className={`col-span-2 ${fees ? '' : 'hidden'}`}></label>
+                <label className={`col-span-2 ${paymentTypeDetails === 'fees' ? '' : 'hidden'}`}></label>
 
                 {/*mpDetails*/}
-                <label htmlFor='fees' className={`col-span-4 ${mp ? '' : 'hidden'}`}>
+                <label htmlFor='mpDetails' className={`col-span-4 ${paymentTypeDetails === 'mp' ? '' : 'hidden'}`}>
                     <p className='text-gray-500 pl-2'>Cuenta utilizada</p>
                     <input type="text" id='mpDetails' name='mpDetails' placeholder='Usuario de MercadoPago' className='w-full' />
                     <div className='error'>{errors?.mpDetails || ''}</div>
@@ -220,22 +233,18 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                     </label>
                 </section>
 
-                {/*//:comprobante*/}
-                {/* <p className='col-span-4'>Comprobante</p>
-                <section className='col-span-4 grid grid-cols-4 gap-2 w-full'>
-                
-                    <label className='col-span-2'>
-                        <p className='text-gray-500 pl-1'>adjuntar comprobante</p>
-                        <Switch options={['No', 'Si']} cb={() => setFile(!file)} state={file} />
-                        <div className='error'>{errors?.file || ''}</div>
-                    </label>
-                    
-                    <label htmlFor='comprobante' className={`col-span-2 ${file ? '' : 'hidden'}`}>
-                        <p className='text-gray-500 pl-2'>seleccionar archivo</p>
-                        <input type="file" id='comprobante' name='comprobante' placeholder='$' className='w-full' />
-                        <div className='error'>{errors?.comprobante || ''}</div>
-                    </label>
-                </section> */}
+                {/*//: PAGOS EXTRA */}
+                {!!extraPayment?.length && <>
+                    {extraPayment.map(e => e.comp)}
+                </>}
+
+                <button type='button'
+                    onClick={addExtraPay}
+                    className='btn-secondary col-start-2 col-span-2'>
+                    + Pago Extra
+                </button>
+
+
 
                 <p className='col-span-4'>Notas</p>
                 <textarea name="notes" id='notes' cols="30" rows="2" placeholder='Notas' className='resize-none col-span-4'></textarea>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useClients from '@/hooks/useClients'
 import useCabins from '@/hooks/useCabins'
@@ -65,7 +65,6 @@ const CreateReservation = ({ panelData = false, cb }) => {
         }))
     }
 
-
     // Reserv
     const afterValidate = (reserv) => {
         if (!client.id) {
@@ -99,35 +98,35 @@ const CreateReservation = ({ panelData = false, cb }) => {
                 : navigate('/reservations')
         }
     }
+    const backToEdit = () => {
+        setErrors(() => (false))
+        setPreview(() => false)
+    }
 
     return (
         <div className='reserv-container'>
             <p className='text-2xl'>Registrar reserva</p>
 
-            {!preview &&
-                <>
-                    <section ref={guest}>
-                        <p>Huesped</p>
-                        {errors?.client && <p className='error'>{errors.client}</p>}
-                        <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />
-                    </section>
+            <section ref={guest} className={preview ? 'hidden' : ''}>
+                <p>Huesped</p>
+                {errors?.client && <p className='error'>{errors.client}</p>}
+                <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />
+            </section>
 
-                    {client &&
-                        <section>
-                            <ReservationClientPreview client={client} cb={afterCreation} />
-                        </section>}
+            {client &&
+                <section className={preview ? 'hidden' : ''}>
+                    <ReservationClientPreview client={client} cb={afterCreation} />
+                </section>}
 
-                    <section className={preview ? 'hidden' : ''}>
-                        <p>Reserva</p>
-                        <ReservForm handler={validateValues} cb={afterValidate} edit={editData} panelData={panelData} />
-                    </section>
-                </>
-            }
+            <section className={preview ? 'hidden' : ''}>
+                <p>Reserva</p>
+                <ReservForm handler={validateValues} cb={afterValidate} edit={editData} panelData={panelData} />
+            </section>
 
             {preview &&
                 <section>
                     <p>Resumen</p>
-                    <ReservPreview preview={preview} back={() => setPreview(() => false)} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
+                    <ReservPreview preview={preview} back={backToEdit} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
                 </section>}
 
             {errors?.someError && <p className='error'>{errors.someError}</p>}
