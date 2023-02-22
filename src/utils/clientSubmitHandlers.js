@@ -9,11 +9,14 @@ export const validateClientErrors = (values) => {
 
     if (values.dni === '-') errors.dni = 'Campo requerido'
 
-    if (values.email === '-') {
-        errors.email = 'Campo requerido'
-    } else if (!emailRe.test(values.email)) {
+    if (values.email !== '-') {
         errors.email = 'Formato de email no válido'
     }
+    // if (values.email === '-') {
+    //     errors.email = 'Campo requerido'
+    // } else if (!emailRe.test(values.email)) {
+    //     errors.email = 'Formato de email no válido'
+    // }
 
     // if (values.age === '-') errors.age = 'Campo requerido'
 
