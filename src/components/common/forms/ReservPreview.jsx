@@ -1,54 +1,113 @@
 import { fancyDate } from '@/utils/formatDate'
 import { numberToCurrency } from '@/utils/formUtils'
 import React from 'react'
+import {
+    MdPerson,
+    MdPayments,
+    MdHome,
+    MdEvent
+} from 'react-icons/md';
+import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
+
 
 const ReservPreview = ({ preview, back, client, cabin, handler }) => {
     return (
-        <div className='grid gap-2'>
-            <section>
-                <p>Cliente: <b>{client}</b></p>
+        <div className='grid grid-cols-4 gap-4 w-96 p-2'>
+            <section className='col-span-4'>
+                <p className='txt-n-icon'><MdPerson />{client}</p>
+                <div className='txt-n-icon text-gray-500'>(<p className='text-primary-200'>{preview.persons}</p> personas)</div>
             </section>
 
-            <section>
-                <p>Fechas: (<b>{preview.nights}</b> {preview.nights > 1 ? 'noches' : 'noche'})</p>
-                <p className='ml-2'>checkin: <b>{fancyDate(preview.checkin)}</b></p>
-                <p className='ml-2'>checkout: <b>{fancyDate(preview.checkout)}</b></p>
-                <p>Cabaña: {cabin}</p>
-                <p>Personas: {preview.persons}</p>
+            <section className='col-span-4'>
+                <p className='txt-n-icon capitalize'><MdHome />{cabin}</p>
             </section>
 
-            <section>
-                {!!preview?.extraPayments?.length && <p>Pago #1</p>}
+            <section className='col-span-4'>
+                <p className='txt-n-icon'><MdEvent /> Fechas: </p>
+                <div className='txt-n-icon ml-2 text-gray-500'><BsFillCaretDownFill /><p className='text-primary-200'>{fancyDate(preview.checkin)}</p></div>
+                <div className='txt-n-icon ml-2 text-gray-500'><BsFillCaretUpFill /><p className='text-primary-200'>{fancyDate(preview.checkout)}</p></div>
+                <div className='txt-n-icon ml-2 text-gray-500'>(<b className='text-primary-200'>{preview.nights}</b> {preview.nights > 1 ? 'noches' : 'noche'})</div>
+            </section>
 
-                <p className='ml-2'>forma: <b>{preview.paymentType}</b></p>
-                {preview.fees !== '-' && <p className='ml-2'>cuotas: <b>{preview.fees}</b></p>}
-                {preview.mpDetails !== '-' && <p className='ml-2'>cuenta de MP: <b>{preview.mpDetails}</b></p>}
-                <p className='ml-2'>monto: <b>{numberToCurrency(preview.amount)} </b>{preview.currency}</p>
-                {(!preview.paymentStatus && preview.percentage !== '-') && <p>Adelanto del <b>%{preview.percentage}</b></p>}
+            <section className='col-span-4'>
+                <p className='txt-n-icon'><MdPayments />Pago</p>
+                {!!preview?.extraPayments?.length && <b className='text-gray-500'>Pago #1</b>}
+
+                <div className='ml-2 txt-n-icon text-gray-500'>
+                    forma:
+                    <p className='text-primary-200'>{preview.paymentType}</p>
+                </div>
+
+                {preview.fees !== '-' &&
+                    <div className='ml-2 txt-n-icon text-gray-500'>
+                        cuotas:
+                        <p className='text-primary-200'>{preview.fees}</p>
+                    </div>}
+
+                {preview.mpDetails !== '-' &&
+                    <div className='ml-2 txt-n-icon text-gray-500'>
+                        cuenta de MP:
+                        <p className='text-primary-200'>{preview.mpDetails}</p>
+                    </div>}
+
+                <div className='ml-2 txt-n-icon text-gray-500'>
+                    monto:
+                    <p className='text-primary-200'>{numberToCurrency(preview.amount)}</p>
+                    <p className='text-primary-200 text-sm'>{preview.currency}</p>
+                </div>
+
+                {(preview.percentage) &&
+                    <div className='ml-2 txt-n-icon text-gray-500'>Adelanto del
+                        <p className='text-primary-200'>%{preview.percentage}</p>
+                    </div>}
             </section>
 
             {!!preview?.extraPayments?.length &&
                 preview.extraPayments.map((e, i) => (
-                    <section key={e.id}>
-                        <p>Pago #{2 + i}</p>
-                        <p className='ml-2'>forma: <b>{e.paymentType}</b></p>
-                        {e.fees !== '-' && <p className='ml-2'>cuotas: <b>{e.fees}</b></p>}
-                        {e.mpDetails !== '-' && <p className='ml-2'>cuenta de MP: <b>{e.mpDetails}</b></p>}
-                        <p className='ml-2'>monto: <b>{numberToCurrency(e.amount)} </b>{e.currency}</p>
-                        {(!e.paymentStatus && e.percentage) && <p>Adelanto del <b>%{e.percentage}</b></p>}
+                    <section key={e.id} className='col-span-4'>
+                        <b className='text-gray-500'>Pago #{2 + i}</b>
+
+                        <div className='ml-2 txt-n-icon text-gray-500'>
+                            forma:
+                            <p className='text-primary-200'>{e.paymentType}</p>
+                        </div>
+
+                        {e.fees !== '-' &&
+                            <div className='ml-2 txt-n-icon text-gray-500'>
+                                cuotas:
+                                <p className='text-primary-200'>{e.fees}</p>
+                            </div>}
+
+                        {e.mpDetails !== '-' &&
+                            <div className='ml-2 txt-n-icon text-gray-500'>
+                                cuenta de MP:
+                                <p className='text-primary-200'>{e.mpDetails}</p>
+                            </div>}
+
+                        <div className='ml-2 txt-n-icon text-gray-500'>
+                            monto:
+                            <p className='text-primary-200'>{numberToCurrency(e.amount)}</p>
+                            <p className='text-primary-200 text-sm'>{e.currency}</p>
+                        </div>
+
+                        {(e.percentage) &&
+                            <div className='ml-2 txt-n-icon text-gray-500'>Adelanto del
+                                <p className='text-primary-200'>%{e.percentage}</p>
+                            </div>}
+
                     </section>
                 ))
             }
 
-            <section>
+            <section className='col-span-4'>
                 <p>Pago: {preview.paymentStatus ? <b className='text-emerald-500'>Completo</b> : <b className='text-rose-500'>Incompleto</b>}</p>
-                <p>Total: <b className='text-3xl'>{numberToCurrency(preview?.total) || '-'}</b></p>
+                {/* <p>Total: <b className='text-3xl'>{numberToCurrency(preview?.total) || '-'}</b></p> */}
             </section>
 
             <p>Notas: {preview.notes}</p>
 
-            <button onClick={back} className='btn-secondary'>Volver a Editar</button>
-            <button onClick={handler} className='btn-primary'>Crear Reserva</button>
+            <button onClick={back} className='btn-secondary col-span-4'>Volver a Editar</button>
+            <button onClick={handler} className='btn-primary col-span-4'>Crear Reserva</button>
         </div>
     )
 }

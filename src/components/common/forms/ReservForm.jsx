@@ -1,7 +1,7 @@
 import useCabins from '@/hooks/useCabins'
 import React, { useEffect, useRef, useState } from 'react'
 import Switch from '@/components/common/misc/Switch'
-import { datesValidator, fillDates, numberToCurrency } from '@/utils/formUtils'
+import { datesValidator, fillDates, numberToCurrency, numberToPercentage } from '@/utils/formUtils'
 import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
 import { deformatDate } from '@/utils/formatDate'
 import ReservExtraPay from './ReservExtraPay'
@@ -45,25 +45,64 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
     useEffect(() => {
         if (edit) {
             const aux = Object.entries(edit)
+            // for standar values...
             aux.forEach(e => {
-                //: TODO: si el e es extraPayments, etc.
                 const key = e[0],
-                    input = document.getElementById(key),
-                    value = e[1];
+                    value = e[1],
+                    input = document.getElementById(key)
 
                 if (input) {
                     if (key === 'checkin' || key === 'checkout') {
                         input.value = deformatDate(value)
+
                     } else if (key === 'cabin') {
                         input.value = value.id
-                    } else if (key === 'percentage' && value) {
+
+                    } else if (key === 'amount') {
+                        input.value = numberToCurrency(value)
+
+                    } else if (key === 'percentage' && value && value !== '-') {
                         setAdvance(() => true)
-                        input.value = value
+                        input.value = numberToPercentage(value)
+
+                    } else if (key === 'paymentStatus' && value) {
+                        setPaymentStatus(() => true)
+
                     } else {
-                        input.value = value
+                        input.value = value !== '-' ? value : null
                     }
                 }
             })
+            // for extra payments values...
+            if (!!edit?.extraPayments?.length) {
+                // set ids to render the extra forms
+                const ids = edit?.extraPayments.map(e => `${e.id}-`)
+                setExtraPayment(() => ids)
+
+                // timeout to wait the state to triger the render
+                setTimeout(() => {
+                    edit?.extraPayments.forEach(extra => {
+                        const { id } = extra
+                        Object.entries(extra).forEach(e => {
+                            const key = e[0],
+                                value = e[1],
+                                input = document.getElementById(`${id}-${key}`)
+
+                            if (input) {
+                                if (key === 'amount' && value !== '-') {
+                                    input.value = numberToCurrency(value)
+
+                                } else if (key === 'percentage' && value && value !== '-') {
+                                    input.value = numberToPercentage(value)
+
+                                } else {
+                                    input.value = value !== '-' ? value : null
+                                }
+                            }
+                        })
+                    })
+                }, 100);
+            }
         }
         // eslint-disable-next-line
     }, [edit])
@@ -117,11 +156,9 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 
         const { res, errors } = await handler(e)
         if (errors) {
-            console.log('errores?');
             setErrors(() => errors)
             return
         }
-        console.log(res);
         if (!res.error) {
             setErrors(() => false)
             cb(res)
@@ -130,7 +167,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 
     const removeExtraPay = (id) => {
         setExtraPayment(curr => {
-            const aux = curr.filter(e => e.id !== id)
+            const aux = curr.filter(e => e !== id)
             return aux
         })
     }
@@ -138,8 +175,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
     const addExtraPay = () => {
         setExtraPayment(curr => {
             const id = `extra${1 + curr.length}-`
-            const aux = { id }
-            return [...curr, aux]
+            return [...curr, id]
         })
     }
 
@@ -234,7 +270,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 {/*amount*/}
                 <label htmlFor='amount' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>monto</p>
-                    <input type="String" id='amount' name='amount' placeholder='$' className='w-full' onKeyUp={formatCurrency} onChange={e => totalHandler(e.target.value)} />
+                    <input type="text" id='amount' name='amount' placeholder='$' className='w-full' onKeyUp={formatCurrency} onChange={e => totalHandler(e.target.value)} />
                     <div className='error'>{errors?.amount || ''}</div>
                 </label>
 
@@ -250,15 +286,15 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                     {/*percentage para señas*/}
                     <label htmlFor='percentage' className={`col-span-2 ${advance ? '' : 'hidden'}`}>
                         <p className='text-gray-500 pl-2'>pocentaje del total</p>
-                        <input type="String" id='percentage' name='percentage' placeholder='%' className='w-full' onKeyUp={formatPercentage} />
+                        <input type="text" id='percentage' name='percentage' placeholder='%' className='w-full' onKeyUp={formatPercentage} />
                         <div className='error'>{errors?.percentage || ''}</div>
                     </label>
                 </section>
 
                 {/*//? PAGOS EXTRA */}
                 {!!extraPayment?.length && <>
-                    {extraPayment.map(e => (
-                        <ReservExtraPay key={e.id} remove={removeExtraPay} errors={errors} ID={e.id} />
+                    {extraPayment.map(id => (
+                        <ReservExtraPay key={id} remove={removeExtraPay} errors={errors} ID={id} />
                     ))}
                 </>}
 

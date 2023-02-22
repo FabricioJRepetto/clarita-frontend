@@ -1,5 +1,5 @@
 import { fancyDate } from '@/utils/formatDate'
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import ClientDetailsCard from './ClientDetailsCard'
 import {
     MdPerson,
@@ -100,7 +100,7 @@ const ReservationCard = ({ data }) => {
 
                 {!!data?.extraPayments?.length &&
                     data.extraPayments.map((e, i) => (
-                        <>
+                        <Fragment key={'extra' + i}>
                             <p className='pl-4 mt-4 text-gray-600 dark:text-gray-400'>Pago #{2 + i}</p>
                             <div className='details-data'>
                                 <p>Forma de pago</p> <p>{e?.paymentType}</p>
@@ -110,7 +110,7 @@ const ReservationCard = ({ data }) => {
                                 <p>Monto</p> <p>{numberToCurrency(e?.amount)} <i className='text-sm text-gray-500'>{data?.currency || '-'}</i></p>
                                 {(e?.percentage && e?.percentage !== '-') && <><p>Seña</p><p>%{e?.percentage || '-'}</p></>}
                             </div>
-                        </>
+                        </Fragment>
                     ))
                 }
 

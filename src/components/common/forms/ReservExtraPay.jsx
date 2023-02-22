@@ -1,5 +1,5 @@
 import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Switch from '../misc/Switch'
 
 const ReservExtraPay = ({ remove, errors, ID }) => {
@@ -12,6 +12,20 @@ const ReservExtraPay = ({ remove, errors, ID }) => {
         else if (e.target.value === 'MercadoPago') setPaymentTypeDetails(() => 'mp')
         else setPaymentTypeDetails(() => null)
     }
+
+    useEffect(() => {
+        setTimeout(() => {
+            const select = document.getElementById(`${ID}paymentType`)
+            const percentage = document.getElementById(`${ID}percentage`)
+            if (select) {
+                if (select.value === 'Tarjeta de crédito') setPaymentTypeDetails(() => 'fees')
+                else if (select.value === 'MercadoPago') setPaymentTypeDetails(() => 'mp')
+            }
+            if (percentage) {
+                if (percentage.value) setAdvance(() => true)
+            }
+        }, 200);
+    }, [ID])
 
     return (
         <div className='relative grid gap-2 grid-cols-4 col-span-4 border-t border-t-slate-800'>
@@ -37,7 +51,7 @@ const ReservExtraPay = ({ remove, errors, ID }) => {
             {/*fees*/}
             <label htmlFor={`${ID}fees`} className={`col-span-2 ${paymentTypeDetails === 'fees' ? '' : 'hidden'}`}>
                 <p className='text-gray-500 pl-2'>Cantidad de cuotas</p>
-                <input type="Number" id={`${ID}fees`} name={`${ID}fees`} placeholder='Cuotas' className='w-full' />
+                <input type="number" id={`${ID}fees`} name={`${ID}fees`} placeholder='Cuotas' className='w-full' />
                 <div className='error'>{errors[`${ID}fees`] || ''}</div>
             </label>
             <label className={`col-span-2 ${paymentTypeDetails === 'fees' ? '' : 'hidden'}`}></label>
@@ -66,7 +80,7 @@ const ReservExtraPay = ({ remove, errors, ID }) => {
             {/*amount*/}
             <label htmlFor={`${ID}amount`} className='col-span-2'>
                 <p className='text-gray-500 pl-2'>monto</p>
-                <input type="String" id={`${ID}amount`} name={`${ID}amount`} placeholder='$' className='w-full' onKeyUp={formatCurrency} />
+                <input type="text" id={`${ID}amount`} name={`${ID}amount`} placeholder='$' className='w-full' onKeyUp={formatCurrency} />
                 <div className='error'>{errors[`${ID}amount`] || ''}</div>
             </label>
 
@@ -82,7 +96,7 @@ const ReservExtraPay = ({ remove, errors, ID }) => {
                 {/*percentage para señas*/}
                 <label htmlFor={`${ID}percentage`} className={`col-span-2 ${advance ? '' : 'hidden'}`}>
                     <p className='text-gray-500 pl-2'>pocentaje del total</p>
-                    <input type="String" id={`${ID}percentage`} name={`${ID}percentage`} placeholder='%' className='w-full' onKeyUp={formatPercentage} />
+                    <input type="text" id={`${ID}percentage`} name={`${ID}percentage`} placeholder='%' className='w-full' onKeyUp={formatPercentage} />
                     <div className='error'>{errors[`${ID}percentage`] || ''}</div>
                 </label>
             </section>
