@@ -9,7 +9,7 @@ export const validateClientErrors = (values) => {
 
     if (values.dni === '-') errors.dni = 'Campo requerido'
 
-    if (values.email !== '-') {
+    if (values.email !== '-' && !emailRe.test(values.email)) {
         errors.email = 'Formato de email no válido'
     }
     // if (values.email === '-') {
@@ -43,6 +43,12 @@ export const createSubmit = async (e) => {
     if (values.nationality !== '-') {
         values.country_code = countryCode(values.nationality)
     }
+    if (values.email === '-') {
+        delete values.email
+    }
+    if (values.age === '-') {
+        delete values.age
+    }
 
     // post on API    
     const res = await postApi(['/client/', values]).catch(err => {
@@ -71,7 +77,9 @@ export const editSubmit = async (e, id) => {
     if (values.nationality !== '-') {
         values.country_code = countryCode(values.nationality)
     }
-
+    if (values.email === '-') {
+        delete values.email
+    }
     if (values.age === '-') {
         delete values.age
     }
