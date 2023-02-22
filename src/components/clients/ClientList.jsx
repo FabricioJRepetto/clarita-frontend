@@ -4,7 +4,7 @@ import ClientMiniCard from '../common/cards/ClientMiniCard'
 import PageController from '../common/misc/PageController'
 
 const ClientList = ({ data, sortKey }) => {
-    const EPP = 5 // Elements Per Page
+    const EPP = 10 // Elements Per Page
     const [page, setPage] = useState(1)
     const sorted = useMemo(() => {
         setPage(() => 1)
@@ -18,7 +18,7 @@ const ClientList = ({ data, sortKey }) => {
     }
 
     return (
-        <div className='h-3/4'>
+        <div className='pb-24 relative'>
             {!!pageContent?.length
                 ? <section>
                     {pageContent.map(e => (

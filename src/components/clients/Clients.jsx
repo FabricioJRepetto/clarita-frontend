@@ -20,17 +20,19 @@ const Clients = () => {
     }
 
     return (
-        <>
+        <div className='relative flex flex-col w-full full-h'>
             <section className='mb-4 flex flex-col md:flex-row justify-between'>
                 <h1>Clientes</h1>
                 <button className='btn-primary' onClick={() => navigate('/clients/create')}>Registrar nuevo</button>
             </section>
 
             <SearchInput filter={filter} />
-
             {isLoading && <p>Cargando...</p>}
-            <ClientList data={filtered || clients} sortKey={sortKey} />
-        </>
+
+            <section className='full-h overflow-y-auto'>
+                <ClientList data={filtered || clients} sortKey={sortKey} />
+            </section>
+        </div>
     )
 }
 

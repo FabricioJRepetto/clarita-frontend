@@ -10,8 +10,8 @@ const Cabins = () => {
     const { cabins, isLoading, error } = useCabins()
 
     return (
-        <>
-            <section className='mb-4 flex flex-col md:flex-row justify-between'>
+        <div className='relative flex flex-col w-full full-h'>
+            <section className='mb-4 flex flex-col md:flex-row justify-between '>
                 <h1>Cabañas</h1>
                 {admin && <button className="btn-primary" onClick={() => navigate('/cabins/create')}>Crear</button>}
             </section>
@@ -24,7 +24,7 @@ const Cabins = () => {
                     <CabinCard key={e.id} data={e} />
                 ))}
             </div>
-        </>
+        </div>
     )
 }
 
