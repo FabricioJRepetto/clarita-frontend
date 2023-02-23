@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import { deleteUser } from '@/components/admin/adminHandlers';
+import { useNotifications } from 'reapop';
 
-const Delete = ({ id, value, close, mutate }) => {
+const Delete = ({ id, close, mutate }) => {
     const [loading, setLoading] = useState(false)
+    const { notify } = useNotifications()
 
     const submit = async (e) => {
         e.preventDefault()
         setLoading(() => true)
-        console.log(value, id)
         const res = await deleteUser(id)
-        console.log(res);
+            .catch(err => notify(err.message, 'error'))
         if (res?.usersList) {
+            notify(res.message, 'success')
             mutate(res.usersList)
             setLoading(() => false)
         }

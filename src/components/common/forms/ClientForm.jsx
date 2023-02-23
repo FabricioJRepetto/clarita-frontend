@@ -3,12 +3,14 @@ import useLoadEditData from '@/hooks/useLoadEditData'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import countries from '@/countryList'
+import { useNotifications } from 'reapop'
 
 const ClientForm = ({ handler, cb, edit_id }) => {
     // if there is an ID, it means the form is in edition mode
     const { id } = useParams()
     const [errors, setErrors] = useState(false)
     const { clients } = useClients()
+    const { notify } = useNotifications()
 
     // if ID, load edit data
     useLoadEditData(clients, edit_id)
@@ -38,11 +40,17 @@ const ClientForm = ({ handler, cb, edit_id }) => {
         // however, always pass the ID
         const { res, errors: err } = await handler(e, id || edit_id)
         if (err) {
-            setErrors(() => err)
+            notify(err.message, 'error')
             return
         }
-        if (!res.error) cb(res)
-        else setErrors({ ...errors, someError: res.error })
+        if (!res.error) {
+            notify(res?.message, 'success')
+            cb(res)
+        }
+        else {
+            notify(res.error, 'error')
+            setErrors({ ...errors, someError: res.error })
+        }
     }
 
     return (

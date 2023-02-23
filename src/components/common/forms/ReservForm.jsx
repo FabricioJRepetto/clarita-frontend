@@ -5,6 +5,7 @@ import { datesValidator, fillDates, numberToCurrency, numberToPercentage } from 
 import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
 import { deformatDate } from '@/utils/formatDate'
 import ReservExtraPay from './ReservExtraPay'
+import { useNotifications } from 'reapop';
 
 const ReservForm = ({ handler, cb, edit, panelData }) => {
     const [advance, setAdvance] = useState(false)
@@ -13,6 +14,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
     const [paymentStatus, setPaymentStatus] = useState(false)
     // const [total, setTotal] = useState(false)
     const [errors, setErrors] = useState(false)
+    const { notify } = useNotifications()
 
     const { cabins, isLoading } = useCabins()
     const [avCabins, setAvCabins] = useState(cabins)
@@ -162,7 +164,10 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
         if (!res.error) {
             setErrors(() => false)
             cb(res)
-        } else setErrors({ ...errors, someError: res.error })
+        } else {
+            notify(res.error, 'error')
+            setErrors({ ...errors, someError: res.error })
+        }
     }
 
     const removeExtraPay = (id) => {

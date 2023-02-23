@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
 import { approve } from '@/components/admin/adminHandlers';
+import { useNotifications } from 'reapop';
 
 const Approve = ({ id, value, close, mutate }) => {
     const [loading, setLoading] = useState(false)
+    const { notify } = useNotifications()
 
     const submit = async (e) => {
         e.preventDefault()
         setLoading(() => true)
         console.log(value, id)
         const res = await approve(id, value)
+            .catch(err => notify(err.message, 'error'))
         console.log(res);
         if (res?.usersList) {
+            notify(res.message, 'success')
             mutate(res.usersList)
             setLoading(() => false)
         }

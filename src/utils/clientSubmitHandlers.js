@@ -53,7 +53,6 @@ export const createSubmit = async (e) => {
     // post on API    
     const res = await postApi(['/client/', values]).catch(err => {
         console.error(err)
-        //: TODO: create notification system
         return { errors: { someError: err } }
     })
 
@@ -68,7 +67,6 @@ export const editSubmit = async (e, id) => {
     // obtengo todos los valores de los inputs 
     const values = {}
     Array.from(e.target).map(e => e.name && (values[e.name] = e.value || '-'))
-    console.log(values);
 
     // reviso errores
     const errors = validateClientErrors(values)
@@ -85,15 +83,15 @@ export const editSubmit = async (e, id) => {
     }
 
     // envio a la db    
-    const res = await editApi([`/client?id=${id}`, values]).catch(err => {
-        console.error(err)
-        //: TODO: create notification system
-        return { errors: { someError: err } }
-    })
+    const res = await editApi([`/client?id=${id}`, values])
+        .catch(err => {
+            return { errors: err }
+        })
 
-    if (res) {
+
+    if (!res.errors) {
         return { res }
     } else {
-        console.error('editSubmit No res');
+        return { errors: res.errors }
     }
 }

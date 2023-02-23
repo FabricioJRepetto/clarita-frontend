@@ -2,13 +2,13 @@ import useCabins from '@/hooks/useCabins'
 import useLoadEditData from '@/hooks/useLoadEditData'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-// import { MdCottage, MdHouse, MdBedroomChild, MdBedroomParent, MdBungalow, MdDoorFront, MdMeetingRoom, MdHotel, MdPark, MdLocalFlorist, MdLocalFireDepartment, MdStar, MdBolt, MdVpnKey } from 'react-icons/md';
-// import { FaHome } from 'react-icons/fa';
+import { useNotifications } from 'reapop'
 
 const CabinForm = ({ handler, cb }) => {
     const { id } = useParams()
     const [errors, setErrors] = useState(false)
     const { cabins } = useCabins()
+    const { notify } = useNotifications()
 
     // if ID, load edit data
     useLoadEditData(cabins)
@@ -38,6 +38,7 @@ const CabinForm = ({ handler, cb }) => {
         // however, always pass the ID
         const { res, errors: err } = await handler(e, id)
         if (err) {
+            notify(err.message, 'error')
             setErrors(() => err)
             return
         }

@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import NotificationsSystem, { atalhoTheme, useNotifications, setUpNotifications } from 'reapop'
 import Home from '@/components/home/Home';
 import LoginScreen from '@/components/login/LoginScreen';
 import Navbar from '@/components/navbar/Navbar';
@@ -25,10 +26,28 @@ function App() {
     // if (isLoading) {
     //     return (<h1>Cargando</h1>); // or loading indicator/spinner/etc
     // }
+    const { notifications, dismissNotification } = useNotifications()
+    setUpNotifications({
+        defaultProps: {
+            position: 'bottom-center',
+            dismissible: true,
+            dismissAfter: 3000,
+            showDismissButton: true
+        }
+    })
 
     return (
         <div className="min-h-screen h-fit pl-52 pt-24 pr-4 overflow-x-hidden overflow-y-auto transition-colors duration-300">
-
+            <div>
+                <NotificationsSystem
+                    // 2. Pass the notifications you want Reapop to display.
+                    notifications={notifications}
+                    // 3. Pass the function used to dismiss a notification.
+                    dismissNotification={(id) => dismissNotification(id)}
+                    // 4. Pass a builtIn theme or a custom theme.
+                    theme={atalhoTheme}
+                />
+            </div>
             <Routes>
                 <Route path='/' element={<Navbar />}>
                     <Route path="/login" element={<LoginScreen />} />

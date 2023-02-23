@@ -28,7 +28,7 @@ const ReservCard = ({ data }) => {
             onMouseEnter={() => setExpand(true)}
             onMouseLeave={() => setExpand(false)}
             style={{ width: `${(nights < 3 && expand) ? 21 : (nights * 7)}rem` }}
-            className={`h-10 z-10 flex justify-start overflow-clip items-center gap-2 pl-12 absolute top-1 ${checkin === 'pre' ? 'left-0 rounded-r-3xl' : 'left-14 rounded-3xl '} bg-blue-600 text-white cursor-pointer hover:brightness-125 hover:z-20 hover:drop-shadow-xl`}>
+            className={`h-10 z-10 flex justify-start overflow-clip items-center gap-2 pl-12 absolute top-1 ${checkin === 'pre' ? 'left-0 rounded-r-3xl' : 'left-14 rounded-3xl '} bg-blue-600 text-white cursor-pointer hover:brightness-125 hover:z-20 hover:drop-shadow-xl fade-in`}>
 
             <span className={`h-10 w-12 flex gap-1 absolute left-0 justify-center items-center ${checkin === 'pre' ? 'rounded-r-3xl' : 'rounded-3xl'} bg-blue-700`}><MdPeople />{pax}</span>
 
@@ -39,7 +39,7 @@ const ReservCard = ({ data }) => {
             <Flag code={country_code} />
 
             <p className='txt-n-icon ellipsis inline-block'>
-                {name}
+                {name || '?'}
             </p>
         </div>
     )

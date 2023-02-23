@@ -37,7 +37,7 @@ const CabinCard = ({ data }) => {
             <section>
                 {current_guest &&
                     <div className='text-gray-500 ml-1'>
-                        <p className='txt-n-icon'><MdPerson />{client.name}</p>
+                        <p className='txt-n-icon'><MdPerson />{client?.name || '?'}</p>
                         {<p className='txt-n-icon'><BsFillCaretUpFill />{fancyDate(checkout, false)}</p>}
                     </div>}
                 {(!current_guest && !!reservations.length) &&

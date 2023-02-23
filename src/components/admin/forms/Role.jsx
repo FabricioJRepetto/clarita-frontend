@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { role } from '@/components/admin/adminHandlers';
+import { useNotifications } from 'reapop';
 
 const Role = ({ id, close, mutate }) => {
     const [loading, setLoading] = useState(false)
+    const { notify } = useNotifications()
 
     const submit = async (e) => {
         e.preventDefault()
@@ -11,8 +13,10 @@ const Role = ({ id, close, mutate }) => {
         if (value) {
             console.log(value, id);
             const res = await role(id, value)
+                .catch(err => notify(err.message, 'error'))
             console.log(res);
             if (res?.usersList) {
+                notify(res.message, 'success')
                 mutate(res.usersList)
                 setLoading(() => false)
             }

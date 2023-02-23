@@ -1,17 +1,22 @@
 import React from 'react'
+import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
 const PageController = ({ page, changePage, elements, EPP }) => {
     return (
-        <section className='mt-6 flex justify-center items-center'>
+        <section className='pages'>
             <button disabled={page <= 1}
-                className='btn-tertiary'
-                onClick={() => changePage('-')}>anterior</button>
+                className='btn-icon mx-4'
+                onClick={() => changePage('-')}>
+                <MdChevronLeft />
+            </button>
 
-            <p className='-mb-1 text-xl'>{page} / {Math.ceil(elements / EPP)}</p>
+            <p className='select-none text-xl'>{page} / {Math.ceil(elements / EPP)}</p>
 
             <button disabled={page >= Math.ceil(elements / EPP)}
-                className='btn-tertiary'
-                onClick={() => changePage('+')}>siguiente</button>
+                className='btn-icon mx-4'
+                onClick={() => changePage('+')}>
+                <MdChevronRight />
+            </button>
         </section>
     )
 }

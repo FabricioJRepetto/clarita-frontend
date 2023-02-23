@@ -80,7 +80,7 @@
         @apply  btn-primary w-full text-2xl font-thin;
     }    
     .btn-icon {
-        @apply scale-150 text-slate-500 hover:text-black hover:dark:text-white;
+        @apply scale-150 text-primary-200 disabled:text-slate-600 hover:enabled:text-black hover:dark:enabled:text-white;
     }
 
     .btn-admin-p {
@@ -152,6 +152,10 @@
     }
     .navList > li:last-child {
         @apply hover:text-orange-400;
+    }
+
+    .pages {
+        @apply mt-6 bg-slate-800 flex justify-center items-center sticky bottom-4 rounded-xl mx-auto w-fit h-12;
     }
 
     .panel-opt {

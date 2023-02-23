@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { editApi } from '@/services/api'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useValidateToken from '@/hooks/useValidate'
+import { useNotifications } from 'reapop';
 
 const ResetPassword = () => {
     const navigate = useNavigate()
     const [searchParams] = useSearchParams({})
     const token = searchParams.get('token')
     const [errors, setErrors] = useState(false)
+    const { notify } = useNotifications()
 
     !token && navigate('/')
 
@@ -24,8 +26,7 @@ const ResetPassword = () => {
             const res = await editApi(['/user/newPassword', data])
 
             if (res.message) {
-                //: TODO: notification system
-                console.info(res.message)
+                notify(res.message, 'success')
                 navigate('/')
             } if (res.error) setErrors(() => res.error)
 
