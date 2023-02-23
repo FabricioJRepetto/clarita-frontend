@@ -11,11 +11,9 @@ import '@/index.css'
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <BrowserRouter>
-            <SWRConfig value={{ shouldRetryOnError: false }}>
-                <NotificationsProvider>
-                    <App />
-                </NotificationsProvider>
-            </SWRConfig >
+            <NotificationsProvider>
+                <App />
+            </NotificationsProvider>
         </BrowserRouter>
     </React.StrictMode>
 )
