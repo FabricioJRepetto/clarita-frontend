@@ -18,7 +18,7 @@ const ClientList = ({ data, sortKey }) => {
     }
 
     return (
-        <div className='pb-24 relative'>
+        <div className='pb-12 relative'>
             {!!pageContent?.length
                 ? <section>
                     {pageContent.map(e => (

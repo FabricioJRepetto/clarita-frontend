@@ -29,8 +29,8 @@ export const architect = (cabins, reservations, START, DAYS) => {
                         id: R.id,
                         nights: R.nights,
                         pax: R.persons,
-                        name: R.client.name,
-                        country_code: R.client.country_code,
+                        name: R?.client?.name,
+                        country_code: R?.client?.country_code,
                         checkin: checkinToday(date, R.checkin, startDate),
                         checkout: false,
                         paymentStatus: R?.paymentStatus

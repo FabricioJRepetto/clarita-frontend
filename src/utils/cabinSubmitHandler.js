@@ -27,7 +27,6 @@ export const createCabinSubmit = async (e) => {
     // post on API    
     const res = await postApi(['/cabin/', values]).catch(err => {
         console.error(err)
-        //: TODO: create notification system
         return { errors: { someError: err } }
     })
 
@@ -50,7 +49,6 @@ export const editCabinSubmit = async (e, id) => {
     // post on API    
     const res = await editApi([`/cabin?id=${id}`, values]).catch(err => {
         console.error(err)
-        //: TODO: create notification system
         return { errors: { someError: err } }
     })
 

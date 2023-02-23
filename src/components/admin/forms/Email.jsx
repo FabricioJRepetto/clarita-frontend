@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { email, } from '@/components/admin/adminHandlers';
+import { useNotifications } from 'reapop';
 
 const Email = ({ id, close, mutate }) => {
     const [loading, setLoading] = useState(false)
+    const { notify } = useNotifications()
 
     const submit = async (e) => {
         e.preventDefault()
@@ -11,8 +13,10 @@ const Email = ({ id, close, mutate }) => {
             setLoading(() => true)
             console.log(value, id);
             const res = await email(id, value)
+                .catch(err => notify(err.message, 'error'))
             console.log(res);
             if (res?.usersList) {
+                notify(res.message, 'success')
                 mutate(res.usersList)
                 setLoading(() => false)
             }

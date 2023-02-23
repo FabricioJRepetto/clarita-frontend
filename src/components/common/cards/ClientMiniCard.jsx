@@ -8,7 +8,7 @@ const ClientMiniCard = ({ data, sortKey }) => {
     return (
         <div onClick={() => navigate(`/clients/details/${data.id}`)}
             className='px-3 py-2 my-1 border rounded-lg border-slate-300 dark:border-slate-700 hover:border-blue-400 hover:dark:border-slate-500 cursor-pointer'>
-            <p className='text-xl mb-1'>{data.name}</p>
+            <p className='text-xl mb-1 capitalize'>{data.name}</p>
             {sortKey !== 'name' &&
                 <p className='flex gap-2 items-center ml-2 text-blue-400'>
                     <MdFilterAlt className='scale-125 ' />{data[sortKey]}

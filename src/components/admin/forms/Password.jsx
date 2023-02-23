@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { password } from '@/components/admin/adminHandlers';
+import { useNotifications } from 'reapop';
 
 const Password = ({ id, close, mutate }) => {
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(false)
+    const { notify } = useNotifications()
 
     const submit = async (e) => {
         e.preventDefault()
@@ -12,8 +14,10 @@ const Password = ({ id, close, mutate }) => {
             setLoading(() => true)
             console.log(value, id);
             const res = await password(id, value)
+                .catch(err => notify(err.message, 'error'))
             console.log(res);
             if (res?.usersList) {
+                notify(res.message, 'success')
                 mutate(res.usersList)
                 setLoading(() => false)
             }

@@ -3,33 +3,36 @@ import { deleteApi, postApi } from '@/services/api'
 import React from 'react'
 import { useState } from 'react'
 import AnnounCard from '../common/cards/AnnounCard'
+import { useNotifications } from 'reapop';
 
 const Annuncement = () => {
     const [title, setTitle] = useState('')
     const [text, setText] = useState('')
     const [style, setStyle] = useState('default')
     const { user: { user_name: from } } = useUser()
+    const { notify } = useNotifications()
 
     const handler = async (e) => {
         e.preventDefault()
         const data = { title, text, style }
-        //: TODO: mostrar mensajes de error o exito
-        //: TODO: Notification system
         try {
             const res = await postApi(['/user/admin/announcement', data])
             console.log(res)
+            notify(res.message, 'success')
         } catch (err) {
+            notify(err?.message, 'error')
             console.warn(err?.message);
         }
     }
 
     const deleteHandler = async (e) => {
         e.preventDefault()
-        //: TODO: Notification system
         try {
             const res = await deleteApi('/user/admin/announcement')
             console.log(res)
+            notify(res.message, 'success')
         } catch (err) {
+            notify(err?.message, 'error')
             console.warn(err?.message);
         }
     }

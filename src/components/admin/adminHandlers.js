@@ -1,7 +1,5 @@
 import { deleteApi, editApi } from "@/services/api";
 
-//: TODO: NOTIFICATIONS
-
 export const approve = async (user_id, arg) => {
     const aux = { user_id, approved: arg }
     // console.log('/user/admin/approve', '{ user_id, approved: boolean }', aux);

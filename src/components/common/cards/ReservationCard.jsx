@@ -39,7 +39,7 @@ const ReservationCard = ({ data }) => {
                 {clientDetails && <ClientDetailsCard user={data?.client} />}
             </section>
 
-            {data?.cabin.name &&
+            {data?.cabin?.name &&
                 <section>
                     <p className='txt-n-icon text-xl cursor-pointer hover:border-blue-500'
                         onClick={() => navigate(`/cabins/details/${data.cabin.id}`)} >

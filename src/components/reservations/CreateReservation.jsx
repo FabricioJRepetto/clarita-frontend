@@ -9,6 +9,7 @@ import ReservForm from '@/components/common/forms/ReservForm'
 import ReservPreview from '@/components/common/forms/ReservPreview'
 import { createSubmit } from '@/utils/clientSubmitHandlers'
 import { createReserv, updateReserv, validateValues } from '@/utils/reservSubmitHandlers'
+import { useNotifications } from 'reapop';
 
 const CreateReservation = ({ panelData = false, cb }) => {
     /* //? data may be: checkin, checkout and cabin selected from de reservation panel
@@ -28,6 +29,7 @@ const CreateReservation = ({ panelData = false, cb }) => {
     const [preview, setPreview] = useState(false)
     const [errors, setErrors] = useState(false)
     const guest = useRef(null)
+    const { notify } = useNotifications()
 
     // if ID, load edit data
     useEffect(() => {
@@ -44,7 +46,8 @@ const CreateReservation = ({ panelData = false, cb }) => {
                     vehicleType: clientData.vehicleType,
                     nationality: clientData.nationality
                 }))
-            } else console.error('# Reservation not found');
+            } else notify('Reserva no encontrada.', 'error')
+
         }
         // eslint-disable-next-line
     }, [id])
@@ -111,6 +114,7 @@ const CreateReservation = ({ panelData = false, cb }) => {
         setErrors(() => res?.errors)
 
         if (!res.errors) {
+            notify(res.message, 'success')
             // mutates reservations cache
             setReservations(res.reservationsList)
             panelData
