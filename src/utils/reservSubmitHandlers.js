@@ -141,12 +141,36 @@ export const validateValues = (e) => {
     return { res: values }
 }
 
+export const quickPayment = async (e, id) => {
+    const values = {}
+    Array.from(e.target).map(e => e.name && (values[e.name] = e.value || '-'))
+
+    const errors = validateReservExtraFormErrors(values, '')
+    if (errors) return { errors }
+
+    // change paymentStatus to boolean
+    values.paymentStatus = values.paymentStatus === 'true'
+
+    // change currency to number
+    values.amount = parseInt(values.amount.replace(/\D/g, ""))
+    // change percentage to number
+    values.percentage === '-'
+        ? values.percentage = null
+        : values.percentage = parseInt(values.percentage.replace(/\D/g, ""))
+
+    console.log(values);
+
+    const res = await editApi([`/reservation/quickpayment?id=${id}`, values])
+
+    return res
+
+}
+
 //? this fn only Posts validated data
 export const createReserv = async (data) => {
     // post on API    
     const res = await postApi(['/reservation/', data]).catch(err => {
         console.error(err)
-        //: TODO: create notification system
         return { errors: { someError: err.message } }
     })
 
@@ -158,7 +182,6 @@ export const updateReserv = async (data, id) => {
     // put on API
     const res = await editApi([`/reservation?id=${id}`, data]).catch(err => {
         console.error(err)
-        //: TODO: create notification system
         return { errors: { someError: err.message } }
     })
 
@@ -173,7 +196,6 @@ export const createReservSubmit = async (e) => {
     // post on API    
     const res = await postApi(['/reservation/', values]).catch(err => {
         console.error(err)
-        //: TODO: create notification system
         return { errors: { someError: err.message } }
     })
 

@@ -12,7 +12,6 @@ const NavUser = () => {
     const navigate = useNavigate()
 
     const handleLogout = () => {
-        console.warn('- Log out -');
         navigate('/login')
         mutate(['/user/login', getCookie('userToken')], false)
         deleteCookie('userToken')
@@ -23,7 +22,7 @@ const NavUser = () => {
             onMouseLeave={() => setProfileMenu(false)}
             className='flex items-center relative w-full h-4 px-1 cursor-pointer'>
             <MdAccountCircle className='absolute left-1 top-0' />
-            <p className='ellipsis pl-6'>{user?.user_name || 'Usuario'}</p>
+            <p className='ellipsis pl-6 capitalize'>{user?.user_name.split(' ')[0] || 'Usuario'}</p>
             <NavMenu visible={profileMenu} logout={handleLogout} />
         </div>
     )

@@ -9,7 +9,7 @@ const AdminMessage = () => {
     // const dev = false
     const dev = {
         title: 'Nuevo!',
-        text: 'Sistema de notificaciones. Opción para agregar multiples pagos a una reserva y perfil de administrador. Ahora las reservas muestran fechas de creación/edición y su creador.',
+        text: 'Ya se pueden agregar pagos extras a las reservas de manera rápida, para completar pagos o cualquier otra necesidad. Ahora se accede desde los detalles de reserva; Próximamente habrá un atajo en la home.',
         from: 'Desarrollador',
         style: 'fix'
     }

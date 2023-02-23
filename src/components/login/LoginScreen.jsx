@@ -5,14 +5,19 @@ import Login from './Login';
 import Signin from './Signin';
 import Password from './Password';
 import LoginMessage from './LoginMessage';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useNotifications } from 'reapop';
 
 const LoginScreen = () => {
     const navigate = useNavigate()
     const [frame, setFrame] = useState(0)
     const [error, setError] = useState(false)
     const [message, setMessage] = useState(false)
+    const { notify } = useNotifications()
     const { user, isLoading, reLog } = useLogin()
+
+    const location = useLocation();
+    const hasPreviousState = location.key !== "default";
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -24,8 +29,16 @@ const LoginScreen = () => {
 
         if (!user_data.error) {
             reLog(['/user/login', user_data.token])
-            navigate('/')
+            notify(user_data?.message, 'info')
+            setTimeout(() => {
+                if (hasPreviousState) {
+                    navigate(-1);
+                } else {
+                    navigate("/");
+                }
+            }, 100);
         } else {
+            notify(user_data.error, 'error')
             setError(() => user_data.error)
         }
     }

@@ -28,10 +28,13 @@ const ReservExtraPay = ({ remove, errors, ID }) => {
     }, [ID])
 
     return (
-        <div className='relative grid gap-2 grid-cols-4 col-span-4 border-t border-t-slate-800'>
-            <button type='button' onClick={() => remove(ID)} className='btn-tertiary absolute top-4 right-0'>quitar</button>
+        <div className='relative grid gap-2 grid-cols-4 col-span-4 '>
+            {remove &&
+                <>
+                    <button type='button' onClick={() => remove(ID)} className='btn-tertiary absolute top-4 right-0'>quitar</button>
+                    <p className='col-span-4 text-xl mt-4 -ml-2'>Pago Extra</p>
+                </>}
 
-            <p className='col-span-4 text-xl mt-4 -ml-2'>Pago Extra</p>
             {/*paymentType*/}
             <label htmlFor={`${ID}paymentType`} className='col-span-4'>
                 <p className='text-gray-500 pl-2'>Tipo de pago</p>

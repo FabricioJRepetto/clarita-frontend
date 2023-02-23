@@ -7,15 +7,19 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import Modal from '@/utils/Modal'
 import useModal from '@/hooks/useModal'
 import { useNotifications } from 'reapop';
+import { useState } from 'react'
+import QuickPayment from '../common/forms/QuickPayment'
+import DeleteReserv from '../common/forms/DeleteReserv'
 
 const ReservationDetails = () => {
     const { id } = useParams()
-    const navigate = useNavigate()
     const { admin } = useUser()
     const { reservations, error, isLoading, setReservations } = useReservations()
     const reserv = reservations && reservations.find(r => r.id === id)
-    const [isOpen, open, close] = useModal()
+    const navigate = useNavigate()
     const { notify } = useNotifications()
+    const [isOpen, open, close] = useModal()
+    const [child, setChild] = useState(false)
 
     const handleDelete = async () => {
         const res = await deleteApi(`/reservation?id=${id}`)
@@ -26,6 +30,22 @@ const ReservationDetails = () => {
         navigate('/reservations')
     }
 
+    const openModal = (mode) => {
+        setChild(mode)
+        open()
+    }
+
+    const closeModal = () => {
+        close()
+        setChild(() => false)
+    }
+
+    //: TODO: QuickPayment en un modal o en un menu lateral?
+    const modalChild = {
+        deleteReserv: <DeleteReserv handleDelete={handleDelete} close={closeModal} />,
+        updatePayment: <QuickPayment id={reserv.id} status={reserv.paymentStatus} close={closeModal} />
+    }
+    const correctChild = modalChild[child]
 
     return (
         <div className='p-2 my-1 relative'>
@@ -37,7 +57,7 @@ const ReservationDetails = () => {
 
             {reserv &&
                 <>
-                    <ReservationCard data={reserv} />
+                    <ReservationCard data={reserv} open={() => openModal('updatePayment')} />
 
                     {admin && <>
                         <button className='btn-icon absolute top-8 right-20'
@@ -45,25 +65,15 @@ const ReservationDetails = () => {
                             <MdEdit />
                         </button>
                         <button className='btn-icon absolute top-8 right-9'
-                            onClick={open}>
+                            onClick={() => openModal('deleteReserv')}>
                             <MdDelete />
                         </button>
                     </>}
                 </>
             }
 
-            <Modal isOpen={isOpen} close={close}>
-                {<div className='relative grid grid-col grid-cols-4 gap-4 w-fit'>
-                    <span className='col-span-4'>
-                        <p>¿Seguro deseas eliminar esta reserva?</p>
-                        <p>Esta acción es <b>irreversible</b>.</p>
-                    </span>
-
-                    <button type='submit' onClick={handleDelete} className="btn-admin-p col-span-2">Continuar</button>
-                    <button type='button' onClick={close} className="btn-admin-s col-span-2">Cancelar</button>
-
-                    {/* {loading && <div className='absolute top-0 left-0 right-0 bottom-0 m-auto bg-black/50'>cargando</div>} */}
-                </div>}
+            <Modal isOpen={isOpen} closeModal={closeModal}>
+                {correctChild}
             </Modal>
         </div>
     )

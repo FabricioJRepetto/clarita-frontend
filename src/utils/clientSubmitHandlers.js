@@ -1,6 +1,6 @@
 import { editApi, postApi } from "@/services/api"
 import { emailRe } from "@/utils/formUtils"
-import { country, countryCode } from "./country"
+import { countryCode } from "./country"
 
 export const validateClientErrors = (values) => {
     let errors = {}
