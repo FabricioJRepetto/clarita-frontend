@@ -17,7 +17,8 @@ import ResetPassword from '@/components/user/ResetPassword';
 import Layout from '@/components/common/misc/Layout';
 import Profile from '@/components/user/Profile';
 import Admin from '@/components/admin/Admin';
-import PrivateRoutes from './components/common/misc/PrivateRoutes';
+import PrivateRoutes from '@/components/common/misc/PrivateRoutes';
+import Expenses from '@/components/expenses/Expenses';
 import { mutate, SWRConfig } from 'swr';
 import { deleteCookie, getCookie } from './utils/cookies';
 
@@ -101,6 +102,10 @@ function App() {
                                 <Route path="create" element={<CreateCabin />} />
                                 <Route path="edit/:id" element={<CreateCabin />} />
                                 <Route path="details/:id" element={<CabinDetails />} />
+                            </Route>
+
+                            <Route path="expenses" element={<Layout />} >
+                                <Route index element={<Expenses />} />
                             </Route>
 
                             <Route path="user" element={<Profile />} />

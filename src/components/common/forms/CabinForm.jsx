@@ -51,11 +51,13 @@ const CabinForm = ({ handler, cb }) => {
             <form onSubmit={handleSubmit} autoComplete='off' className='grid grid-cols-4 gap-2 w-96 p-2'>
                 {/*name*/}
                 <label htmlFor='name' className='col-span-4'>
+                    <p className='text-gray-500 pl-2'>nombre</p>
                     <input type="text" id='name' name='name' placeholder='Nombre' className='w-full' />
                     <div className='h-6 text-sm text-rose-500'>{errors?.name || ''}</div>
                 </label>
                 {/*identifier*/}
                 <label htmlFor='identifier' className='col-span-4'>
+                    <p className='text-gray-500 pl-2'>identificador</p>
                     <input type="text" id='identifier' name='identifier' placeholder='Identificador' className='w-full' />
                     <div className='h-6 text-sm text-rose-500'>{errors?.identifier || ''}</div>
                 </label>

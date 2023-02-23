@@ -17,12 +17,16 @@ import { useNavigate } from 'react-router-dom';
 import { numberToCurrency } from '@/utils/formUtils';
 import NoPayment from '../misc/NoPayment';
 
-const ReservationCard = ({ data }) => {
+const ReservationCard = ({ data, open }) => {
     const [clientDetails, setClientDetails] = useState(false)
     const navigate = useNavigate()
 
     const toggleClient = () => {
         setClientDetails(!clientDetails)
+    }
+
+    const newPayment = () => {
+        open()
     }
 
     return (
@@ -80,12 +84,13 @@ const ReservationCard = ({ data }) => {
                 <div className='details-data'>
                     <p>Estado del pago</p>
 
-                    <p>{data?.paymentStatus === false
-                        ? <span className='txt-n-icon -ml-6 text-rose-500'>
-                            <NoPayment />Incompleto
-                        </span>
-                        : <span className='text-emerald-500'>Completo</span>}
-                    </p>
+                    <div>
+                        {data?.paymentStatus === false
+                            ? <span className='txt-n-icon -ml-6 text-rose-500'>
+                                <NoPayment />Incompleto
+                            </span>
+                            : <span className='text-emerald-500'>Completo</span>}
+                    </div>
                 </div>
 
                 {!!data?.extraPayments?.length && <p className='pl-4 mt-4 text-gray-600 dark:text-gray-400'>Pago #1</p>}
@@ -113,6 +118,11 @@ const ReservationCard = ({ data }) => {
                         </Fragment>
                     ))
                 }
+
+                <button className="btn-primary mt-6 mb-2 mx-2 "
+                    onClick={newPayment}>
+                    Agregar pago
+                </button>
 
             </section>
 

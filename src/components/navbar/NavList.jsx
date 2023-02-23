@@ -43,9 +43,10 @@ const NavList = () => {
                 Cabañas
             </li>
 
-            <li className={`pointer-events-none text-gray-400 ${path === '' ? '' : ''}`}>
-                {path === ''
-                    ? <MdMonetizationOn className='text-white dark:bg-slate-800' />
+            <li onClick={() => navigate('/expenses')}
+                className={`${path.includes('/expenses') ? 'text-white dark:bg-slate-800' : 'text-gray-400'}`}>
+                {path.includes('/expenses')
+                    ? <MdMonetizationOn className='text-white' />
                     : <MdAttachMoney className='text-gray-400' />}
                 Cuentas
             </li>
