@@ -7,6 +7,7 @@ import Password from './Password';
 import LoginMessage from './LoginMessage';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useNotifications } from 'reapop';
+import { AiOutlineLoading } from 'react-icons/ai'
 
 const LoginScreen = () => {
     const navigate = useNavigate()
@@ -131,7 +132,9 @@ const LoginScreen = () => {
 
                     {(!isLoading)
                         ? correctFrame
-                        : <h3>Cargando...</h3>}
+                        : <div className='w-full flex justify-center items-center backdrop-brightness-75 fade-in'>
+                            <AiOutlineLoading className='text-4xl animate-spin' />
+                        </div>}
                 </div>
             </div>
     )

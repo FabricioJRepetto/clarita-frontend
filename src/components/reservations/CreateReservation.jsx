@@ -10,6 +10,7 @@ import ReservPreview from '@/components/common/forms/ReservPreview'
 import { createSubmit } from '@/utils/clientSubmitHandlers'
 import { createReserv, updateReserv, validateValues } from '@/utils/reservSubmitHandlers'
 import { useNotifications } from 'reapop';
+import Spinner from '../common/misc/Spinner'
 
 const CreateReservation = ({ panelData = false, cb }) => {
     /* //? data may be: checkin, checkout and cabin selected from de reservation panel
@@ -132,7 +133,7 @@ const CreateReservation = ({ panelData = false, cb }) => {
     return (
         <div className='reserv-container'>
             {loading
-                ? <p>cargando...</p>
+                ? <Spinner />
                 : <>
                     <p className='text-2xl'>Registrar reserva</p>
 

@@ -268,6 +268,17 @@
         justify-content: center;
         align-items: center;
     }
+
+    .loading-container {
+        @apply absolute flex h-2 w-full overflow-clip left-0 rounded-lg;
+    }
+    .loading-bar {
+        background: linear-gradient(90deg, #00000000 35%, #78787850 42%, #ffffffda 60%, #00000000 62%);
+        background-size: 300%;
+        animation: loadingbg 1.5s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+        height: 0.15rem;
+        width: 100%;
+    }
   
     .fade-in {
         animation: fadein .3s ease-in forwards;
@@ -280,11 +291,21 @@
         opacity: 0;
     }
 
-    50% {
+    25% {
         opacity: 0;
     }
 
     100% {
         opacity: 1;
+    }
+}
+
+@keyframes loadingbg {
+    0% {
+        background-position: 100%;
+    }
+
+    100% {
+        background-position: 0%;
     }
 }

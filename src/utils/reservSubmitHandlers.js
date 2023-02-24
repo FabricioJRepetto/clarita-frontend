@@ -3,7 +3,6 @@ import { formatDate } from "./formatDate"
 import { setNIGHTS } from "./formUtils"
 
 //: TODO: Organiza todo esta mierda
-
 export const validateReservErrors = (values, client) => {
     let errors = {}
 

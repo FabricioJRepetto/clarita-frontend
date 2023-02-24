@@ -23,7 +23,6 @@ import { mutate, SWRConfig } from 'swr';
 import { deleteCookie, getCookie } from './utils/cookies';
 
 function App() {
-    //: TODO: loading spinner
     const navigate = useNavigate()
     const { notifications, dismissNotification, notify } = useNotifications()
 
@@ -67,7 +66,7 @@ function App() {
 
     return (
         <SWRConfig value={SWRcnfg}>
-            <div className="min-h-screen h-fit pl-52 pt-24 pr-4 overflow-x-hidden overflow-y-auto transition-colors duration-300">
+            <div className="min-h-screen h-fit pl-52 pt-24 pr-4 overflow-x-hidden overflow-y-auto transition-colors duration-300 fade-in">
                 <div>
                     <NotificationsSystem
                         notifications={notifications}

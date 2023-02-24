@@ -6,6 +6,7 @@ import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs'
 import CalendarMiniCabinCard from './CalendarMiniCabinCard'
 import CalendarCabinCard from './CalendarCabinCard'
 import './CalendarStyles.css'
+import Loading from '@/components/common/misc/Loading'
 
 const CabinsCalendar = () => {
     const [date, setDate] = useState(new Date().toLocaleDateString('en'))
@@ -23,8 +24,12 @@ const CabinsCalendar = () => {
             <Calendar onChange={handler} locale={'es-Ar'} />
 
             {isLoading
-                ? <p>Cargando</p>
-                : <div className='grid grid-cols-4 gap-1'>
+                ? <div className='relative h-16 mb-2'>
+                    <span className='loading-container'>
+                        <Loading />
+                    </span>
+                </div>
+                : <div className='grid grid-cols-4 gap-1 fade-in'>
                     {cabins && cabins.map(c => (
                         <CalendarMiniCabinCard key={c.id} data={c} date={date} cb={selectCabin} />
                     ))}

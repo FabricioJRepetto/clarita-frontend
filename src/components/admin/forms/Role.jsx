@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { role } from '@/components/admin/adminHandlers';
 import { useNotifications } from 'reapop';
+import Spinner from '@/components/common/misc/Spinner';
 
 const Role = ({ id, close, mutate }) => {
     const [loading, setLoading] = useState(false)
@@ -23,7 +24,7 @@ const Role = ({ id, close, mutate }) => {
             close()
         }
     }
-    //: TODO: LOADING
+
     return (
         <form onSubmit={submit} className='relative grid grid-col grid-cols-2 gap-4 w-fit'>
 
@@ -42,7 +43,8 @@ const Role = ({ id, close, mutate }) => {
             <button type='submit' className="btn-admin-p">guardar</button>
             <button type='button' onClick={close} className="btn-admin-s">cancelar</button>
 
-            {loading && <div className='absolute top-0 left-0 right-0 bottom-0 m-auto bg-black/50'>cargando</div>}
+            {loading && <Spinner />}
+
         </form>
     )
 }

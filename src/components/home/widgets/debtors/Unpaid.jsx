@@ -7,9 +7,10 @@ import React, { useMemo } from 'react'
 import DebtorCard from './DebtorCard'
 import { searchDebtors } from './searchDebtors'
 import { BsFillRecordFill } from 'react-icons/bs';
+import Loading from '@/components/common/misc/Loading'
 
 const Unpaid = () => {
-    const { reservations } = useReservations()
+    const { reservations, isLoading } = useReservations()
     const debtors = useMemo(() => searchDebtors(reservations), [reservations])
     const [isOpen, open, close, prop] = useModal()
 
@@ -25,12 +26,20 @@ const Unpaid = () => {
                     }
                 </span>
 
-                {!!debtors?.length
-                    ? debtors.map(d => (
-                        <DebtorCard data={d} key={d.id} openModal={open} />
-                    ))
-                    : <p className='text-gray-400 uppercase text-xs'>Sin reservas impagas</p>
-                }
+                {debtors &&
+                    <div className='fade-in'>
+                        {!!debtors?.length
+                            ? debtors.map(d => (
+                                <DebtorCard data={d} key={d.id} openModal={open} />
+                            ))
+                            : <p className='text-gray-400 uppercase text-xs'>Sin reservas impagas</p>}
+                    </div>}
+
+
+                {isLoading &&
+                    <span className='loading-container items-end bottom-0'>
+                        <Loading />
+                    </span>}
             </section>
 
             {isOpen &&
