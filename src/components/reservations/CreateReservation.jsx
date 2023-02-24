@@ -24,6 +24,7 @@ const CreateReservation = ({ panelData = false, cb }) => {
     const { cabins } = useCabins()
     const { clients, setClients } = useClients()
     const { reservations, setReservations } = useReservations(id)
+    const [loading, setLoading] = useState(false)
     const [editData, setEditData] = useState(false)
     const [client, setClient] = useState(false)
     const [preview, setPreview] = useState(false)
@@ -34,6 +35,7 @@ const CreateReservation = ({ panelData = false, cb }) => {
     // if ID, load edit data
     useEffect(() => {
         if (id) {
+            setLoading(() => true)
             const data = reservations.find(r => r.id === id)
             if (data) {
                 setEditData(() => data)
@@ -47,7 +49,7 @@ const CreateReservation = ({ panelData = false, cb }) => {
                     nationality: clientData.nationality
                 }))
             } else notify('Reserva no encontrada.', 'error')
-
+            setLoading(() => false)
         }
         // eslint-disable-next-line
     }, [id])
@@ -129,30 +131,34 @@ const CreateReservation = ({ panelData = false, cb }) => {
 
     return (
         <div className='reserv-container'>
-            <p className='text-2xl'>Registrar reserva</p>
+            {loading
+                ? <p>cargando...</p>
+                : <>
+                    <p className='text-2xl'>Registrar reserva</p>
 
-            <section ref={guest} className={preview ? 'hidden' : ''}>
-                <p>Huesped</p>
-                {errors?.client && <p className='error'>{errors.client}</p>}
-                <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />
-            </section>
+                    <section ref={guest} className={preview ? 'hidden' : ''}>
+                        <p>Huesped</p>
+                        {errors?.client && <p className='error'>{errors.client}</p>}
+                        <PreReservForm setClient={setClient} handler={createSubmit} cb={afterCreation} />
+                    </section>
 
-            {client &&
-                <section className={preview ? 'hidden' : ''}>
-                    <ReservationClientPreview client={client} cb={afterCreation} />
-                </section>}
+                    {client &&
+                        <section className={preview ? 'hidden' : ''}>
+                            <ReservationClientPreview client={client} cb={afterCreation} />
+                        </section>}
 
-            <section className={preview ? 'hidden' : ''}>
-                <p>Reserva</p>
-                <ReservForm handler={validateValues} cb={afterValidate} edit={editData} panelData={panelData} />
-            </section>
+                    <section className={preview ? 'hidden' : ''}>
+                        <p>Reserva</p>
+                        <ReservForm handler={validateValues} cb={afterValidate} edit={editData} panelData={panelData} />
+                    </section>
 
-            {preview &&
-                <section>
-                    <p>Resumen</p>
-                    <ReservPreview preview={preview} back={backToEdit} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
-                </section>}
+                    {preview &&
+                        <section>
+                            <p>Resumen</p>
+                            <ReservPreview preview={preview} back={backToEdit} client={client.name} cabin={cabins.find(c => c.id === preview.cabin).name} handler={handleSubmit} />
+                        </section>}
 
+                </>}
             {errors?.someError && <p className='error'>{errors.someError}</p>}
         </div>
     )

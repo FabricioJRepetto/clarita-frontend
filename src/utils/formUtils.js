@@ -91,6 +91,8 @@ export const doDatesOverlap = (a1, a2, b1, b2) => {
         x = new Date(b1),
         y = new Date(b2)
 
+    // console.log(a, b, x, y);
+
     if ((x >= a && x < b) || (x < a && y > a))
         return true
     else
@@ -108,6 +110,15 @@ export const datesValidator = (cabins, setAvCabins, setErrors) => {
     const dateA = formatDate(IN),
         dateB = formatDate(OUT),
         select = document.getElementById('cabin')
+
+    if (new Date(dateA) > new Date(dateB)) {
+        setAvCabins(() => [])
+        setErrors(errors => ({
+            ...errors,
+            checkin: 'El checkin no puede ser posterior al checkout.'
+        }))
+        return []
+    }
 
     let avCabins = []
 
@@ -139,8 +150,9 @@ export const datesValidator = (cabins, setAvCabins, setErrors) => {
             checkin: 'No hay alojamiento disponible para estas fechas'
         }))
         // set new cabin list for render
-        setAvCabins(() => cabins)
+        setAvCabins(() => [])
     }
+    return avCabins
 }
 
 export const numberToCurrency = (num) => {

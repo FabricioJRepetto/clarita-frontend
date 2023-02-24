@@ -14,8 +14,8 @@ import {
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 
 import { useNavigate } from 'react-router-dom';
-import { numberToCurrency } from '@/utils/formUtils';
 import NoPayment from '../misc/NoPayment';
+import PaymentDetailsCard from './PaymentDetailsCard';
 
 const ReservationCard = ({ data, open }) => {
     const [clientDetails, setClientDetails] = useState(false)
@@ -85,22 +85,17 @@ const ReservationCard = ({ data, open }) => {
                     <p>Estado del pago</p>
 
                     <div>
-                        {data?.paymentStatus === false
-                            ? <span className='txt-n-icon -ml-6 text-rose-500'>
+                        {data?.paymentStatus
+                            ? <span className='text-emerald-500'>Completo</span>
+                            : <span className='txt-n-icon -ml-6 text-rose-500'>
                                 <NoPayment />Incompleto
-                            </span>
-                            : <span className='text-emerald-500'>Completo</span>}
+                            </span>}
                     </div>
                 </div>
 
                 {!!data?.extraPayments?.length && <p className='pl-4 mt-4 text-gray-600 dark:text-gray-400'>Pago #1</p>}
                 <div className='details-data'>
-                    <p>Forma de pago</p> <p>{data?.paymentType}</p>
-                    {data?.fees !== '-' && <><p>Cuotas</p> <p>{data?.fees || '-'}</p></>}
-                    {(data?.mpDetails && data?.mpDetails !== '-') && <><p>Cuenta de MP</p> <p>{data?.mpDetails || '-'}</p></>}
-                    {/* <p>Divisa</p> <p>{data?.currency || '-'}</p> */}
-                    <p>Monto</p> <p>{numberToCurrency(data?.amount)} <i className='text-sm text-gray-500'>{data?.currency || '-'}</i></p>
-                    {(data?.percentage && data?.percentage !== '-') && <><p>Seña</p><p>%{data?.percentage || '-'}</p></>}
+                    <PaymentDetailsCard data={data} />
                 </div>
 
                 {!!data?.extraPayments?.length &&
@@ -108,21 +103,17 @@ const ReservationCard = ({ data, open }) => {
                         <Fragment key={'extra' + i}>
                             <p className='pl-4 mt-4 text-gray-600 dark:text-gray-400'>Pago #{2 + i}</p>
                             <div className='details-data'>
-                                <p>Forma de pago</p> <p>{e?.paymentType}</p>
-                                {e?.fees !== '-' && <><p>Cuotas</p> <p>{e?.fees || '-'}</p></>}
-                                {(e?.mpDetails && e?.mpDetails !== '-') && <><p>Cuenta de MP</p> <p>{e?.mpDetails || '-'}</p></>}
-                                {/* <p>Divisa</p> <p>{e?.currency || '-'}</p> */}
-                                <p>Monto</p> <p>{numberToCurrency(e?.amount)} <i className='text-sm text-gray-500'>{data?.currency || '-'}</i></p>
-                                {(e?.percentage && e?.percentage !== '-') && <><p>Seña</p><p>%{e?.percentage || '-'}</p></>}
+                                <PaymentDetailsCard data={e} />
                             </div>
                         </Fragment>
                     ))
                 }
 
-                <button className="btn-primary mt-6 mb-2 mx-2 "
-                    onClick={newPayment}>
-                    Agregar pago
-                </button>
+                {!data?.paymentStatus &&
+                    <button className="btn-primary mt-6 mb-2 mx-2 "
+                        onClick={newPayment}>
+                        Agregar pago
+                    </button>}
 
             </section>
 

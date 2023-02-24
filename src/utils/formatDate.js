@@ -1,5 +1,6 @@
 export const fancyDate = (date, day = true, hour = false) => {
     //? ES string format
+    if (!date) return '?'
     const opt = { year: "numeric", month: "long", day: 'numeric' }
     day && (opt.weekday = 'long')
     if (hour) {

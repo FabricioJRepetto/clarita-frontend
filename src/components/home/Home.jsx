@@ -1,35 +1,49 @@
 import React from 'react'
 // import useUser from '@/hooks/useUser';
-import { useNavigate } from 'react-router-dom';
 import CabinsCalendar from '../cabins/calendar/CabinsCalendar';
 import AdminMessage from '../common/misc/AdminMessage';
-// import QuickCheck from '../reservations/QuickCheck';
+import Unpaid from './widgets/debtors/Unpaid';
+import ShortCut from './widgets/shortcut/ShortCut';
+import QuickCheck from '../reservations/QuickCheck';
 
 const Home = () => {
     // const { user, isLoading, error, setUser } = useUser()
-    const navigate = useNavigate()
 
     return (
         <div className='flex justify-between w-full fade-in'>
 
-            <section className='full-w home-main'>
-                <AdminMessage />
+            <section className='home-main'>
 
-                <div className='grid grid-flow-col gap-2 my-2'>
-                    <button className="btn-big" onClick={() => navigate('/reservations/create')}>Crear Reserva</button>
+                <div className='col-span-6'>
+                    <AdminMessage />
                 </div>
 
-                {/* <div>
+                <div className='col-span-2 hover:dark:border-slate-600 transition-colors'>
+                    <ShortCut title='Crear Reserva' to='/reservations/create' />
+                </div>
+
+                <div className='col-span-2 hover:dark:border-slate-600 transition-colors'>
+                    <ShortCut title='Registrar Cliente' to='/clients/create' />
+                </div>
+
+                <div className='col-span-2 hover:dark:border-slate-600 transition-colors'>
+                    <ShortCut title='Registrar Cliente' to='/clients/create' />
+                </div>
+
+                <div className='col-span-6'>
                     <QuickCheck />
-                </div> */}
+                </div>
 
-                <h1>Reservas impagas</h1>
+                <div className='col-span-4'>
+                    <Unpaid />
+                </div>
 
-                <h1>Presupuesto</h1>
+
+                {/* <h1>Presupuesto</h1>
 
                 <h1>Conversor</h1>
 
-                <h1>Gráficos</h1>
+                <h1>Gráficos</h1> */}
 
             </section>
 
