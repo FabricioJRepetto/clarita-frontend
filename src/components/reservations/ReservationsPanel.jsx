@@ -24,9 +24,9 @@ const ReservationsPanel = ({ create, creating, blueprint: { dates, template } })
             </div>
 
             <div className={creatingMode ? 'pointer-events-none' : ''}>
-                <div className='tr bg-slate-900 border-t border-slate-700'>
+                <div className='tr bg-neutral-200 dark:bg-slate-900 border-t border-slate-700'>
                     {dates.map(d => (
-                        <div key={d} className={`bg-slate-800/30 flex-col px-4 ${d.getDate() === 1 ? 'bg-blue-500/20' : ''}`}>
+                        <div key={d} className={`bg-neutral-200 dark:bg-slate-800/30 flex-col px-4 ${d.getDate() === 1 ? 'bg-blue-500/20' : ''}`}>
                             <p className='capitalize'>{dayName(d)}</p>
                             <p className='dark:text-gray-400'>{correctDate(d)}</p>
                         </div>

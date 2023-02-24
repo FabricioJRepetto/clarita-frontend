@@ -12,47 +12,47 @@ const NavList = () => {
     return (
         <ul className='navList w-full'>
             <li onClick={() => navigate('/')}
-                className={`${path === '/' ? 'text-white dark:bg-slate-800' : 'text-gray-400'}`}>
+                className={`${path === '/' ? 'dark:text-white bg-neutral-200 dark:bg-slate-800' : 'text-gray-400'}`}>
                 {path === '/'
-                    ? <MdHome className='text-white' />
+                    ? <MdHome className='dark:text-white' />
                     : <MdOutlineHome className='text-gray-400' />}
                 Home
             </li>
 
             <li onClick={() => navigate('/clients')}
-                className={`${path.includes('/clients') ? 'text-white dark:bg-slate-800' : 'text-gray-400'}`}>
+                className={`${path.includes('/clients') ? 'dark:text-white bg-neutral-200 dark:bg-slate-800' : 'text-gray-400'}`}>
                 {path.includes('/clients')
-                    ? <MdPerson className='text-white' />
+                    ? <MdPerson className='dark:text-white' />
                     : <MdPermIdentity className='text-gray-400' />}
                 Clientes
             </li>
 
             <li onClick={() => navigate('/reservations')}
-                className={`${path.includes('/reservations') ? 'text-white dark:bg-slate-800' : 'text-gray-400'}`}>
+                className={`${path.includes('/reservations') ? 'dark:text-white bg-neutral-200 dark:bg-slate-800' : 'text-gray-400'}`}>
                 {path.includes('/reservations')
-                    ? <MdToday className='text-white' />
+                    ? <MdToday className='dark:text-white' />
                     : <MdOutlineToday className='text-gray-400' />}
                 Reservas
             </li>
 
             <li onClick={() => navigate('/cabins')}
-                className={`${path.includes('/cabins') ? 'text-white dark:bg-slate-800' : 'text-gray-400'}`}>
+                className={`${path.includes('/cabins') ? 'dark:text-white bg-neutral-200 dark:bg-slate-800' : 'text-gray-400'}`}>
                 {path.includes('/cabins')
-                    ? <MdHolidayVillage className='text-white' />
+                    ? <MdHolidayVillage className='dark:text-white' />
                     : <MdOutlineHolidayVillage className='text-gray-400' />}
                 Cabañas
             </li>
 
             <li onClick={() => navigate('/expenses')}
-                className={`${path.includes('/expenses') ? 'text-white dark:bg-slate-800' : 'text-gray-400'}`}>
+                className={`${path.includes('/expenses') ? 'dark:text-white bg-neutral-200 dark:bg-slate-800' : 'text-gray-400'}`}>
                 {path.includes('/expenses')
-                    ? <MdMonetizationOn className='text-white' />
+                    ? <MdMonetizationOn className='dark:text-white' />
                     : <MdAttachMoney className='text-gray-400' />}
                 Cuentas
             </li>
 
             {admin && <li onClick={() => navigate('/admin')}
-                className={`${path.includes('/admin') ? 'text-orange-500 dark:bg-slate-800' : 'text-gray-400'}`}>
+                className={`${path.includes('/admin') ? 'text-orange-500 bg-neutral-200 dark:bg-slate-800' : 'text-gray-400'}`}>
                 {path.includes('/admin')
                     ? <MdLocalPolice className='text-orange-500' />
                     : <MdOutlineLocalPolice className='text-gray-400' />}
