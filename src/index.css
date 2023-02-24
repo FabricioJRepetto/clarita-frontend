@@ -184,7 +184,11 @@
         min-width: calc(1000px - 18rem);
     }
     .home-main > div {
-        @apply w-full  border border-slate-300 dark:border-slate-700 rounded-lg;
+        @apply w-full  border border-slate-300 dark:border-slate-700 rounded-lg bg-gradient-to-b from-slate-700/20 via-transparent to-transparent;
+    }
+
+    .short-cut {
+        filter: drop-shadow(0 0px 15px rgba(138, 138, 138, 0.2)) drop-shadow(0 0px 5px rgba(125, 125, 125, 0.4));
     }
 
     .announcement {
