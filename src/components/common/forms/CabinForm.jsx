@@ -71,21 +71,3 @@ const CabinForm = ({ handler, cb }) => {
 }
 
 export default CabinForm
-
-// const ICONS = [
-    //     <MdCottage className='scale-150 m-2' />,
-    //     <MdHouse className='scale-150 m-2' />,
-    //     <MdBungalow className='scale-150 m-2' />,
-    //     <MdBedroomChild className='scale-150 m-2' />,
-    //     <MdBedroomParent className='scale-150 m-2' />,
-    //     <MdDoorFront className='scale-150 m-2' />,
-    //     <MdMeetingRoom className='scale-150 m-2' />,
-    //     <MdHotel className='scale-150 m-2' />,
-    //     <MdPark className='scale-150 m-2' />,
-    //     <MdLocalFlorist className='scale-150 m-2' />,
-    //     <MdLocalFireDepartment className='scale-150 m-2' />,
-    //     <MdStar className='scale-150 m-2' />,
-    //     <MdBolt className='scale-150 m-2' />,
-    //     <MdVpnKey className='scale-150 m-2' />,
-    //     <FaHome className='scale-150 m-2' />
-    // ]

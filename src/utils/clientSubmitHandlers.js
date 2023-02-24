@@ -40,6 +40,7 @@ export const createSubmit = async (e) => {
     const errors = validateClientErrors(values)
     if (errors) return { errors }
 
+    values.name = values.name.toLowerCase()
     if (values.nationality !== '-') {
         values.country_code = countryCode(values.nationality)
     }
@@ -72,6 +73,7 @@ export const editSubmit = async (e, id) => {
     const errors = validateClientErrors(values)
     if (errors) return { errors }
 
+    values.name = values.name.toLowerCase()
     if (values.nationality !== '-') {
         values.country_code = countryCode(values.nationality)
     }
