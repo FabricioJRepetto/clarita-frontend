@@ -8,7 +8,7 @@ const ShortCut = ({ title, to }) => {
         <div className='w-full h-24 flex justify-center items-center cursor-pointer hover:brightness-125 rounded-lg overflow-clip'
             onClick={() => navigate(to)}>
 
-            <p className='text-2xl font-bold short-cut'>
+            <p className='text-2xl font-medium dark:short-cut'>
                 {title}
             </p>
         </div>

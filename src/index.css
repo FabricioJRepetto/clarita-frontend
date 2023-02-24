@@ -8,7 +8,8 @@
     }
 
     body {
-        font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+        /* font-family: Inter, Avenir, Helvetica, Arial, sans-serif; */
+        font-family: 'Montserrat', sans-serif;
     }
 
     a {
@@ -59,7 +60,7 @@
 @layer components {
 
     .logo-font {
-        @apply text-black dark:text-white cursor-pointer text-xl mb-8;
+        @apply text-black dark:text-white text-xl mb-8;
         font-family: 'Courgette', cursive;
     }
 
@@ -77,17 +78,17 @@
         @apply w-fit cursor-pointer font-medium text-blue-400 disabled:text-gray-500 hover:enabled:text-blue-700 dark:hover:enabled:text-white underline underline-offset-4 decoration-1;
     }
     .btn-big {
-        @apply  btn-primary w-full text-2xl font-thin;
+        @apply  btn-primary w-full text-2xl;
     }    
     .btn-icon {
         @apply scale-150 text-primary-500 disabled:text-slate-600 hover:enabled:text-black hover:dark:enabled:text-white;
     }
 
     .btn-admin-p {
-        @apply px-8 h-10 bg-orange-500 disabled:brightness-50 text-white dark:text-slate-900 border-2 border-orange-500 font-semibold rounded-sm shadow-md hover:enabled:brightness-125 focus:outline-none ring-0 transition-all duration-100;
+        @apply px-8 h-10 bg-orange-500 disabled:brightness-50 text-white dark:text-slate-900 border-2 border-orange-500 font-semibold rounded-sm hover:enabled:brightness-125 focus:outline-none ring-0 transition-all duration-100;
     }
     .btn-admin-s {
-        @apply px-8 h-10 disabled:brightness-75  text-orange-500 border-2 border-orange-600 font-semibold rounded-sm shadow-md hover:enabled:brightness-125 focus:outline-none ring-0 transition-all duration-100;
+        @apply px-8 h-10 disabled:brightness-75  text-orange-500 border-2 border-orange-600 font-semibold rounded-sm hover:enabled:brightness-125 focus:outline-none ring-0 transition-all duration-100;
     }
 
     .txt-n-icon {
@@ -105,7 +106,7 @@
     }
 
     .details-card {
-        @apply grid gap-4 p-2 font-thin rounded;
+        @apply grid gap-4 p-2 rounded;
     }
     .details-card section {
         @apply border border-slate-300 dark:border-slate-800 rounded px-3 py-2;
@@ -137,7 +138,7 @@
         transition: visibility 0s 0s, opacity 0s 0s;
     }
     .navMenu p{
-        @apply txt-n-icon cursor-pointer font-thin hover:text-blue-400 transition-colors;
+        @apply txt-n-icon cursor-pointer  hover:text-blue-400 transition-colors;
     }
     .navMenu p:last-child {
         @apply hover:text-rose-700 mt-4;
@@ -147,8 +148,8 @@
         @apply flex flex-col;
     }
     .navList > li {
-        @apply txt-n-icon pl-7 py-2 gap-4 w-full cursor-pointer 
-        hover:text-white hover:dark:bg-slate-800;
+        @apply txt-n-icon pl-7 py-2 gap-4 w-full cursor-pointer hover:text-blue-400 
+        hover:dark:text-white hover:bg-neutral-200 hover:dark:bg-slate-800;
     }
     .navList > li:last-child {
         @apply hover:text-orange-400;
@@ -184,7 +185,7 @@
         min-width: calc(1000px - 18rem);
     }
     .home-main > div {
-        @apply w-full  border border-slate-300 dark:border-slate-700 rounded-lg bg-gradient-to-b from-slate-700/20 via-transparent to-transparent;
+        @apply w-full border border-slate-300 dark:border-slate-700 rounded-lg bg-gradient-to-b from-slate-200/20 dark:from-slate-700/20 via-transparent to-transparent;
     }
 
     .short-cut {
@@ -226,10 +227,10 @@
     }
 
     .tc {
-        @apply grid grid-flow-row sticky left-0 bg-slate-900 z-20;
+        @apply grid grid-flow-row sticky left-0 bg-neutral-200 dark:bg-slate-900 z-20;
     }
     .tc > div {
-        @apply align-middle text-center w-44 px-4 pt-2 border-r border-l border-b border-l-slate-600 border-r-slate-400 border-b-slate-600 bg-slate-800/30;
+        @apply align-middle text-center w-44 px-4 pt-2 border-r border-l border-b border-l-slate-600 border-r-slate-400 border-b-slate-600 bg-neutral-200 dark:bg-slate-800/30;
         height: calc(3rem + 1px);
     }
     .tr > div > p {
@@ -268,6 +269,17 @@
         align-items: center;
     }
 
+    .loading-container {
+        @apply absolute flex h-2 w-full overflow-clip left-0 rounded-lg;
+    }
+    .loading-bar {
+        background: linear-gradient(90deg, #00000000 35%, #78787850 42%, #ffffffda 60%, #00000000 62%);
+        background-size: 300%;
+        animation: loadingbg 1.5s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+        height: 0.15rem;
+        width: 100%;
+    }
+  
     .fade-in {
         animation: fadein .3s ease-in forwards;
     }
@@ -279,11 +291,21 @@
         opacity: 0;
     }
 
-    50% {
+    25% {
         opacity: 0;
     }
 
     100% {
         opacity: 1;
+    }
+}
+
+@keyframes loadingbg {
+    0% {
+        background-position: 100%;
+    }
+
+    100% {
+        background-position: 0%;
     }
 }

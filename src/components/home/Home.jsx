@@ -5,6 +5,8 @@ import AdminMessage from '../common/misc/AdminMessage';
 import Unpaid from './widgets/debtors/Unpaid';
 import ShortCut from './widgets/shortcut/ShortCut';
 import QuickCheck from '../reservations/QuickCheck';
+import { AiOutlineLoading } from 'react-icons/ai';
+import Loading from '../common/misc/Loading';
 
 const Home = () => {
     // const { user, isLoading, error, setUser } = useUser()
@@ -37,6 +39,15 @@ const Home = () => {
                 <div className='col-span-4'>
                     <Unpaid />
                 </div>
+
+                {/* <div className='col-span-1 flex justify-center items-center gap-2 relative overflow-clip'>
+
+                    <span className='absolute w-full bottom-0'>
+                        <Loading />
+                    </span>
+
+                    <AiOutlineLoading className='text-4xl animate-spin' />
+                </div> */}
 
 
                 {/* <h1>Presupuesto</h1>

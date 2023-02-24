@@ -8,8 +8,8 @@ const AdminMessage = () => {
 
     // const dev = false
     const dev = {
-        title: 'Nuevo!',
-        text: 'Aatajos en la home.',
+        title: 'Nuevo! ',
+        text: 'Atajos en la home.',
         from: 'Desarrollador',
         style: 'fix'
     }

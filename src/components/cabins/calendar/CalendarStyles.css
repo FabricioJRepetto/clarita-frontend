@@ -50,6 +50,7 @@
 .react-calendar__navigation button:enabled:hover,
 .react-calendar__navigation button:enabled:focus {
   background-color: #1e293b;
+  color: white;
 }
 .react-calendar__month-view__weekdays {
   text-align: center;
@@ -72,7 +73,8 @@
 } */
 .react-calendar__month-view__days__day--neighboringMonth {
 /* días de meses vecinos */
-  color: #4b5563; /* light #9ca3af / dark #4b5563 */
+  color: #81858d; 
+  /* light #9ca3af / dark #4b5563 */
 }
 .react-calendar__year-view .react-calendar__tile,
 .react-calendar__decade-view .react-calendar__tile,
@@ -93,9 +95,11 @@
 .react-calendar__tile:enabled:hover {
     /* hover de las casillas */
   background-color: #334155; /* light ? / dark #334155 */
+  color: white;
 }
 .react-calendar__tile--now {
   background-color: #1e293b !important; /* light ? / dark #1e293b */
+  color: white;
 }
 
 /* .react-calendar__tile--now:enabled:hover,

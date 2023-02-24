@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useClients from '@/hooks/useClients'
 import { deleteApi } from '@/services/api'
@@ -8,11 +8,14 @@ import useUser from '@/hooks/useUser'
 import { useNotifications } from 'reapop';
 import useModal from '@/hooks/useModal'
 import Modal from '@/utils/Modal'
+import Loading from '../common/misc/Loading'
+import Spinner from '../common/misc/Spinner'
 
 const ClientDetails = () => {
     const { id } = useParams()
     const { admin } = useUser()
     const { clients, error, setClients, isLoading } = useClients()
+    const [loading, setLoading] = useState(false)
     const client = clients ? clients.find(u => u.id === id) : false
     const [isOpen, open, close] = useModal()
     const { notify } = useNotifications()
@@ -20,6 +23,7 @@ const ClientDetails = () => {
     const navigate = useNavigate()
 
     const handleDelete = async () => {
+        setLoading(() => true)
         const res = await deleteApi(`/client?id=${id}`).catch(err => {
             notify(err?.message, 'error')
         })
@@ -29,6 +33,7 @@ const ClientDetails = () => {
             setClients(res.clientList)
             navigate('/clients')
         }
+        setLoading(() => false)
     }
 
     const handleEdit = () => {
@@ -37,7 +42,12 @@ const ClientDetails = () => {
 
     return (
         <>
-            {isLoading && <p>Cargando...</p>}
+            {isLoading &&
+                <div className='relative h-1 mb-2'>
+                    <span className='loading-container'>
+                        <Loading />
+                    </span>
+                </div>}
             {error && <p>error</p>}
 
             {client &&
@@ -64,7 +74,8 @@ const ClientDetails = () => {
                     <button type='submit' onClick={handleDelete} className="btn-admin-p col-span-2">Continuar</button>
                     <button type='button' onClick={close} className="btn-admin-s col-span-2">Cancelar</button>
 
-                    {/* {loading && <div className='absolute top-0 left-0 right-0 bottom-0 m-auto bg-black/50'>cargando</div>} */}
+                    {loading && <Spinner />}
+
                 </div>}
             </Modal>
         </>
