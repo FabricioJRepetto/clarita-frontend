@@ -43,7 +43,7 @@ const ReservationDetails = () => {
     //: TODO: QuickPayment en un modal o en un menu lateral?
     const modalChild = {
         deleteReserv: <DeleteReserv handleDelete={handleDelete} close={closeModal} />,
-        updatePayment: <QuickPayment id={reserv.id} status={reserv.paymentStatus} close={closeModal} />
+        updatePayment: <QuickPayment data={reserv} close={closeModal} />
     }
     const correctChild = modalChild[child]
 

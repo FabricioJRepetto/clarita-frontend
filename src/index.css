@@ -80,7 +80,7 @@
         @apply  btn-primary w-full text-2xl font-thin;
     }    
     .btn-icon {
-        @apply scale-150 text-primary-200 disabled:text-slate-600 hover:enabled:text-black hover:dark:enabled:text-white;
+        @apply scale-150 text-primary-500 disabled:text-slate-600 hover:enabled:text-black hover:dark:enabled:text-white;
     }
 
     .btn-admin-p {
@@ -112,10 +112,10 @@
     }
 
     .details-data {
-        @apply pl-8 grid grid-cols-3 items-end;
+        @apply pl-8 grid grid-cols-3 items-center;
     }
     .details-data p:nth-child(2n -1) {
-        @apply text-gray-500 align-text-bottom col-span-1 capitalize text-sm;
+        @apply text-gray-500 col-span-1 capitalize text-sm;
     }
     .details-data p:nth-child(2n) {
         @apply col-span-2 text-left capitalize;
@@ -178,8 +178,17 @@
     .full-w {
         width: calc(100% - (300px + 3rem));
     }
+
     .home-main {
+        @apply full-w h-fit grid grid-cols-6 gap-2;
         min-width: calc(1000px - 18rem);
+    }
+    .home-main > div {
+        @apply w-full  border border-slate-300 dark:border-slate-700 rounded-lg bg-gradient-to-b from-slate-700/20 via-transparent to-transparent;
+    }
+
+    .short-cut {
+        filter: drop-shadow(0 0px 15px rgba(138, 138, 138, 0.2)) drop-shadow(0 0px 5px rgba(125, 125, 125, 0.4));
     }
 
     .announcement {
@@ -245,7 +254,7 @@
     }
 
     .modal-container {
-        @apply fixed top-0 left-0 bottom-0 right-0 z-50 backdrop-brightness-75;
+        @apply fixed top-0 left-0 bottom-0 right-0 z-50 backdrop-brightness-75 max-h-screen overflow-y-auto;
         display: flex;
         flex-direction: column;
         justify-content: center;

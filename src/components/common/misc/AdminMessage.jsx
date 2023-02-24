@@ -9,7 +9,7 @@ const AdminMessage = () => {
     // const dev = false
     const dev = {
         title: 'Nuevo!',
-        text: 'Ya se pueden agregar pagos extras a las reservas de manera rápida, para completar pagos o cualquier otra necesidad. Ahora se accede desde los detalles de reserva; Próximamente habrá un atajo en la home.',
+        text: 'Aatajos en la home.',
         from: 'Desarrollador',
         style: 'fix'
     }

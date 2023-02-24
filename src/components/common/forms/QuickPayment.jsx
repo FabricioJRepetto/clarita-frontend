@@ -1,11 +1,17 @@
 import { quickPayment } from '@/utils/reservSubmitHandlers'
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { useNotifications } from 'reapop'
 import { mutate } from 'swr'
 import Switch from '../misc/Switch'
 import ReservExtraPay from './ReservExtraPay'
+import { MdPerson } from 'react-icons/md';
+import PaymentDetailsCard from '../cards/PaymentDetailsCard'
 
-const QuickPayment = ({ id, status }) => {
+const QuickPayment = ({ data, close }) => {
+    const {
+        id,
+        paymentStatus: status
+    } = data
 
     const { notify } = useNotifications()
     const [paymentStatus, setPaymentStatus] = useState(status)
@@ -17,24 +23,52 @@ const QuickPayment = ({ id, status }) => {
         setLoading(() => true)
 
         const res = await quickPayment(e, id)
-        if (res?.error) {
-            setErrors(() => errors)
+        if (res?.errors) {
+            setErrors(() => res.errors)
+            setLoading(() => false)
             return
         }
 
-        if (!res.error) {
+        if (!res.errors) {
             setErrors(() => false)
             notify(res.message, 'success')
             mutate('/reservation/all')
+            close()
         } else {
-            notify(res.error, 'error')
-            setErrors({ ...errors, someError: res.error })
+            notify(res.errors, 'error')
+            setErrors({ ...errors, someError: res.errors })
         }
         setLoading(() => false)
     }
 
     return (
         <form onSubmit={handleSubmit} className='grid grid-cols-4 gap-4'>
+
+            <p className='col-span-4 text-xl -ml-2 txt-n-icon'><MdPerson />{data?.client?.name || '?'}</p>
+
+            {!!data?.extraPayments?.length &&
+                <p className='text-gray-600 dark:text-gray-400 -mt-2 -mb-4'>
+                    Pago #1
+                </p>}
+
+            <section className='col-span-4 details-data pl-2'>
+                <PaymentDetailsCard data={data} />
+            </section>
+
+            {!!data?.extraPayments?.length &&
+                data.extraPayments.map((e, i) => (
+                    <Fragment key={'extra' + i}>
+                        <p className='text-gray-600 dark:text-gray-400 -mt-2 -mb-4'>
+                            Pago #{2 + i}
+                        </p>
+                        <div className='col-span-4 details-data pl-2 py-0'>
+                            <PaymentDetailsCard data={e} />
+                        </div>
+                    </Fragment>
+                ))
+            }
+
+
 
             <p className='col-span-4 text-xl -ml-2'>Nuevo pago</p>
 
