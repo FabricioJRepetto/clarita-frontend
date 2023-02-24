@@ -4,6 +4,7 @@ import useClients from '@/hooks/useClients'
 import { useNavigate } from 'react-router-dom'
 import { fuzzySearch } from '@/utils/fuzzySearch'
 import SearchInput from '../common/misc/SearchInput'
+import Loading from '../common/misc/Loading'
 
 const Clients = () => {
     const navigate = useNavigate()
@@ -27,7 +28,11 @@ const Clients = () => {
             </section>
 
             <SearchInput filter={filter} />
-            {isLoading && <p>Cargando...</p>}
+            {isLoading &&
+                <span className='w-full items-start top-0'>
+                    <Loading />
+                </span>
+            }
 
             <section className='full-h overflow-y-auto'>
                 <ClientList data={filtered || clients} sortKey={sortKey} />

@@ -6,7 +6,7 @@ const ClientDetailsCard = ({ user }) => {
     return (
         <div className='details-card'>
             <section>
-                <p><b className='text-2xl'>{user?.name || '-'}</b></p>
+                <p className='text-2xl font-semibold capitalize'>{user?.name || '-'}</p>
                 <i className='text-xs text-gray-500 mx-2'>ID: {user.id || '-'}</i>
                 <p className='flex gap-2 items-center'><MdCall /><b>{user?.telephone || '-'}</b></p>
                 <p className='flex gap-2 items-center'><MdEmail /><b>{user?.email ? <a href={`mailto:${user?.email}`}>{user?.email}</a> : '-'}</b></p>

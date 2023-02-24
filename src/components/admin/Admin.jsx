@@ -1,4 +1,3 @@
-import useUser from '@/hooks/useUser'
 import React, { useState } from 'react'
 import AdminUsers from './AdminUsers'
 import Annuncement from './Annuncement'
@@ -6,15 +5,7 @@ import { MdLocalPolice } from 'react-icons/md';
 import Header from '../common/misc/Header';
 
 const Admin = () => {
-    const { admin } = useUser()
     const [section, setSection] = useState(0)
-
-    if (!admin) {
-        //: TODO: TESTEAR
-        return (
-            <h1>No autorizado</h1>
-        )
-    }
 
     const sections = [
         <AdminUsers />,

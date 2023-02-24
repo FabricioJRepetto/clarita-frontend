@@ -10,6 +10,7 @@ import useModal from '@/hooks/useModal'
 import Modal from '@/utils/Modal'
 import Loading from '../common/misc/Loading'
 import Spinner from '../common/misc/Spinner'
+import ClientReservations from './ClientReservations'
 
 const ClientDetails = () => {
     const { id } = useParams()
@@ -62,6 +63,8 @@ const ClientDetails = () => {
                             <MdDelete />
                         </button>
                     </>}
+
+                    <ClientReservations id={client.id} />
                 </div>}
 
             <Modal isOpen={isOpen} close={close}>
