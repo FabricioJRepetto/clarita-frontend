@@ -18,17 +18,20 @@ const ClientList = ({ data, sortKey }) => {
     }
 
     return (
-        <div className='pb-12 relative'>
-            {!!pageContent?.length
-                ? <section>
-                    {pageContent.map(e => (
-                        <ClientMiniCard data={e} key={e.id} sortKey={sortKey} />
-                    ))}
-                </section>
-                : <p>Sin resultados para la búsqueda</p>}
+        <>
+            {data &&
+                <div className='pb-12 relative fade-in'>
+                    {!!pageContent?.length
+                        ? <section>
+                            {pageContent.map(e => (
+                                <ClientMiniCard data={e} key={e.id} sortKey={sortKey} />
+                            ))}
+                        </section>
+                        : <p>Sin resultados para la búsqueda</p>}
 
-            <PageController page={page} changePage={changePage} elements={data.length} EPP={EPP} />
-        </div>
+                    <PageController page={page} changePage={changePage} elements={data.length} EPP={EPP} />
+                </div>}
+        </>
     )
 }
 
