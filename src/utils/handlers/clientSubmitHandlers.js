@@ -7,22 +7,19 @@ export const validateClientErrors = (values) => {
 
     if (values.name === '-') errors.name = 'Campo requerido'
 
-    if (values.dni === '-') errors.dni = 'Campo requerido'
-
     if (values.email !== '-' && !emailRe.test(values.email)) {
         errors.email = 'Formato de email no válido'
     }
-    // if (values.email === '-') {
-    //     errors.email = 'Campo requerido'
-    // } else if (!emailRe.test(values.email)) {
-    //     errors.email = 'Formato de email no válido'
-    // }
-
-    // if (values.age === '-') errors.age = 'Campo requerido'
 
     // if there is one, there must be the other
     if (values.vehicleType !== '-' && values.plate === '-') errors.plate = 'Campo requerido'
     if (values.plate !== '-' && values.vehicleType === '-') errors.vehicleType = 'Campo requerido'
+
+    if (values.company === 'true') {
+        if (values.cuil === '-') errors.cuil = 'Campo requerido'
+    } else {
+        if (values.dni === '-') errors.dni = 'Campo requerido'
+    }
 
     if (!!Object.keys(errors).length) {
         return errors
@@ -51,6 +48,14 @@ export const createSubmit = async (e) => {
         delete values.age
     }
 
+    values.company = values.company === 'true'
+
+    if (values.company) {
+        values.dni = null
+    } else {
+        values.cuil = null
+    }
+
     // post on API    
     const res = await postApi(['/client/', values]).catch(err => {
         console.error(err)
@@ -58,6 +63,7 @@ export const createSubmit = async (e) => {
     })
 
     if (res) {
+        console.log(res);
         return { res }
     } else {
         console.error('createSubmit No res');
@@ -71,6 +77,7 @@ export const editSubmit = async (e, id) => {
 
     // reviso errores
     const errors = validateClientErrors(values)
+    console.log(errors);
     if (errors) return { errors }
 
     values.name = values.name.toLowerCase()
@@ -84,13 +91,21 @@ export const editSubmit = async (e, id) => {
         delete values.age
     }
 
+    values.company = values.company === 'true'
+
+    if (values.company) {
+        values.dni = null
+    } else {
+        values.cuil = null
+    }
+
     // envio a la db    
     const res = await editApi([`/client?id=${id}`, values])
         .catch(err => {
-            return { errors: err }
+            return { errors: err.message }
         })
 
-
+    console.log(res);
     if (!res.errors) {
         return { res }
     } else {

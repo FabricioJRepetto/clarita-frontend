@@ -12,12 +12,19 @@ const Clients = () => {
     const [filtered, setFiltered] = useState(false)
     const [sortKey, setSortKey] = useState('name')
 
-    const filter = (key, pattern) => {
+    const filter = (key, pattern, onlyCompany) => {
         setSortKey(() => key)
         if (pattern) {
-            const newList = fuzzySearch(clients, [key], pattern)
+            const list = onlyCompany
+                ? clients.filter(c => c.company)
+                : clients
+            const newList = fuzzySearch(list, [key], pattern)
             setFiltered(() => newList)
-        } else setFiltered(() => false)
+        } else {
+            onlyCompany
+                ? setFiltered(() => clients.filter(c => c.company))
+                : setFiltered(() => false)
+        }
     }
 
     return (
@@ -28,6 +35,7 @@ const Clients = () => {
             </section>
 
             <SearchInput filter={filter} />
+
             {isLoading &&
                 <span className='w-full items-start top-0'>
                     <Loading />

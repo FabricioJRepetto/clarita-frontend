@@ -9,7 +9,7 @@ const AdminMessage = () => {
     // const dev = false
     const dev = {
         title: 'Nuevo! ',
-        text: 'Atajos en la home.',
+        text: 'Los clientes ya pueden ser Empresas.',
         from: 'Desarrollador',
         style: 'fix'
     }

@@ -27,7 +27,7 @@ const Unpaid = () => {
                 </span>
 
                 {debtors &&
-                    <div className='fade-in'>
+                    <div className='flex flex-col gap-1'>
                         {!!debtors?.length
                             ? debtors.map(d => (
                                 <DebtorCard data={d} key={d.id} openModal={open} />

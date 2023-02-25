@@ -21,6 +21,7 @@ const SearchInput = ({ filter }) => {
     const pQuery = searchParams.get('query')
     const pKey = searchParams.get('key')
     const [querys, setQuerys] = useState({ query: '', key: 'name' })
+    const [companyOnly, setCompanyOnly] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const switchIcon = <MdFilterAlt className={`scale-150 ${expanded ? 'text-blue-400' : 'text-gray-500'}`} />
 
@@ -56,7 +57,7 @@ const SearchInput = ({ filter }) => {
         // set the search values on state
         setQuerys(() => ({ key, query }))
         // trigger the search
-        filter(key, query)
+        filter(key, query, companyOnly)
     }
 
     const toggleExpand = () => {
@@ -70,20 +71,38 @@ const SearchInput = ({ filter }) => {
         })
     }
 
+    const companyFilter = () => {
+        setCompanyOnly(curr => {
+            filter('name', false, !curr)
+            return !curr
+        })
+    }
+
     return (
         <div className='my-2 py-2'>
-            <section className='flex flex-row items-center'>
-                <input type="text" placeholder='Buscar' value={querys.query} onChange={(e) => handler(querys.key, e.target.value)} />
+            <section className='flex flex-row gap-2 items-center'>
+                <input type="text" placeholder='Buscar' value={querys.query}
+                    className='w-96'
+                    onChange={(e) => handler(querys.key, e.target.value)} />
                 <Switch options={[switchIcon]} cb={toggleExpand} />
             </section>
 
-            <section className={`p-4 ${expanded ? 'flex' : 'hidden'}`}>
-                <p className='mx-2 text-gray-500 text-sm'>Buscar por</p>
-                <select id='keySelect' value={querys.key} onChange={(e) => handler(e.target.value, querys.query)}>
-                    {KEYS.map(k => (
-                        <option key={k.name} value={k.val}>{k.name}</option>
-                    ))}
-                </select>
+            <section className={`p-4 ${expanded ? 'flex gap-4' : 'hidden'}`}>
+                <div>
+                    <p className='mx-2 text-gray-500 text-sm'>Buscar por</p>
+                    <select id='keySelect' value={querys.key}
+                        className='w-60'
+                        onChange={(e) => handler(e.target.value, querys.query)}>
+                        {KEYS.map(k => (
+                            <option key={k.name} value={k.val}>{k.name}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div>
+                    <p className='mx-2 text-gray-500 text-sm'>Solo emresas</p>
+                    <Switch options={['Si']} cb={companyFilter} />
+                </div>
             </section>
         </div>
     )

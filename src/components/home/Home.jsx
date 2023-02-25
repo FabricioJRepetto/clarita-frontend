@@ -5,8 +5,8 @@ import AdminMessage from '../common/misc/AdminMessage';
 import Unpaid from './widgets/debtors/Unpaid';
 import ShortCut from './widgets/shortcut/ShortCut';
 import QuickCheck from '../reservations/QuickCheck';
-import { AiOutlineLoading } from 'react-icons/ai';
-import Loading from '../common/misc/Loading';
+import { MdPersonAddAlt1, MdBookmarkAdd } from 'react-icons/md';
+
 
 const Home = () => {
     // const { user, isLoading, error, setUser } = useUser()
@@ -20,16 +20,12 @@ const Home = () => {
                     <AdminMessage />
                 </div>
 
-                <div className='col-span-2 hover:dark:border-slate-600 transition-colors'>
-                    <ShortCut title='Crear Reserva' to='/reservations/create' />
+                <div className='col-span-3 hover:dark:border-slate-600 transition-colors'>
+                    <ShortCut title='Crear Reserva' to='/reservations/create' icon={<MdBookmarkAdd />} />
                 </div>
 
-                <div className='col-span-2 hover:dark:border-slate-600 transition-colors'>
-                    <ShortCut title='Registrar Cliente' to='/clients/create' />
-                </div>
-
-                <div className='col-span-2 hover:dark:border-slate-600 transition-colors'>
-                    <ShortCut title='Registrar Cliente' to='/clients/create' />
+                <div className='col-span-3 hover:dark:border-slate-600 transition-colors'>
+                    <ShortCut title='Registrar Cliente' to='/clients/create' icon={<MdPersonAddAlt1 />} />
                 </div>
 
                 <div className='col-span-6'>
