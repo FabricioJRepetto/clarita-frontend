@@ -21,7 +21,7 @@ const Expenses = () => {
     const [errors, setErrors] = useState({})
 
     return (
-        <div className='relative flex flex-col w-full full-h'>
+        <div className='relative flex flex-col w-full full-h fade-in'>
             <Header title={'Cuentas'} sections={['Semana', 'Més', 'Balance General']} section={section} setSection={setSection} />
 
             <section className='full-h pt-8 pl-8 col-span-5 overflow-y-auto'>

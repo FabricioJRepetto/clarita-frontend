@@ -12,7 +12,6 @@ const useUser = () => {
         role: data?.role || undefined,
         admin: data?.role === 'admin' || data?.role === 'master',
         master: data?.role === 'master'
-
     }
 }
 

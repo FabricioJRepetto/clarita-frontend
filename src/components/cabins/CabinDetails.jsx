@@ -9,6 +9,7 @@ import { deleteApi } from '@/services/api'
 import { useNotifications } from 'reapop';
 import useModal from '@/hooks/useModal'
 import Modal from '@/utils/Modal'
+import Loading from '../common/misc/Loading'
 
 const CabinDetails = () => {
     const navigate = useNavigate()
@@ -49,7 +50,12 @@ const CabinDetails = () => {
 
     return (
         <>
-            {isLoading && <p>Cargando...</p>}
+            {isLoading &&
+                <div className='relative h-1 mb-2'>
+                    <span className='loading-container'>
+                        <Loading />
+                    </span>
+                </div>}
             {cabin &&
                 <div className='grid gap-4 p-2 my-1 relative'>
 

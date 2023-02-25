@@ -11,8 +11,8 @@ import { MdCancel } from 'react-icons/md';
 const Reservations = () => {
     const navigate = useNavigate()
     const { reservations, error, isLoading, } = useReservations()
-    const [section, setSection] = useState(0)
     const [creation, setCreation] = useState(false)
+    const [section, setSection] = useState(0)
 
     const sections = [
         <Panel creation={creation} setCreation={setCreation} />,
@@ -22,7 +22,7 @@ const Reservations = () => {
     const correctSection = sections[section]
 
     return (
-        <div className=' flex flex-col w-full full-h'>
+        <div className='flex flex-col w-full full-h fade-in'>
             <Header title={'Reservas'}
                 sections={['Panel', 'Lista']}
                 section={section}

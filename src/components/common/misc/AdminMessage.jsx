@@ -9,7 +9,7 @@ const AdminMessage = () => {
     // const dev = false
     const dev = {
         title: 'Nuevo! ',
-        text: 'Los clientes ya pueden ser Empresas.',
+        text: 'Ahora es posible iniciar sesión con email o con usuario (detectado automaticamente) y cambiar la contraseña desde el perfil de usuario.',
         from: 'Desarrollador',
         style: 'fix'
     }

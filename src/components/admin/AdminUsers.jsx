@@ -49,9 +49,11 @@ const AdminUsers = () => {
             <p>Es posible eliminar, editar contraseña, email, rol y autorizar cuentas nuevas.</p>
             <p>Haz click en un valor para actualizarlo.</p>
 
-            <div className='mt-4 grid gap-2'>{users.map(u => (
-                <UserCard user={u} key={u.id} handler={submitsHandler} />
-            ))}</div>
+            <div className='mt-4 grid gap-2 w-4/5'>
+                {users.map(u => (
+                    <UserCard user={u} key={u.id} handler={submitsHandler} />
+                ))}
+            </div>
 
             <Modal isOpen={isOpen} closeModal={close}>
                 {correctChildren}

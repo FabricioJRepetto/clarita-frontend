@@ -16,7 +16,7 @@ const Admin = () => {
     const correctSection = sections[section]
 
     return (
-        <div className='relative flex flex-col w-full full-h'>
+        <div className='relative flex flex-col w-full full-h fade-in'>
 
             <MdLocalPolice className='absolute top-0 right-0 text-9xl text-gray-200 dark:text-slate-800/50' />
 
