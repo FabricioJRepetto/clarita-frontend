@@ -35,8 +35,6 @@ const Reservations = () => {
                 }
             />
 
-
-
             {isLoading &&
                 <span className='w-full items-start top-0'>
                     <Loading />

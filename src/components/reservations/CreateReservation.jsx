@@ -7,8 +7,8 @@ import PreReservForm from '@/components/common/forms/PreReservForm'
 import ReservationClientPreview from '@/components/common/forms/ReservationClientPreview'
 import ReservForm from '@/components/common/forms/ReservForm'
 import ReservPreview from '@/components/common/forms/ReservPreview'
-import { createSubmit } from '@/utils/clientSubmitHandlers'
-import { createReserv, updateReserv, validateValues } from '@/utils/reservSubmitHandlers'
+import { createSubmit } from '@/utils/handlers/clientSubmitHandlers'
+import { createReserv, updateReserv, validateValues } from '@/utils/handlers/reservSubmitHandlers'
 import { useNotifications } from 'reapop';
 import Spinner from '../common/misc/Spinner'
 
@@ -82,29 +82,8 @@ const CreateReservation = ({ panelData = false, cb }) => {
             return
         }
 
-        const getTotal = (e) => {
-            let aux = e.fees !== '-'
-                ? e.amount * e.fees
-                : e.amount
-
-            if (!!e?.extraPayments?.length) {
-                for (let i = 0; i < e.extraPayments.length; i++) {
-                    const extra = e.extraPayments[i];
-
-                    aux += extra.fees !== '-'
-                        ? extra.amount * extra.fees
-                        : extra.amount
-                }
-            }
-
-            return aux
-        }
-
-        const total = getTotal(reserv)
-
         const data = {
             client: client?.id,
-            total,
             ...reserv
         }
         setPreview(() => data)

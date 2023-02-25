@@ -1,6 +1,6 @@
 import { editApi, postApi } from "@/services/api"
-import { formatDate } from "./formatDate"
-import { setNIGHTS } from "./formUtils"
+import { formatDate } from "../formatDate"
+import { setNIGHTS } from "../formUtils"
 
 //: TODO: Organiza todo esta mierda
 export const validateReservErrors = (values, client) => {
@@ -12,8 +12,6 @@ export const validateReservErrors = (values, client) => {
     if (values.checkin === '-') errors.checkin = 'Campo requerido'
 
     if (values.checkout === '-') errors.checkout = 'Campo requerido'
-
-    //* TODO: alertar que el checkin es anterior a hoy
 
     if (values.nights === '-') errors.nights = 'Campo requerido'
 
@@ -36,6 +34,8 @@ export const validateReservErrors = (values, client) => {
     if (values.amount === '-') errors.amount = 'Campo requerido'
 
     if (values.advance === 'true' && values.percentage === '-') errors.percentage = 'Campo requerido'
+
+    if (values.paymentStatus === 'false' && values.total === '-') errors.total = 'Campo requerido'
 
     if (!!Object.keys(errors).length) {
         return errors
@@ -101,15 +101,23 @@ export const validateValues = (e) => {
     // change dates to correct format
     values.checkin = formatDate(values.checkin)
     values.checkout = formatDate(values.checkout)
+
+    // change total to number if payment status is incomplete
+    values.paymentStatus === 'false'
+        ? values.total = parseInt(values.total.replace(/\D/g, ""))
+        : values.total = null
+
     // change paymentStatus to boolean
     values.paymentStatus = values.paymentStatus === 'true'
 
     // change currency to number
     values.amount = parseInt(values.amount.replace(/\D/g, ""))
+
     // change percentage to number
     values.percentage === '-'
         ? values.percentage = null
         : values.percentage = parseInt(values.percentage.replace(/\D/g, ""))
+
 
     // format extra payments values
     let finalExtras = []

@@ -11,8 +11,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
     const [advance, setAdvance] = useState(false)
     const [extraPayment, setExtraPayment] = useState([])
     const [paymentTypeDetails, setPaymentTypeDetails] = useState(false)
-    const [paymentStatus, setPaymentStatus] = useState(false)
-    // const [total, setTotal] = useState(false)
+    const [paymentStatus, setPaymentStatus] = useState(true)
     const [errors, setErrors] = useState(false)
     const { notify } = useNotifications()
 
@@ -109,31 +108,6 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
         // eslint-disable-next-line
     }, [edit])
 
-    //: TOTAL
-    const totalHandler = (e) => {
-        // const fees = document.getElementById('fees').value,
-        //     value = parseInt(document.getElementById('amount').value.replace(/\D/g, "")),
-        //     total = fees ? value * fees : value
-        // let extras = 0
-
-        // if (!!extraPayment?.length) {
-        //     for (let i = 0; i < extraPayment.length; i++) {
-        //         const id = extraPayment[i],
-        //             amount = document.getElementById(id + 'amount').value,
-        //             fees = document.getElementById(id + 'fees').value
-
-
-        //         extras += fees
-        //             ? amount * fees
-        //             : amount
-        //     }
-        // }
-
-        // const finalTotal = total + extras
-        // console.log('total: ', finalTotal);
-        // setTotal(() => finalTotal)
-    }
-
     const datesHandler = (e) => {
         // autofill checkin, checkout or nights
         fillDates(e)
@@ -225,7 +199,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                     <div className='error'>{errors?.cabin || ''}</div>
                 </label>
 
-                {/*//:MONEY*/}
+                {/*//? MONEY*/}
                 <p className='col-span-4 text-xl mt-4 -ml-2'>Pago</p>
                 {/*paymentType*/}
                 <label htmlFor='paymentType' className='col-span-4'>
@@ -275,7 +249,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 {/*amount*/}
                 <label htmlFor='amount' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>monto</p>
-                    <input type="text" id='amount' name='amount' placeholder='$' className='w-full' onKeyUp={formatCurrency} onChange={e => totalHandler(e.target.value)} />
+                    <input type="text" id='amount' name='amount' placeholder='$' className='w-full' onKeyUp={formatCurrency} />
                     <div className='error'>{errors?.amount || ''}</div>
                 </label>
 
@@ -310,17 +284,20 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 </button>
 
                 {/*//? paymentStatus */}
-                <label htmlFor='paymentStatus' className={`col-span-4 mt-4 pt-4 border-t border-b border-t-slate-800 border-b-slate-800`}>
-
-                    {/*//: TOTAL */}
-                    {/* <label className='col-span-4 flex justify-between items-baseline border-b border-b-slate-800 mb-4 pb-4'>
-                        <p className='text-xl'>Total</p>
-                        <b className='text-2xl'>{numberToCurrency(total)}</b>
-                    </label> */}
+                <label htmlFor='paymentStatus' className={`col-span-4 mt-4 pt-4 grid gap-2 border-t border-b border-t-slate-800 border-b-slate-800`}>
 
                     <label className='col-span-2 '>
                         <p>Estado del pago</p>
-                        <Switch options={['Completo']} cb={() => setPaymentStatus(!paymentStatus)} state={paymentStatus} />
+                        <Switch options={['Incompleto']} cb={() => setPaymentStatus(!paymentStatus)} state={!paymentStatus} />
+                        <input type="hidden" id='paymentStatus' name='paymentStatus'
+                            value={paymentStatus} />
+                    </label>
+
+                    {/*//: TOTAL */}
+                    <label htmlFor='total' className={`col-span-4 ${paymentStatus ? 'hidden' : ''}`}>
+                        <p >Total a pagar</p>
+                        <input type="text" name="total" id="total" placeholder='$' className='w-full' onKeyUp={formatCurrency} />
+                        <div className='error'>{errors?.total || ''}</div>
                     </label>
 
                     <span className='text-lg text-gray-500'>
@@ -330,7 +307,6 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                             : <b className='text-lg text-rose-500 uppercase'>{` incompleto`}</b>
                         }
                     </span>
-                    <input type="hidden" id='paymentStatus' name='paymentStatus' value={paymentStatus} className='w-full' />
                     <div className='error'>{errors?.paymentStatus || ''}</div>
                 </label>
 

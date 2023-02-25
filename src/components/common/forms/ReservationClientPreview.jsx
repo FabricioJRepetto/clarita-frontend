@@ -1,4 +1,4 @@
-import { editSubmit } from '@/utils/clientSubmitHandlers';
+import { editSubmit } from '@/utils/handlers/clientSubmitHandlers';
 import React, { useState } from 'react'
 import { MdEmail, MdCall, MdPlace, MdDirectionsCar, MdEdit } from 'react-icons/md';
 import { GrUndo } from 'react-icons/gr';

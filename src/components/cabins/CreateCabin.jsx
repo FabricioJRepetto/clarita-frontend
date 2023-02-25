@@ -1,6 +1,6 @@
 import React from 'react'
 import CabinForm from '../common/forms/CabinForm'
-import { createCabinSubmit, editCabinSubmit } from '@/utils/cabinSubmitHandler'
+import { createCabinSubmit, editCabinSubmit } from '@/utils/handlers/cabinSubmitHandler'
 import { useNavigate, useParams } from 'react-router-dom'
 import useCabins from '@/hooks/useCabins'
 import { useNotifications } from 'reapop';
