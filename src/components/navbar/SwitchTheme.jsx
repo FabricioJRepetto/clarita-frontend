@@ -18,7 +18,7 @@ const SwitchTheme = () => {
     }
 
     return (
-        <div>
+        <div className='pl-6'>
             {theme !== null &&
                 <Switch options={[<MdDarkMode />, <MdLightMode />]}
                     state={theme} cb={handleToggle} />}

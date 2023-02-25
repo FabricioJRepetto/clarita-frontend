@@ -5,8 +5,8 @@ const Login = ({ handler, error, password, signIn }) => {
         <form onSubmit={handler} className='flex flex-col gap-8 fade-in'>
 
             <label htmlFor="login-email" className='flex flex-col gap-2'>
-                <p>Email</p>
-                <input required type="email" id='login-email' className='text-black' />
+                <p>Email o usuario</p>
+                <input required type="text" id='login-email' className='text-black' />
             </label>
 
             <label htmlFor="login-pw" className='flex flex-col gap-2'>

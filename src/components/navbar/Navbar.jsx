@@ -18,7 +18,7 @@ const Navbar = () => {
                     <NavList />
                 </div>
 
-                <div className='w-full flex flex-col gap-4 items-start pb-6 pl-7'>
+                <div className='w-full flex flex-col pb-6'>
                     <NavUser />
                     <SwitchTheme />
                 </div>

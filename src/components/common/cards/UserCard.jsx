@@ -51,11 +51,13 @@ const UserCard = ({ user, handler }) => {
             <section className='flex gap-2 w-full p-4 bg-gray-200 dark:bg-slate-800/50'>
                 <button className='btn-admin-p txt-n-icon justify-center'
                     onClick={change} id='password'>
-                    Cambiar contraseña <MdVpnKey />
+                    <MdVpnKey />
+                    Cambiar contraseña
                 </button>
                 <button className='btn-admin-s txt-n-icon justify-center'
                     onClick={change} id='delete-user'>
-                    Eliminar usuario <MdPersonOff />
+                    <MdPersonOff />
+                    Eliminar usuario
                 </button>
             </section>
 

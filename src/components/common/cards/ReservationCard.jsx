@@ -135,8 +135,9 @@ const ReservationCard = ({ data, open }) => {
 
             <div className='text-xs text-right opacity-50 mx-2'>
                 <p>creación: <b>{fancyDate(data.createdAt, true, true) || '-'}</b></p>
-                <p>última edición: <b>{fancyDate(data.updatedAt, true, true) || '-'}</b></p>
                 <p>por: <b className='capitalize'>{data.creator || '-'}</b></p>
+                <p>última edición: <b>{fancyDate(data.updatedAt, true, true) || '-'}</b></p>
+                <p>por: <b className='capitalize'>{data.editor || '-'}</b></p>
                 <i>ID: {data?.id}</i>
             </div>
 

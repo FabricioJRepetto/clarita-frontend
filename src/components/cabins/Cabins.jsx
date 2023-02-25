@@ -11,7 +11,7 @@ const Cabins = () => {
     const { cabins, isLoading, error } = useCabins()
 
     return (
-        <div className='relative flex flex-col w-full full-h'>
+        <div className='relative flex flex-col w-full full-h fade-in'>
             <section className='mb-4 flex flex-col md:flex-row justify-between '>
                 <h1>Cabañas</h1>
                 {admin && <button className="btn-primary" onClick={() => navigate('/cabins/create')}>Crear</button>}
@@ -23,8 +23,7 @@ const Cabins = () => {
                         <span className='loading-container'>
                             <Loading />
                         </span>
-                    </div>
-                }
+                    </div>}
                 {error && <p>{error?.message || 'Ha ocurrido un error'}</p>}
 
                 {cabins && cabins.map(e => (

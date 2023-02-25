@@ -39,8 +39,8 @@ const LoginScreen = () => {
                 }
             }, 100);
         } else {
-            notify(user_data.error, 'error')
-            setError(() => user_data.error)
+            notify({ message: user_data.error, status: 'error', dismissAfter: 0 })
+            // setError(() => user_data.error)
         }
     }
 
@@ -55,7 +55,6 @@ const LoginScreen = () => {
             const res = await postApi(['/user/forgotPassword', data])
             if (!!res?.result?.accepted.length) {
                 setError(() => false)
-                console.log('OK');
             } else {
                 console.log('no OK', res?.error);
             }
@@ -90,7 +89,8 @@ const LoginScreen = () => {
             }
         } catch (err) {
             console.warn(err);
-            setError(() => err?.response?.message || 'Algo salió mal')
+            notify({ message: err?.message || err?.response?.message || 'Algo salió mal', status: 'error', dismissAfter: 0 })
+            // setError(() => err?.response?.message || 'Algo salió mal')
         }
     }
 
