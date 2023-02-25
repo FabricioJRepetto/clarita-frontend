@@ -7,22 +7,37 @@ export const validateClientErrors = (values) => {
 
     if (values.name === '-') errors.name = 'Campo requerido'
 
-    if (values.dni === '-') errors.dni = 'Campo requerido'
-
     if (values.email !== '-' && !emailRe.test(values.email)) {
         errors.email = 'Formato de email no válido'
     }
-    // if (values.email === '-') {
-    //     errors.email = 'Campo requerido'
-    // } else if (!emailRe.test(values.email)) {
-    //     errors.email = 'Formato de email no válido'
-    // }
-
-    // if (values.age === '-') errors.age = 'Campo requerido'
 
     // if there is one, there must be the other
     if (values.vehicleType !== '-' && values.plate === '-') errors.plate = 'Campo requerido'
     if (values.plate !== '-' && values.vehicleType === '-') errors.vehicleType = 'Campo requerido'
+
+    if (values.company) {
+        if (values.cuil === '-') errors.cuil = 'Campo requerido'
+    } else {
+        if (values.dni === '-') errors.dni = 'Campo requerido'
+    }
+
+    if (!!Object.keys(errors).length) {
+        return errors
+    }
+
+    return false
+}
+
+export const validateCompanyErrors = (values) => {
+    let errors = {}
+
+    if (values.name === '-') errors.name = 'Campo requerido'
+
+    if (values.cuil === '-') errors.cuil = 'Campo requerido'
+
+    if (values.email !== '-' && !emailRe.test(values.email)) {
+        errors.email = 'Formato de email no válido'
+    }
 
     if (!!Object.keys(errors).length) {
         return errors
