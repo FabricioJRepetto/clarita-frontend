@@ -16,6 +16,7 @@ import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import NoPayment from '../misc/NoPayment';
 import PaymentDetailsCard from './PaymentDetailsCard';
+import { numberToCurrency } from '@/utils/formUtils';
 
 const ReservationCard = ({ data, open }) => {
     const [clientDetails, setClientDetails] = useState(false)
@@ -93,6 +94,15 @@ const ReservationCard = ({ data, open }) => {
                     </div>
                 </div>
 
+                <div className='details-data mb-2'>
+                    {!data?.paymentStatus &&
+                        <>
+                            <p>Total a pagar</p>
+                            <p>{numberToCurrency(data?.total) || '?'}</p>
+                        </>}
+                </div>
+
+
                 {!!data?.extraPayments?.length && <p className='pl-4 mt-4 text-gray-600 dark:text-gray-400'>Pago #1</p>}
                 <div className='details-data'>
                     <PaymentDetailsCard data={data} />
@@ -124,8 +134,8 @@ const ReservationCard = ({ data, open }) => {
                 </section>}
 
             <div className='text-xs text-right opacity-50 mx-2'>
-                <p>creación: {fancyDate(data.createdAt, true, true) || '-'}</p>
-                <p>última edición:{fancyDate(data.updatedAt, true, true) || '-'}</p>
+                <p>creación: <b>{fancyDate(data.createdAt, true, true) || '-'}</b></p>
+                <p>última edición: <b>{fancyDate(data.updatedAt, true, true) || '-'}</b></p>
                 <p>por: <b className='capitalize'>{data.creator || '-'}</b></p>
                 <i>ID: {data?.id}</i>
             </div>

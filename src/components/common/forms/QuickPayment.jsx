@@ -1,4 +1,4 @@
-import { quickPayment } from '@/utils/reservSubmitHandlers'
+import { quickPayment } from '@/utils/handlers/reservSubmitHandlers'
 import React, { Fragment, useState } from 'react'
 import { useNotifications } from 'reapop'
 import { mutate } from 'swr'

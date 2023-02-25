@@ -65,7 +65,7 @@
     }
 
     .error {
-        @apply whitespace-nowrap pl-2 h-6 text-sm text-rose-500;
+        @apply whitespace-nowrap pl-2 h-6 text-sm font-normal text-rose-500;
     }
 
     .btn-primary {

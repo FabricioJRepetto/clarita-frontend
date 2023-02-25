@@ -1,4 +1,4 @@
-import { createSubmit, editSubmit } from '@/utils/clientSubmitHandlers'
+import { createSubmit, editSubmit } from '@/utils/handlers/clientSubmitHandlers'
 import React from 'react'
 import ClientForm from '@/components/common/forms/ClientForm'
 import useClients from '@/hooks/useClients'
