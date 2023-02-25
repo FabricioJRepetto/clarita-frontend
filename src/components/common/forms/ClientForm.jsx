@@ -15,7 +15,7 @@ const ClientForm = ({ handler, cb, edit_id }) => {
     const { notify } = useNotifications()
 
     // if ID, load edit data
-    useLoadEditData(clients, edit_id)
+    useLoadEditData(clients, edit_id, (d) => d.company && setIsCompany(true))
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -47,6 +47,7 @@ const ClientForm = ({ handler, cb, edit_id }) => {
         // however, always pass the ID
         const { res, errors: err } = await handler(e, id || edit_id)
         if (err) {
+            notify(err, 'error')
             setErrors({ ...err })
             return
         }

@@ -22,7 +22,7 @@ const DebtorCard = ({ data, openModal }) => {
         openModal(data)
 
     return (
-        <div className='relative w-full px-4 py-2 border border-slate-700 rounded-md' onClick={() => setOpen(false)}>
+        <div className='relative w-full px-4 py-2 border border-slate-700 rounded-md fade-in' onClick={() => setOpen(false)}>
 
             <p className='txt-n-icon capitalize'><MdPerson /> <Flag code={data?.client?.country_code} /> {data?.client?.name || '?'}</p>
             <p className='txt-n-icon text-gray-400 capitalize'><MdHome /> {data?.cabin?.name || '?'}</p>

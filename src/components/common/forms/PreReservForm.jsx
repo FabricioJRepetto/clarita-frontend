@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import useClients from '@/hooks/useClients'
 import ClientForm from './ClientForm'
 import { fuzzySearch } from '@/utils/fuzzySearch'
-import { MdSearch } from 'react-icons/md';
+import { MdSearch, MdApartment } from 'react-icons/md';
+import Flag from '../misc/Flag';
 
 const PreReservForm = ({ setClient, handler, cb }) => {
     const [newClient, setNewClient] = useState(false)
@@ -63,8 +64,13 @@ const PreReservForm = ({ setClient, handler, cb }) => {
                     {!!filtered.length &&
                         <div className='h-fit min-w-full absolute top-10 left-0 bg-slate-900 flex flex-col gap-1 p-2 rounded-lg border border-slate-800 z-10'>
                             {filtered.map(c => (
-                                <p key={c.id} onClick={() => selectClient(c)} className='cursor-pointer hover:bg-slate-800'><b>{c.name}</b> <i className='opacity-75'>dni: {c.dni}</i></p>
-                            ))}
+                                <div key={c.id}
+                                    onClick={() => selectClient(c)}
+                                    className='txt-n-icon cursor-pointer px-2 py-1 rounded-md hover:bg-slate-800'>
+                                    <p className='txt-n-icon capitalize'>{c.company && <MdApartment />}{c.name}</p>
+                                    <p className='opacity-50'>{c.company ? `cuil: ${c.cuil}` : `dni: ${c.dni}`}</p>
+                                </div>
+                            )).slice(0, 5)}
                         </div>}
 
                 </section>}
