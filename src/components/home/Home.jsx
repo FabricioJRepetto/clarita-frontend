@@ -42,6 +42,13 @@ const Home = () => {
                         <Loading />
                     </span>
 
+                    {isLoading &&
+                        <div className='relative h-1 mb-2'>
+                            <span className='loading-container'>
+                                <Loading />
+                            </span>
+                        </div>}
+
                     <AiOutlineLoading className='text-4xl animate-spin' />
                 </div> */}
 
