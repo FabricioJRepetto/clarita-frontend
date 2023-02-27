@@ -8,8 +8,8 @@ const AdminMessage = () => {
 
     // const dev = false
     const dev = {
-        title: 'Nuevo! ',
-        text: 'Ahora es posible iniciar sesión con email o con usuario (detectado automaticamente) y cambiar la contraseña desde el perfil de usuario.',
+        title: 'Nueva Prueba! ',
+        text: 'Disponible una versión preliminar de las Cuentas. No está terminado, probablemente haya errores. Usar con cuidado.',
         from: 'Desarrollador',
         style: 'fix'
     }
