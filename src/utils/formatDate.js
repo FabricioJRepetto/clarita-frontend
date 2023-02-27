@@ -60,3 +60,18 @@ export const weekDate = (start, day) => {
 
     return new Date(newDate).toLocaleDateString('en')
 }
+
+export const isAnotherMonth = (date, newDate) => {
+    //? detects if a date has a different month of year based on a previous date
+    const oldDate = new Date(date)
+
+    const MONTH = oldDate.getMonth()
+    const YEAR = oldDate.getMonth()
+
+    const NEW_MONTH = newDate.getMonth()
+    const NEW_YEAR = newDate.getMonth()
+
+    if (MONTH !== NEW_MONTH || YEAR !== NEW_YEAR) {
+        return true
+    } else return false
+}

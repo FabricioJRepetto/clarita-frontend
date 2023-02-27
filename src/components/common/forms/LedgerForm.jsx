@@ -4,12 +4,11 @@ import React, { useEffect, useState } from 'react'
 import { useNotifications } from 'reapop'
 import { MdOutlineAddCircle, MdCheckCircle, MdCancel } from 'react-icons/md'
 import { AiOutlineLoading } from 'react-icons/ai'
-import useLedger from '@/hooks/useLedger'
 import { numberToCurrency } from '@/utils/formUtils'
 
-const LedgerForm = ({ edit, close }) => {
-    const date = new Date(new Date()).toLocaleDateString('en')
-    const { mutate } = useLedger(date)
+const LedgerForm = ({ edit, close, date, mutate }) => {
+    // const date = new Date(new Date()).toLocaleDateString('en')
+    // const { mutate } = useLedger(date)
     const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false)
     const { notify } = useNotifications()
