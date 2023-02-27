@@ -26,14 +26,14 @@ const Unpaid = () => {
                     }
                 </span>
 
-                {debtors &&
-                    <div className='flex flex-col gap-1'>
-                        {!!debtors?.length
-                            ? debtors.map(d => (
-                                <DebtorCard data={d} key={d.id} openModal={open} />
-                            ))
-                            : <p className='text-gray-400 uppercase text-xs'>Sin reservas impagas</p>}
-                    </div>}
+
+                <div className='flex flex-col gap-1'>
+                    {!!debtors?.length
+                        ? debtors.map(d => (
+                            <DebtorCard data={d} key={d.id} openModal={open} />
+                        ))
+                        : <p className='text-gray-400 uppercase text-xs'>{isLoading ? 'cargando' : 'Sin reservas impagas'}</p>}
+                </div>
 
 
                 {isLoading &&

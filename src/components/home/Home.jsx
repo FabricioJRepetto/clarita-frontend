@@ -7,7 +7,6 @@ import ShortCut from './widgets/shortcut/ShortCut';
 import QuickCheck from '../reservations/QuickCheck';
 import { MdPersonAddAlt1, MdBookmarkAdd } from 'react-icons/md';
 
-
 const Home = () => {
     // const { user, isLoading, error, setUser } = useUser()
 
@@ -36,11 +35,27 @@ const Home = () => {
                     <Unpaid />
                 </div>
 
+                {/* <div className='col-span-4'>
+                    <label htmlFor='submit' className='pt-6 col-span-1 '>
+                        <button type='submit' id='submit' className="txt-n-icon btn-primary justify-center w-full px-0">
+                            <AiOutlineLoading className='animate-spin' />
+                            Registrando
+                        </button>
+                    </label>
+                </div> */}
+
                 {/* <div className='col-span-1 flex justify-center items-center gap-2 relative overflow-clip'>
 
                     <span className='absolute w-full bottom-0'>
                         <Loading />
                     </span>
+
+                    {isLoading &&
+                        <div className='relative h-1 mb-2'>
+                            <span className='loading-container'>
+                                <Loading />
+                            </span>
+                        </div>}
 
                     <AiOutlineLoading className='text-4xl animate-spin' />
                 </div> */}

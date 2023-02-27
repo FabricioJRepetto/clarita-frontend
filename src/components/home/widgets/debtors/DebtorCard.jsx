@@ -1,6 +1,6 @@
 import Flag from '@/components/common/misc/Flag';
 import React, { useState } from 'react'
-import { MdHome, MdPerson, MdMoreVert } from 'react-icons/md';
+import { MdHome, MdPerson, MdMoreVert, MdOutlineBookmark, MdPayments } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 const DebtorCard = ({ data, openModal }) => {
@@ -12,14 +12,17 @@ const DebtorCard = ({ data, openModal }) => {
         setOpen(() => true)
     }
 
-    const goReserv = () =>
+    const goReserv = () => {
         navigate(`/reservations/details/${data?.id}`)
+    }
 
-    const goClient = () =>
+    const goClient = () => {
         navigate(`/clients/details/${data?.client?.id}`)
+    }
 
-    const payment = () =>
+    const payment = () => {
         openModal(data)
+    }
 
     return (
         <div className={`relative w-full px-4 py-2 border border-slate-700 rounded-md fade-in ${open ? 'z-10' : ''}`} onClick={() => setOpen(false)}>
@@ -30,19 +33,23 @@ const DebtorCard = ({ data, openModal }) => {
             <button className='btn-icon absolute right-3 top-3' onClick={openMenu}><MdMoreVert /></button>
 
             {open &&
-                <section className='absolute -right-2 top-2 w-fit h-fit py-2 border border-slate-400 dark:border-slate-700 rounded-md bg-neutral-100 dark:bg-slate-900'>
+                <section onMouseLeave={() => setOpen(false)}
+                    className='absolute -right-2 top-2 w-fit h-fit py-2 border border-slate-400 dark:border-slate-700 rounded-md bg-neutral-100 dark:bg-slate-900'>
                     <p onClick={goReserv}
-                        className='cursor-pointer px-4 py-1 w-full hover:bg-gray-300 hover:dark:bg-slate-800'>
+                        className='txt-n-icon cursor-pointer px-4 py-1 w-full hover:bg-gray-300 hover:dark:bg-slate-800'>
+                        <MdOutlineBookmark />
                         ver reserva
                     </p>
 
                     <p onClick={goClient}
-                        className='cursor-pointer px-4 py-1 w-full hover:bg-gray-300 hover:dark:bg-slate-800'>
+                        className='txt-n-icon cursor-pointer px-4 py-1 w-full hover:bg-gray-300 hover:dark:bg-slate-800'>
+                        <MdPerson />
                         ver cliente
                     </p>
 
                     <p onClick={payment}
-                        className='cursor-pointer px-4 py-1 w-full hover:bg-gray-300 hover:dark:bg-slate-800'>
+                        className='txt-n-icon cursor-pointer px-4 py-1 w-full hover:bg-gray-300 hover:dark:bg-slate-800'>
+                        <MdPayments />
                         agregar pago
                     </p>
 

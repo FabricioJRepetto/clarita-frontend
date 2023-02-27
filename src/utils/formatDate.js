@@ -52,3 +52,11 @@ export const dayName = (d) => {
 
     return new Date(date).toLocaleDateString("es-Ar", { weekday: 'long' })
 }
+
+export const weekDate = (start, day) => {
+    //? returns the date of any week day based on the date of the first day of the week
+    const date = new Date(start)
+    const newDate = date.setDate(date.getDate() + day)
+
+    return new Date(newDate).toLocaleDateString('en')
+}
