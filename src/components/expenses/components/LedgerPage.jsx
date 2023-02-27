@@ -6,6 +6,7 @@ import React, { useMemo } from 'react'
 import { useNotifications } from 'reapop'
 import { getBalance } from '../utils/getBalance'
 import EntryList from './EntryList'
+import { MdArrowDownward, MdArrowUpward } from 'react-icons/md'
 
 const LedgerPage = ({ data, date, mutate, editEnable = false }) => {
     const { notify } = useNotifications()
@@ -29,7 +30,7 @@ const LedgerPage = ({ data, date, mutate, editEnable = false }) => {
     }
 
     return (
-        <section className='h-full'>
+        <section className='h-full fade-in'>
             {date
                 ? <>
                     <div className='txt-n-icon justify-between pb-2'>
@@ -48,7 +49,10 @@ const LedgerPage = ({ data, date, mutate, editEnable = false }) => {
                         <p className='col-span-5'>Perdida:</p>
                         <p className='col-span-1 text-rose-500 text-xl'>-{numberToCurrency(expense)}</p>
                         <p className='col-span-5'>Total Neto:</p>
-                        <p className='col-span-1 text-xl font-medium border-t border-t-slate-700'>{total < 0 ? '-' : ''}{numberToCurrency(total)}</p>
+                        <div className={`col-span-1 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${total < 0 ? 'text-rose-500' : total > 0 ? 'text-emerald-500' : ''}`}>
+                            {total < 0 ? <MdArrowDownward /> : total > 0 ? <MdArrowUpward /> : ''}
+                            <p>{(total < 0 ? '-' : '') + numberToCurrency(total)}</p>
+                        </div>
                     </section>
                 </>
                 : <p className='text-lg text-gray-500 py-4'>Selecciona una fecha para ver registros</p>

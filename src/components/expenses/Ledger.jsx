@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Header from '../common/misc/Header'
 import Day from './Day'
+import Month from './Month'
 import Week from './Week'
 
 const Expenses = () => {
@@ -10,8 +11,7 @@ const Expenses = () => {
     const sections = [
         <Day date={date} />,
         <Week date={date} />,
-        <p>Mes: calendario del mes, con detalles en cada día. Opción para seleccionar otro més.</p>,
-        <p>Mes: calendario del mes, con detalles en cada día. Opción para seleccionar otro més.</p>,
+        <Month date={date} />,
         <p>Balance General: Anual?</p>,
     ]
     const correctSection = sections[section]

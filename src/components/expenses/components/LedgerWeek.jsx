@@ -1,54 +1,25 @@
 import React from 'react'
-import { getDay } from '../utils/getDay'
+import { defineWeek } from '@/utils/defineWeek'
+import { getDay } from '@/utils/getDay'
+import WeekDay from '@/components/expenses/components/WeekDay'
+import { weekDate } from '@/utils/formatDate'
 
-const LedgerWeek = ({ data }) => {
+const LedgerWeek = ({ data, setDate, day }) => {
+    const {
+        // today,
+        start,
+        end
+    } = defineWeek(new Date().toLocaleDateString('en'))
 
     return (
         <section className='grid grid-cols-7 gap-2'>
-
-            <div className='h-24 border rounded-md px-4 py-2'>
-                Lunes
-                <p>{getDay(1, data)?.date}</p>
-                <p>ingresos</p>
-                <p>gastos</p>
-            </div>
-            <div className='h-24 border rounded-md px-4 py-2'>
-                Martes
-                <p>{getDay(2, data)?.date}</p>
-                <p>ingresos</p>
-                <p>gastos</p>
-            </div>
-            <div className='h-24 border rounded-md px-4 py-2'>
-                Miercoles
-                <p>{getDay(3, data)?.date}</p>
-                <p>ingresos</p>
-                <p>gastos</p>
-            </div>
-            <div className='h-24 border rounded-md px-4 py-2'>
-                Jueves
-                <p>{getDay(4, data)?.date}</p>
-                <p>ingresos</p>
-                <p>gastos</p>
-            </div>
-            <div className='h-24 border rounded-md px-4 py-2'>
-                Viernes
-                <p>{getDay(5, data)?.date}</p>
-                <p>ingresos</p>
-                <p>gastos</p>
-            </div>
-            <div className='h-24 border rounded-md px-4 py-2'>
-                Sabado
-                <p>{getDay(6, data)?.date}</p>
-                <p>ingresos</p>
-                <p>gastos</p>
-            </div>
-            <div className='h-24 border rounded-md px-4 py-2'>
-                Domingo
-                <p>{getDay(0, data)?.date}</p>
-                <p>ingresos</p>
-                <p>gastos</p>
-            </div>
-
+            <WeekDay name='Lunes' data={getDay(1, data)} setDate={setDate} date={start} day={day} />
+            <WeekDay name='Martes' data={getDay(2, data)} setDate={setDate} date={weekDate(start, 1)} day={day} />
+            <WeekDay name='Miercoles' data={getDay(3, data)} setDate={setDate} date={weekDate(start, 2)} day={day} />
+            <WeekDay name='Jueves' data={getDay(4, data)} setDate={setDate} date={weekDate(start, 3)} day={day} />
+            <WeekDay name='Viernes' data={getDay(5, data)} setDate={setDate} date={weekDate(start, 4)} day={day} />
+            <WeekDay name='Sabado' data={getDay(6, data)} setDate={setDate} date={weekDate(start, 5)} day={day} />
+            <WeekDay name='Domingo' data={getDay(7, data)} setDate={setDate} date={end} day={day} />
         </section>
     )
 }

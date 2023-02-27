@@ -4,6 +4,8 @@ export const getBalance = (list) => {
         expense: 0,
         total: 0
     };
+
+    if (!list) return balance
     list.forEach(m => {
         if (m.currency === 'ARS') {
             if (m.entryType === 'income') {
