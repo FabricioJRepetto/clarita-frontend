@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import useClients from '@/hooks/useClients'
 import ClientForm from './ClientForm'
 import { fuzzySearch } from '@/utils/fuzzySearch'
-import { MdSearch, MdApartment } from 'react-icons/md';
-import Flag from '../misc/Flag';
+import { MdSearch, MdApartment } from 'react-icons/md'
 
 const PreReservForm = ({ setClient, handler, cb }) => {
     const [newClient, setNewClient] = useState(false)

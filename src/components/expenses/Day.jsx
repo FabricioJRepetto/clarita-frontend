@@ -1,19 +1,16 @@
 import useLedger from '@/hooks/useLedger'
-import React, { useState } from 'react'
+import React, { useMemo } from 'react'
 import Loading from '../common/misc/Loading'
 import LedgerPage from './components/LedgerPage'
-import LedgerWeek from './components/LedgerWeek'
 
-const Week = ({ date }) => {
+const Day = ({ date }) => {
     const { week, isLoading, mutate } = useLedger(date)
-    const [day] = useState(false)
 
-    // const week = month
+    const time = new Date(date).toLocaleDateString('en')
+    const today = useMemo(() => week ? week[time] : [], [week, time])
 
     return (
-        <div>
-            <p>Semana: resumen semanal, con entradas de cada día.</p>
-
+        <div className='h-full fade-in flex flex-col gap-4'>
             {isLoading &&
                 <div className='relative h-1 mb-2'>
                     <span className='loading-container'>
@@ -21,13 +18,10 @@ const Week = ({ date }) => {
                     </span>
                 </div>}
 
-            <LedgerWeek data={week} />
-
-            {/* <LedgerPage month={week} mutate={mutate} date={day} /> */}
-
+            <LedgerPage data={today} mutate={mutate} date={date} editEnable={true} />
 
         </div>
     )
 }
 
-export default Week
+export default Day

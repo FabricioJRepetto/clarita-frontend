@@ -18,7 +18,7 @@ import Layout from '@/components/common/misc/Layout';
 import Profile from '@/components/user/Profile';
 import Admin from '@/components/admin/Admin';
 import PrivateRoutes from '@/components/common/misc/PrivateRoutes';
-import Expenses from '@/components/expenses/Expenses';
+import Expenses from '@/components/expenses/Ledger';
 import { mutate, SWRConfig } from 'swr';
 import { deleteCookie, getCookie } from './utils/cookies';
 
@@ -66,7 +66,7 @@ function App() {
 
     return (
         <SWRConfig value={SWRcnfg}>
-            <div className="min-h-screen h-fit pl-52 pt-24 pr-4 overflow-x-hidden overflow-y-auto transition-colors duration-300 fade-in">
+            <div className="APP">
                 <div>
                     <NotificationsSystem
                         notifications={notifications}

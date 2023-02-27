@@ -1,11 +1,11 @@
 import { api } from '@/services/api'
 import useSWR from 'swr'
 
-const useLedger = () => {
-    const { data, error, isLoading, mutate } = useSWR(`/ledger/all`, api)
+const useLedger = (date) => {
+    const { data, error, isLoading, mutate } = useSWR(date ? `/ledger?date=${date}` : null, api)
 
     return {
-        all: data,
+        week: data?.week,
         error,
         isLoading,
         mutate
