@@ -30,8 +30,7 @@ function App() {
         defaultProps: {
             position: 'bottom-center',
             dismissible: true,
-            dismissAfter: 3000,
-            showDismissButton: true
+            dismissAfter: 3000
         }
     })
 
