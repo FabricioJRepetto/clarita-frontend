@@ -51,7 +51,7 @@ const Home = () => {
                     </label>
                 </div> */}
 
-                <div className='col-span-2 flex justify-center items-center gap-2 relative overflow-clip'>
+                {/* <div className='col-span-2 flex justify-center items-center gap-2 relative overflow-clip'>
 
                     <span className='absolute w-full bottom-0'>
                         <Loading />
@@ -65,7 +65,7 @@ const Home = () => {
                         </div>}
 
                     <AiOutlineLoading className='text-4xl animate-spin' />
-                </div>
+                </div> */}
 
 
                 {/* <h1>Presupuesto</h1>
