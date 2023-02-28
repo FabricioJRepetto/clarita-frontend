@@ -31,8 +31,8 @@ const Email = ({ id, close, mutate }) => {
                 <p>Introduce un nuevo email:</p>
                 <input type="email" required className='w-full' />
             </span>
-            <button type='submit' className="btn-admin-p col-span-2">guardar</button>
             <button type='button' onClick={close} className="btn-admin-s col-span-2">cancelar</button>
+            <button type='submit' className="btn-admin-p col-span-2">guardar</button>
 
             {loading && <Spinner />}
 

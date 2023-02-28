@@ -21,8 +21,8 @@ const ReservationDetails = () => {
     const [isOpen, open, close] = useModal()
     const [child, setChild] = useState(false)
 
-    const handleDelete = async () => {
-        const res = await deleteApi(`/reservation?id=${id}`)
+    const handleDelete = async (remove) => {
+        const res = await deleteApi(`/reservation?id=${id}&remove=${String(remove)}`)
             .catch(err => notify(err.message, 'error'))
 
         notify(res.message, 'success')

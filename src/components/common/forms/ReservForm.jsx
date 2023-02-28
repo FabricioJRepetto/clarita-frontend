@@ -184,7 +184,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 {/*persons*/}
                 <label htmlFor='persons' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>personas</p>
-                    <input type="number" id='persons' name='persons' placeholder='Pax' className='w-full' />
+                    <input type="number" id='persons' name='persons' min={1} placeholder='Pax' className='w-full' />
                     <div className='error'>{errors?.persons || ''}</div>
                 </label>
                 {/*cabin*/}

@@ -74,8 +74,8 @@ const ClientDetails = () => {
                         <p>Esta acción es <b>irreversible</b> y puede traer problemas en otras secciones.</p>
                     </span>
 
-                    <button type='submit' onClick={handleDelete} className="btn-admin-p col-span-2">Continuar</button>
                     <button type='button' onClick={close} className="btn-admin-s col-span-2">Cancelar</button>
+                    <button type='submit' onClick={handleDelete} className="btn-admin-p col-span-2">Continuar</button>
 
                     {loading && <Spinner />}
 
