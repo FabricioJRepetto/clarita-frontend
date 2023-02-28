@@ -33,6 +33,12 @@ const QuickCheck = () => {
         setErrors(() => false)
     }
 
+    //: TODO: terminar esto
+    const createReserv = (e) => {
+        e.preventDefault()
+        console.log('sin terminar 🙃');
+    }
+
     return (
         <div className='h-fit w-full px-4 pt-2 pb-4 flex flex-col gap-2 justify-between relative'>
 
@@ -64,7 +70,7 @@ const QuickCheck = () => {
                 {errors?.checkin && <p className={`text-rose-400 uppercase text-xs`}>{errors.checkin}</p>}
                 {!!avCabins?.length &&
                     avCabins.map(c => (
-                        <p key={c.id} className='capitalize'>{c.name}</p>
+                        <p key={c.id} className='capitalize' onClick={createReserv}>{c.name}</p>
                     ))}
             </section>
         </div>

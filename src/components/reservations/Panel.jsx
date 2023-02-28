@@ -37,8 +37,6 @@ const Panel = ({ creation, setCreation }) => {
             </section>
 
             <ReservationsPanel create={setCreation} creating={creation} blueprint={blueprint} />
-
-
         </>
     )
 }

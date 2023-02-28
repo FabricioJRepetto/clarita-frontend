@@ -8,8 +8,8 @@ const AdminMessage = () => {
 
     // const dev = false
     const dev = {
-        title: 'Nueva Prueba! ',
-        text: 'Disponible una versión preliminar de las Cuentas. No está terminado, probablemente haya errores. Usar con cuidado.',
+        title: 'Cuentas v2',
+        text: 'Nueva versión de Cuentas. Calendario para ver/registrar/editar en fechas especificas. Las nuevas reservas y pagos rapidos se registran automáticamente.',
         from: 'Desarrollador',
         style: 'fix'
     }

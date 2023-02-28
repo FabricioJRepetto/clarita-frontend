@@ -12,6 +12,14 @@ export const fancyDate = (date, day = true, hour = false) => {
     return new Date(date.toString()).toLocaleDateString("es-Ar", opt)
 }
 
+export const fancyMonth = (date) => {
+    //? ES string format month
+    if (!date) return '?'
+
+    const month = new Date(date.toString()).toLocaleDateString("es-Ar", { month: "long" })
+    return month[0].toUpperCase() + month.slice(1)
+}
+
 export const correctDate = (d) => {
     //? REST OF THE WORLD DATE format dd-mm-yyyy
     if (!d) return '-'
@@ -74,4 +82,13 @@ export const isAnotherMonth = (date, newDate) => {
     if (MONTH !== NEW_MONTH || YEAR !== NEW_YEAR) {
         return true
     } else return false
+}
+
+export const isSameDay = (a, b) => {
+    const A = new Date(a).getTime(),
+        B = new Date(b.toLocaleDateString('en')).getTime()
+
+    if (A === B) return true
+
+    return false
 }

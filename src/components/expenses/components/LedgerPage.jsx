@@ -30,13 +30,13 @@ const LedgerPage = ({ data, date, mutate, editEnable = false }) => {
         <section className='h-full fade-in'>
             {date
                 ? <>
-                    <div className='txt-n-icon justify-between pb-2'>
+                    <div className='txt-n-icon justify-between pb-4'>
                         <div className='text-2xl'>
                             Entradas del {<p className='font-semibold capitalize inline'>{fancyDate(date)}</p>}
                         </div>
                     </div>
 
-                    <EntryList data={data} deleteEntry={deleteEntry} date={false} />
+                    <EntryList data={data} deleteEntry={deleteEntry} mutate={mutate} date={false} />
 
                     {editEnable && <LedgerForm date={date} mutate={mutate} />}
 

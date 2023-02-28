@@ -20,7 +20,7 @@ const Week = ({ date }) => {
             income: 0,
             expense: 0
         }
-        Object.values(week).forEach(day => {
+        Object.values(week || {}).forEach(day => {
             const { income, expense } = getBalance(day)
             aux.income = aux.income + income
             aux.expense = aux.expense + expense

@@ -6,6 +6,7 @@ import Switch from '../misc/Switch'
 import ReservExtraPay from './ReservExtraPay'
 import { MdPerson } from 'react-icons/md';
 import PaymentDetailsCard from '../cards/PaymentDetailsCard'
+import { numberToCurrency } from '@/utils/formUtils'
 
 const QuickPayment = ({ data, close }) => {
     const {
@@ -43,8 +44,9 @@ const QuickPayment = ({ data, close }) => {
 
     return (
         <form onSubmit={handleSubmit} className='grid grid-cols-4 gap-4'>
+            <p className='col-span-4 text-xl -ml-2 txt-n-icon capitalize'><MdPerson />{data?.client?.name || '?'}</p>
 
-            <p className='col-span-4 text-xl -ml-2 txt-n-icon'><MdPerson />{data?.client?.name || '?'}</p>
+            {data?.total && <p className='col-span-4 text-xl pl-2'>Total a pagar: {numberToCurrency(data.total)}</p>}
 
             {!!data?.extraPayments?.length &&
                 <p className='text-gray-600 dark:text-gray-400 -mt-2 -mb-4'>
@@ -68,8 +70,6 @@ const QuickPayment = ({ data, close }) => {
                 ))
             }
 
-
-
             <p className='col-span-4 text-xl -ml-2'>Nuevo pago</p>
 
             <ReservExtraPay remove={null} errors={errors} ID={''} />
@@ -81,17 +81,18 @@ const QuickPayment = ({ data, close }) => {
                     <Switch options={['Completo']} cb={() => setPaymentStatus(!paymentStatus)} state={paymentStatus} />
                 </label>
 
-                <span className='text-lg text-gray-500'>
+                <div className='text-lg mx-auto text-center max-w-sm whitespace-normal text-gray-500'>
                     El pago de la reserva se guardará como
-                    <b className={`text-lg ${paymentStatus ? 'text-emerald-500' : 'text-rose-500'} transition-colors duration-500 uppercase`}>
+                    <b className={`text-xl ${paymentStatus ? 'text-emerald-500' : 'text-rose-500'} transition-colors duration-500 uppercase`}>
                         {paymentStatus ? ` completo` : ' incompleto'}
                     </b>
-                </span>
+                </div>
 
                 <input type="hidden" id='paymentStatus' name='paymentStatus' value={paymentStatus} className='w-full' />
             </label>
 
-            <button type='submit' className="btn-primary col-start-2 col-span-2 my-2">Continuar</button>
+            <button type='button' onClick={close} className="btn-secondary col-span-2 my-2">Cancelar</button>
+            <button type='submit' className="btn-primary col-span-2 my-2">Continuar</button>
 
             {loading && <div className='absolute top-0 left-0 right-0 bottom-0 m-auto bg-black/50'>cargando</div>}
         </form>

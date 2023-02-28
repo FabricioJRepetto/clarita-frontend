@@ -27,6 +27,7 @@ const CabinDetails = () => {
         setShowDetails(!showDetails)
     }
 
+    //: TODO: terminar esto
     const handleCreate = (e) => {
         console.log('handleCreate');
     }
@@ -63,7 +64,7 @@ const CabinDetails = () => {
                         <p className='absolute text-9xl font-black opacity-10 -z-10 top-0 left-0'>{cabin?.identifier}</p>
 
                         <div className='mb-4 flex flex-col md:flex-row justify-between'>
-                            <h1>{cabin?.name}</h1>
+                            <h1 className='capitalize'>{cabin?.name}</h1>
                             <button className='btn-primary my-auto' onClick={handleCreate}>Crear reserva aquí</button>
                         </div>
 
@@ -111,10 +112,9 @@ const CabinDetails = () => {
                         <p>Esta acción es <b>irreversible</b>.</p>
                     </span>
 
-                    <button type='submit' onClick={handleDelete} className="btn-primary col-span-2">Continuar</button>
-                    <button type='button' onClick={close} className="btn-secondary col-span-2">Cancelar</button>
+                    <button type='submit' onClick={handleDelete} className="btn-admin-p col-span-2">Continuar</button>
+                    <button type='button' onClick={close} className="btn-admin-s col-span-2">Cancelar</button>
 
-                    {/* {loading && <div className='absolute top-0 left-0 right-0 bottom-0 m-auto bg-black/50'>cargando</div>} */}
                 </div>}
             </Modal>
         </>

@@ -3,11 +3,14 @@ import { correctDate } from '@/utils/formatDate'
 import { numberToCurrency } from '@/utils/formUtils'
 import React, { useState } from 'react'
 import { MdArrowDownward, MdArrowUpward, MdMoreVert, MdMode, MdDelete } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
-const EntryCard = ({ data, deleteEntry, date = true }) => {
+const EntryCard = ({ data, deleteEntry, date = true, mutate }) => {
     const gain = data?.entryType === 'income'
     const [open, setOpen] = useState(false)
     const [editMode, setEditMode] = useState(false)
+    const [expand, setExpand] = useState(false)
+    const navigate = useNavigate()
 
     const edit = (e) => {
         e.stopPropagation()
@@ -19,11 +22,14 @@ const EntryCard = ({ data, deleteEntry, date = true }) => {
         setOpen(() => false)
         deleteEntry(data.date, data._id)
     }
+    const goReserv = () => {
+        data?.reservation && navigate(`/reservations/details/${data?.reservation}`)
+    }
 
     return (
         <>
             {editMode
-                ? <LedgerForm edit={data} close={() => setEditMode(() => false)} />
+                ? <LedgerForm edit={data} mutate={mutate} close={() => setEditMode(() => false)} />
                 : <div className={`ledger-row grid-cols-8 fade-in ${open ? 'z-10' : ''}`}>
 
                     {date &&
@@ -37,7 +43,12 @@ const EntryCard = ({ data, deleteEntry, date = true }) => {
                             : <><MdArrowDownward /> <p className='uppercase pl-2 text-xs'>perdida</p></>}
                     </div>
 
-                    <div className={`ellipsis ${date ? 'col-span-4' : 'col-span-5'}`}>
+                    <div onMouseEnter={() => setExpand(true)}
+                        onMouseLeave={() => setExpand(false)}
+                        onClick={goReserv}
+                        className={`ellipsis txt-n-icon gap-0 ${date ? 'col-span-4' : 'col-span-5'} ${data?.reservation ? 'cursor-pointer' : ''}`}>
+                        {data?.reservation &&
+                            <span className={`flex items-center h-5 ${expand ? 'min-w-10 px-2 mr-2 opacity-100' : 'w-0 px-0 opacity-0'} overflow-hidden bg-rose-600 rounded-lg transition-all text-white`}>ver</span>}
                         {data?.description}
                     </div>
 

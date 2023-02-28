@@ -300,13 +300,13 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                         <div className='error'>{errors?.total || ''}</div>
                     </label>
 
-                    <span className='text-lg text-gray-500'>
+                    <div className='text-lg mx-auto text-center max-w-sm whitespace-normal text-gray-500'>
                         El pago de la reserva se guardará como
-                        {paymentStatus
-                            ? <b className='text-lg text-emerald-500 uppercase'>{` completo`}</b>
-                            : <b className='text-lg text-rose-500 uppercase'>{` incompleto`}</b>
-                        }
-                    </span>
+                        <b className={`text-xl ${paymentStatus ? 'text-emerald-500' : 'text-rose-500'} transition-colors duration-500 uppercase`}>
+                            {paymentStatus ? ` completo` : ' incompleto'}
+                        </b>
+                    </div>
+
                     <div className='error'>{errors?.paymentStatus || ''}</div>
                 </label>
 

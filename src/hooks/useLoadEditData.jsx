@@ -11,7 +11,7 @@ const useLoadEditData = (data, edit_id, cb) => {
             const editData = data.find(c => c.id === ID)
             if (editData) {
                 loadData(editData)
-                cb(editData)
+                cb && cb(editData)
             }
         }
         // eslint-disable-next-line

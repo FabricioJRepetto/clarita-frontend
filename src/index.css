@@ -77,7 +77,7 @@
 @layer components {
 
     .APP {
-        @apply min-h-screen h-fit pl-52 pt-12 pr-4 overflow-x-hidden overflow-y-auto transition-colors duration-300 fade-in;
+        @apply min-h-screen w-screen h-fit pl-52 pt-12 pr-4 overflow-x-hidden overflow-y-auto transition-colors duration-300 fade-in;
     }
     .full-h {
         height: calc(100vh - 3rem);
@@ -192,6 +192,7 @@
 
     .reserv-container {
         @apply flex flex-col gap-8 w-fit;
+        max-width: 450px;
     }
     .reserv-container > section {
         @apply p-8 border border-slate-800 rounded-xl relative;

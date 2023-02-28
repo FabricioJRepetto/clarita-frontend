@@ -1,23 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import useUser from '@/hooks/useUser';
 import CabinsCalendar from '../cabins/calendar/CabinsCalendar';
 import AdminMessage from '../common/misc/AdminMessage';
 import Unpaid from './widgets/debtors/Unpaid';
 import ShortCut from './widgets/shortcut/ShortCut';
 import QuickCheck from '../reservations/QuickCheck';
-import { MdPersonAddAlt1, MdBookmarkAdd } from 'react-icons/md';
+import Loading from '../common/misc/Loading';
+import { MdPersonAddAlt1, MdBookmarkAdd, MdOutlineFirstPage, MdOutlineLastPage } from 'react-icons/md';
+import { AiOutlineLoading } from 'react-icons/ai';
 
 const Home = () => {
     // const { user, isLoading, error, setUser } = useUser()
+    const [colapsed, setColapsed] = useState(false)
 
     return (
         <div className='flex justify-between w-full fade-in'>
 
-            <section className='home-main'>
+            <div className='absolute w-1/3 top-4 mx-auto z-10'>
+                <AdminMessage />
+            </div>
 
-                <div className='col-span-6'>
+            <section className='home-main pt-12'>
+
+                {/* <div className='col-span-6'>
                     <AdminMessage />
-                </div>
+                </div> */}
 
                 <div className='col-span-3 hover:dark:border-slate-600 transition-colors'>
                     <ShortCut title='Crear Reserva' to='/reservations/create' icon={<MdBookmarkAdd />} />
@@ -44,13 +51,13 @@ const Home = () => {
                     </label>
                 </div> */}
 
-                {/* <div className='col-span-1 flex justify-center items-center gap-2 relative overflow-clip'>
+                {/* <div className='col-span-2 flex justify-center items-center gap-2 relative overflow-clip'>
 
                     <span className='absolute w-full bottom-0'>
                         <Loading />
                     </span>
 
-                    {isLoading &&
+                    {true &&
                         <div className='relative h-1 mb-2'>
                             <span className='loading-container'>
                                 <Loading />
@@ -69,7 +76,13 @@ const Home = () => {
 
             </section>
 
-            <section className='full-h border-l border-l-slate-800 m-auto ml-4 pl-4'>
+            <section className={`full-h border-l relative border-l-slate-800 m-auto ml-4 pl-4 ${colapsed ? '-mr-80' : 'mr-0'} transition-all`}>
+
+                <button className={`btn-icon py-1 absolute top-2 -left-5 rounded-l bg-slate-800 ${colapsed ? 'px-1 -left-8' : ''} transition-none`}
+                    onClick={() => setColapsed(!colapsed)}>
+                    {colapsed ? <MdOutlineFirstPage /> : <MdOutlineLastPage />}
+                </button>
+
                 <CabinsCalendar />
             </section>
         </div>
