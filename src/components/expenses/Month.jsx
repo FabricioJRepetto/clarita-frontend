@@ -2,10 +2,10 @@ import useLedgerMonth from '@/hooks/useLedgerMonth'
 import { numberToCurrency } from '@/utils/formUtils'
 import React, { useMemo, useState } from 'react'
 import Loading from '../common/misc/Loading'
-import { MdArrowDownward, MdArrowUpward } from 'react-icons/md'
+import { MdArrowDownward, MdArrowUpward, MdOutlineFirstPage, MdOutlineLastPage } from 'react-icons/md'
 import Calendar from 'react-calendar'
 import LedgerPage from './components/LedgerPage'
-import { isAnotherMonth } from '@/utils/formatDate'
+import { fancyMonth, isAnotherMonth, isSameDay } from '@/utils/formatDate'
 
 const Month = ({ date: DATE }) => {
     // date trigerea una nueva busqueda si cambia
@@ -16,6 +16,7 @@ const Month = ({ date: DATE }) => {
     const [selectedDate, setSelectedDate] = useState(DATE)
     // esta es la data a renderizar
     const [selectedDay, setSelectedDay] = useState(false)
+    const [colapsed, setColapsed] = useState(false)
 
     const {
         income,
@@ -45,10 +46,22 @@ const Month = ({ date: DATE }) => {
         }
     }
 
-    return (
-        <div className='h-full w-full flex justify-between fade-in'>
+    function tileContent({ date, view }) {
+        // Add class to tiles in month view only
+        if (view === 'month') {
+            // Check if a date React-Calendar wants to check is on the list of dates to add class to
+            if (month?.badCurrencyList.find(dDate => isSameDay(dDate, date))) {
+                return <span className={`absolute top-1 right-1 h-2 w-2 flex items-center bg-rose-500 rounded-full`}>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-90"></span>
+                </span>;
+            }
+        }
+    }
 
-            <section className=''>
+    return (
+        <div className='h-full w-full flex justify-between fade-in overflow-x-hidden'>
+
+            <section className='h-fit'>
                 {isLoading &&
                     <div className='relative h-1 mb-2'>
                         <span className='loading-container'>
@@ -60,12 +73,18 @@ const Month = ({ date: DATE }) => {
 
             </section>
 
-            <section className='h-full border-l flex flex-col justify-between border-l-slate-800 ml-4 pl-4'>
-                <Calendar onChange={handler} locale={'es-Ar'} />
+            <section className={`h-full border-l relative flex flex-col justify-between border-l-slate-800 ml-4 pl-4 ${colapsed ? '-mr-80' : 'mr-0'} transition-all`}>
+
+                <button className={`btn-icon py-1 absolute top-2 -left-5 rounded-l bg-slate-800 ${colapsed ? 'px-1 -left-10' : ''} transition-none`}
+                    onClick={() => setColapsed(!colapsed)}>
+                    {colapsed ? <MdOutlineFirstPage /> : <MdOutlineLastPage />}
+                </button>
+
+                <Calendar onChange={handler} locale={'es-Ar'} tileContent={tileContent} />
 
                 <section className='grid grid-cols-3 items-center text-right pr-4 pt-4 mb-8 fade-in'>
                     <div className='col-span-3 text-left text-2xl pl-1 mb-2'>
-                        Balance Mensual
+                        Balance {fancyMonth(selectedDate)}
                     </div>
                     <p className='col-span-1 text-gray-400'>Ingreso:</p>
                     <p className='col-span-2 text-emerald-500 text-xl'>{numberToCurrency(income || 0)}</p>

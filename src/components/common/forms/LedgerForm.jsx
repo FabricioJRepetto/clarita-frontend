@@ -7,8 +7,6 @@ import { AiOutlineLoading } from 'react-icons/ai'
 import { numberToCurrency } from '@/utils/formUtils'
 
 const LedgerForm = ({ edit, close, date, mutate }) => {
-    // const date = new Date(new Date()).toLocaleDateString('en')
-    // const { mutate } = useLedger(date)
     const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false)
     const { notify } = useNotifications()
@@ -41,7 +39,6 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
             setAmount(() => '')
 
             notify(res.message, 'success')
-            //: TODO: que mutate usar??
             mutate()
         } else {
             notify(res.error, 'error')
@@ -68,10 +65,9 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
             return
         }
         if (!res?.error) {
-            close()
             notify(res.message, 'success')
-            //: TODO: que mutate usar??
             mutate()
+            close()
         } else {
             notify(res.error, 'error')
         }

@@ -35,8 +35,6 @@ export const editEntry = async (values) => {
     const errors = validateEntryErrors(values, '')
     if (errors) return { errors }
 
-    console.log(values);
-
     // change currency to number
     values.amount = parseInt(values.amount.replace(/\D/g, ""))
 

@@ -139,7 +139,7 @@ const CreateReservation = ({ panelData = false, cb }) => {
                         </section>}
 
                 </>}
-            {errors?.someError && <p className='error'>{errors.someError}</p>}
+            {errors?.someError && <p className='error whitespace-normal'>{errors.someError}</p>}
         </div>
     )
 }
