@@ -31,8 +31,8 @@ const Approve = ({ id, value, close, mutate }) => {
                 }
             </span>
 
-            <button type='submit' onClick={submit} className="btn-admin-p col-span-2">Continuar</button>
             <button type='button' onClick={close} className="btn-admin-s col-span-2">Cancelar</button>
+            <button type='submit' onClick={submit} className="btn-admin-p col-span-2">Continuar</button>
 
             {loading && <Spinner />}
         </div>

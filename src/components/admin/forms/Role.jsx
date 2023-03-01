@@ -40,8 +40,8 @@ const Role = ({ id, close, mutate }) => {
                 </select>
             </span>
 
-            <button type='submit' className="btn-admin-p">guardar</button>
             <button type='button' onClick={close} className="btn-admin-s">cancelar</button>
+            <button type='submit' className="btn-admin-p">guardar</button>
 
             {loading && <Spinner />}
 

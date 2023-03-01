@@ -1,35 +1,35 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import useCabins from '@/hooks/useCabins'
 import { useState } from 'react'
-import ReservationMiniCard from '@/components/common/cards/ReservationMiniCard'
-import ReservationCard from '@/components/common/cards/ReservationCard'
-import { MdOutlineBookmark, MdEdit, MdDelete } from 'react-icons/md';
+import { MdEdit, MdDelete, MdOutlineBookmark, MdEvent, MdCancel } from 'react-icons/md';
 import useUser from '@/hooks/useUser'
 import { deleteApi } from '@/services/api'
 import { useNotifications } from 'reapop';
 import useModal from '@/hooks/useModal'
 import Modal from '@/utils/Modal'
 import Loading from '../common/misc/Loading'
+import Header from '../common/misc/Header'
+import ReservationList from './components/ReservationList'
+import CurrentGuest from './components/CurrentGuest';
+import CreateReservation from '../reservations/CreateReservation';
 
 const CabinDetails = () => {
-    const navigate = useNavigate()
     const { id } = useParams()
     const { admin } = useUser()
     const { cabins, error, isLoading, setCabins } = useCabins()
     const cabin = cabins ? cabins.find(c => c.id === id) : false
-    const reserv = cabin?.current_guest
-    const [showDetails, setShowDetails] = useState(true)
+    const [creation, setCreation] = useState(false)
     const [someError, setSomeError] = useState('')
+    const [section, setSection] = useState(0)
+    const navigate = useNavigate()
     const [isOpen, open, close] = useModal()
     const { notify } = useNotifications()
 
-    const toggleDetails = () => {
-        setShowDetails(!showDetails)
-    }
 
     //: TODO: terminar esto
-    const handleCreate = (e) => {
-        console.log('handleCreate');
+    const handleCreate = () => {
+
+        setCreation(() => ({ cabin: cabin.id }))
     }
 
     const handleEdit = () => {
@@ -49,6 +49,13 @@ const CabinDetails = () => {
         }
     }
 
+    const sections = [
+        <CurrentGuest cabin={cabin} />,
+        <ReservationList cabin={cabin} />,
+    ]
+
+    const correctSection = sections[section]
+
     return (
         <>
             {isLoading &&
@@ -57,53 +64,48 @@ const CabinDetails = () => {
                         <Loading />
                     </span>
                 </div>}
+
             {cabin &&
-                <div className='grid gap-4 p-2 my-1 relative'>
+                <div className='grid gap-4 p-2 my-1 relative fade-in'>
+
+                    <Header title={cabin?.name}
+                        sections={[
+                            <p className='txt-n-icon'><MdOutlineBookmark />Reserva actual</p>,
+                            <p className='txt-n-icon'><MdEvent />Próximas reserv.</p>
+                        ]}
+                        section={section} setSection={setSection}
+                        button={<button className='btn-primary absolute top-2 right-8' onClick={handleCreate}>Crear reserva</button>} />
+
+                    <p className='absolute text-9xl font-black opacity-10 -z-10 top-0 left-0'>{cabin?.identifier}</p>
+
+                    {admin &&
+                        <div className='w-16 flex justify-between absolute top-7 right-64'>
+                            <button className='btn-icon' onClick={handleEdit}>
+                                <MdEdit />
+                            </button>
+                            <button className='btn-icon' onClick={open}>
+                                <MdDelete />
+                            </button>
+                        </div>}
 
                     <section>
-                        <p className='absolute text-9xl font-black opacity-10 -z-10 top-0 left-0'>{cabin?.identifier}</p>
-
-                        <div className='mb-4 flex flex-col md:flex-row justify-between'>
-                            <h1 className='capitalize'>{cabin?.name}</h1>
-                            <button className='btn-primary my-auto' onClick={handleCreate}>Crear reserva aquí</button>
-                        </div>
-
-                        {admin &&
-                            <div className='w-16 flex justify-between absolute top-7 right-64'>
-                                <button className='btn-icon' onClick={handleEdit}>
-                                    <MdEdit />
-                                </button>
-                                <button className='btn-icon' onClick={open}>
-                                    <MdDelete />
-                                </button>
-                            </div>}
-                    </section>
-
-                    <section className='p-4 rounded-lg'>
-                        {cabin?.current_guest
-                            ? <section>
-                                <p className='txt-n-icon text-xl mb-4' onClick={toggleDetails}><MdOutlineBookmark className='mr-2' />Reserva actual</p>
-                                <ReservationCard data={reserv} />
-                            </section>
-                            : <p>Libre</p>
-                        }
-                    </section>
-
-                    <section>
-                        <p>Futuras reservas:</p>
-                        {!!cabin?.reservations.length &&
-                            <>
-                                {cabin?.reservations.map(e => (
-                                    (cabin?.current_guest !== e.reservation_id) && <ReservationMiniCard key={e.reservation_id} data={e} />
-                                ))}
-                            </>
-                        }
+                        {correctSection}
                     </section>
 
                 </div>}
 
             {(error || someError) && <b>error: {error?.message || someError}</b>}
             <p><i className='text-xs opacity-50 mx-2'>ID: {cabin?.id || '-'}</i></p>
+
+            {creation &&
+                <section className='h-screen p-8 absolute top-0 right-0 overflow-y-auto z-30 border-l border-l-slate-700  bg-orange-50 dark:bg-slate-900'>
+                    <CreateReservation panelData={creation} cb={() => setCreation(() => false)} />
+
+                    <button className='btn-icon text-xl absolute top-9 right-9'
+                        onClick={() => setCreation(() => false)}>
+                        <MdCancel />
+                    </button>
+                </section>}
 
             <Modal isOpen={isOpen} close={close}>
                 {<div className='relative grid grid-col grid-cols-4 gap-4 w-fit'>
@@ -112,8 +114,8 @@ const CabinDetails = () => {
                         <p>Esta acción es <b>irreversible</b>.</p>
                     </span>
 
-                    <button type='submit' onClick={handleDelete} className="btn-admin-p col-span-2">Continuar</button>
                     <button type='button' onClick={close} className="btn-admin-s col-span-2">Cancelar</button>
+                    <button type='submit' onClick={handleDelete} className="btn-admin-p col-span-2">Continuar</button>
 
                 </div>}
             </Modal>

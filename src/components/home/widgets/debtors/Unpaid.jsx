@@ -19,7 +19,7 @@ const Unpaid = () => {
             <section className='h-fit w-full px-4 pt-2 pb-4 flex flex-col gap-2 justify-between relative'>
 
                 <p className='text-xl mb-2'>Reservas impagas</p>
-                <span className='absolute top-4 right-5'>
+                <span className='absolute top-3 right-4'>
                     {!!debtors.length
                         ? <NoPayment />
                         : <div className='text-green-300 text-xl'><BsFillRecordFill /></div>

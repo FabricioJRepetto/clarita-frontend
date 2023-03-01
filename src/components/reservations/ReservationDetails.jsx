@@ -21,8 +21,8 @@ const ReservationDetails = () => {
     const [isOpen, open, close] = useModal()
     const [child, setChild] = useState(false)
 
-    const handleDelete = async () => {
-        const res = await deleteApi(`/reservation?id=${id}`)
+    const handleDelete = async (remove) => {
+        const res = await deleteApi(`/reservation?id=${id}&remove=${String(remove)}`)
             .catch(err => notify(err.message, 'error'))
 
         notify(res.message, 'success')
@@ -55,8 +55,8 @@ const ReservationDetails = () => {
             {(isLoading && !reserv) && <h2>Reserva no encontrada</h2>}
             {error && <h2>{error?.message || 'error'}</h2>}
 
-            {reserv &&
-                <>
+            {reserv
+                ? <>
                     <ReservationCard data={reserv} open={() => openModal('updatePayment')} />
 
                     {admin && <>
@@ -69,6 +69,9 @@ const ReservationDetails = () => {
                             <MdDelete />
                         </button>
                     </>}
+                </>
+                : <>
+                    <p className='text-xl pl-1 mt-4'>Reserva no encontrada, posiblemente haya sido eliminada.</p>
                 </>
             }
 

@@ -20,7 +20,7 @@ const AnnounCard = ({ data }) => {
         info: 'bg-sky-500',
         warn: 'bg-yellow-400',
         danger: 'bg-rose-500',
-        fix: 'bg-lime-500',
+        fix: 'bg-emerald-500',
         default: 'bg-gray-500'
     }
 

@@ -47,8 +47,8 @@ const ChangePassword = ({ close }) => {
                     required className='w-full' />
                 <p className='error'>{error || ' '}</p>
             </span>
-            <button type='submit' className="btn-primary col-span-2">guardar</button>
             <button type='button' onClick={close} className="btn-secondary col-span-2">cancelar</button>
+            <button type='submit' className="btn-primary col-span-2">guardar</button>
 
             {loading && <Spinner />}
 

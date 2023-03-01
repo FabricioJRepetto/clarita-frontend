@@ -32,12 +32,12 @@ const ReservationCard = ({ data, open }) => {
 
     return (
         <div className='details-card'>
-            <section className='p-4 rounded-lg'>
+            <section className={`p-4 rounded-lg ${clientDetails ? 'selected' : ''} transition-colors`}>
                 <div className='cursor-pointer txt-n-icon justify-between text-xl'
                     onClick={toggleClient}>
-                    <p className='txt-n-icon '>
+                    <p className='txt-n-icon capitalize'>
                         <MdPerson className='mr-2' />
-                        Cliente
+                        {clientDetails ? 'Cliente' : data?.client?.name}
                     </p>
                     <MdOutlineArrowBackIos className={`${clientDetails ? '-rotate-90' : 'rotate-90'} transition-transform`} />
                 </div>

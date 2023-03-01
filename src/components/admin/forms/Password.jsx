@@ -39,8 +39,8 @@ const Password = ({ id, close, mutate }) => {
                 <input type="password" required className='w-full' />
                 <p className='error'>{error || ' '}</p>
             </span>
-            <button type='submit' className="btn-admin-p col-span-2">guardar</button>
             <button type='button' onClick={close} className="btn-admin-s col-span-2">cancelar</button>
+            <button type='submit' className="btn-admin-p col-span-2">guardar</button>
 
             {loading && <Spinner />}
 

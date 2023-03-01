@@ -82,10 +82,7 @@
     .full-h {
         height: calc(100vh - 3rem);
     }
-    .full-w {
-        width: calc(100% - (300px + 3rem));
-    }
-
+    
     .logo-font {
         @apply text-black dark:text-white text-xl mb-8;
         font-family: 'Courgette', cursive;
@@ -137,6 +134,9 @@
     }
     .details-card section {
         @apply border border-slate-300 dark:border-slate-800 rounded px-3 py-2;
+    }
+    .selected {
+        border-color: #64748b !important;
     }
 
     .details-data {
@@ -202,13 +202,16 @@
     }
 
     .home-main {
-        @apply full-w h-fit grid grid-cols-6 gap-4;
+        @apply w-full h-fit grid grid-cols-6 gap-4;
         min-width: calc(1000px - 18rem);
-    }
-    
+    }    
     .home-main > div {
         @apply gradient;
     }
+    .full-w {
+        width: calc(100% - (300px + 3rem));
+    }
+
     .gradient {
         @apply w-full border border-slate-300 dark:border-slate-700 rounded-lg bg-gradient-to-b from-slate-200/20 dark:from-slate-700/20 via-transparent to-transparent;
     }

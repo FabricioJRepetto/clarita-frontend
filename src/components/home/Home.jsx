@@ -4,9 +4,9 @@ import CabinsCalendar from '../cabins/calendar/CabinsCalendar';
 import AdminMessage from '../common/misc/AdminMessage';
 import Unpaid from './widgets/debtors/Unpaid';
 import ShortCut from './widgets/shortcut/ShortCut';
-import QuickCheck from '../reservations/QuickCheck';
-import Loading from '../common/misc/Loading';
+import QuickCheck from './widgets/quickSearch/QuickCheck';
 import { MdPersonAddAlt1, MdBookmarkAdd, MdOutlineFirstPage, MdOutlineLastPage } from 'react-icons/md';
+import Loading from '../common/misc/Loading';
 import { AiOutlineLoading } from 'react-icons/ai';
 
 const Home = () => {
