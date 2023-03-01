@@ -41,12 +41,12 @@ export const setIN = (checkout, nights) => {
     return finalDate
 }
 
-export const fillDates = (e) => {
-    e.preventDefault()
-    const checkin = document.getElementById('checkin'),
-        checkout = document.getElementById('checkout'),
-        nights = document.getElementById('nights'),
-        id = e.target.id
+export const fillDates = (checkin, checkout, nights, id) => {
+    // e.preventDefault()
+    // const checkin = document.getElementById('checkin'),
+    //     checkout = document.getElementById('checkout'),
+    //     nights = document.getElementById('nights'),
+    //     id = e.target.id
 
     switch (id) {
         case 'checkin':
@@ -101,9 +101,9 @@ export const doDatesOverlap = (a1, a2, b1, b2) => {
 
 //: TODO: replantear el checkeo de fechas, quizas sea mejor hacerlo en el back
 // Looks for available cabins
-export const datesValidator = (cabins, setAvCabins, setErrors) => {
-    const IN = document.getElementById('checkin').value,
-        OUT = document.getElementById('checkout').value
+export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT) => {
+    // const IN = document.getElementById('checkin').value,
+    //     OUT = document.getElementById('checkout').value
 
     if (!IN || !OUT) return null
 

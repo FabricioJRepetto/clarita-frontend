@@ -109,12 +109,18 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
     }, [edit])
 
     const datesHandler = (e) => {
+        e.preventDefault()
         // autofill checkin, checkout or nights
-        fillDates(e)
+        const checkin = document.getElementById('checkin'),
+            checkout = document.getElementById('checkout'),
+            nights = document.getElementById('nights'),
+            id = e.target.id
+
+        fillDates(checkin, checkout, nights, id)
         // if in edit mode, don't change cabin
-        if (checkin.current.value && checkout.current.value && !edit) {
+        if (checkin.value && checkout.value && !edit) {
             // Looks for available cabins
-            datesValidator(cabins, setAvCabins, setErrors)
+            datesValidator(cabins, setAvCabins, setErrors, checkin.value, checkout.value)
         } else {
             setAvCabins(() => cabins)
         }

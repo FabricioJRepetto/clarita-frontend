@@ -19,7 +19,12 @@ const QuickCheck = () => {
 
     const datesHandler = (e) => {
         reset()
-        fillDates(e)
+        const checkin = document.getElementById('QuickCheckin'),
+            checkout = document.getElementById('QuickCheckout'),
+            nights = document.getElementById('QuickNights'),
+            id = e.target.id.slice(5).toLowerCase()
+
+        fillDates(checkin, checkout, nights, id)
     }
 
     const handler = (e) => {
@@ -27,7 +32,7 @@ const QuickCheck = () => {
         const [{ value: checkin }, { value: checkout }] = e.target
         if (checkin && checkout) {
             // Looks for available cabins
-            const value = datesValidator(cabins, setAvCabins, setErrors)
+            const value = datesValidator(cabins, setAvCabins, setErrors, checkin, checkout)
             if (!!value?.length) {
                 setMessage(() => ('Alojamiento disponible:'))
             }
@@ -43,17 +48,18 @@ const QuickCheck = () => {
     //: TODO: terminar esto
     const createReserv = (id) => {
         setCreation(() => false)
-        const IN = formatDate(document.getElementById('checkin').value),
-            OUT = formatDate(document.getElementById('checkout').value)
+        const IN = formatDate(document.getElementById('QuickCheckin').value),
+            OUT = formatDate(document.getElementById('QuickCheckout').value),
+            nights = document.getElementById('QuickNights').value
 
         const aux = {
             cabin: id,
             checkin: IN,
-            checkout: OUT
+            checkout: OUT,
+            nights
         }
-        console.log(aux);
-        // setCreation(() => aux)
 
+        setCreation(() => aux)
     }
 
     return (
@@ -65,17 +71,17 @@ const QuickCheck = () => {
                 {/*checkin*/}
                 <label htmlFor='checkin' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>checkin</p>
-                    <input type="date" id='checkin' name='checkin' defaultValue={today} className='w-full' onChange={datesHandler} />
+                    <input type="date" id='QuickCheckin' name='checkin' defaultValue={today} className='w-full' onChange={datesHandler} />
                 </label>
                 {/*checkout*/}
                 <label htmlFor='checkout' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>checkout</p>
-                    <input type="date" id='checkout' name='checkout' className='w-full' onChange={datesHandler} />
+                    <input type="date" id='QuickCheckout' name='checkout' className='w-full' onChange={datesHandler} />
                 </label>
                 {/*nights*/}
                 <label htmlFor='nights' className='col-span-1'>
                     <p className='text-gray-500 pl-2'>noches</p>
-                    <input type="number" id='nights' name='nights' placeholder='Noches' className='w-full' onChange={datesHandler} />
+                    <input type="number" id='QuickNights' name='nights' placeholder='Noches' className='w-full' onChange={datesHandler} />
                 </label>
 
                 <button type='submit' className='btn-primary col-span-1'>buscar</button>
