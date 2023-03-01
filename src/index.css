@@ -135,6 +135,9 @@
     .details-card section {
         @apply border border-slate-300 dark:border-slate-800 rounded px-3 py-2;
     }
+    .selected {
+        border-color: #64748b !important;
+    }
 
     .details-data {
         @apply pl-8 grid grid-cols-3 items-center;

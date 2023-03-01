@@ -4,7 +4,7 @@ import { MdEmail, MdCall, MdAccountBox, MdDirectionsCar, MdPlace, MdStickyNote2,
 
 const ClientDetailsCard = ({ user }) => {
     return (
-        <div className='details-card'>
+        <div className='details-card fade-in'>
             <section>
                 <p className='txt-n-icon text-2xl font-semibold capitalize'>
                     {user.company && <MdApartment />}

@@ -35,7 +35,7 @@ const CreateReservation = ({ panelData = false, cb }) => {
 
     // if ID, load edit data
     useEffect(() => {
-        if (id) {
+        if (id && !panelData) {
             setLoading(() => true)
             const data = reservations.find(r => r.id === id)
             if (data) {
@@ -90,7 +90,7 @@ const CreateReservation = ({ panelData = false, cb }) => {
     }
 
     const handleSubmit = async () => {
-        const fetcher = id ? updateReserv : createReserv
+        const fetcher = (id && !panelData) ? updateReserv : createReserv
 
         const res = await fetcher(preview, id)
         setErrors(() => res?.errors)

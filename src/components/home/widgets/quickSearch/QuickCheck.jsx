@@ -1,7 +1,10 @@
+import CreateReservation from '@/components/reservations/CreateReservation'
 import useCabins from '@/hooks/useCabins'
-import { deformatDate } from '@/utils/formatDate'
+import { correctDate, deformatDate, formatDate } from '@/utils/formatDate'
 import { datesValidator, fillDates } from '@/utils/formUtils'
 import React, { useState } from 'react'
+import QuickSearchCard from './QuickSearchCard'
+import { MdCancel } from 'react-icons/md'
 
 const QuickCheck = () => {
     const { cabins } = useCabins()
@@ -9,6 +12,10 @@ const QuickCheck = () => {
     const [message, setMessage] = useState('Introduce fechas para ver disponibilidad.')
     const [errors, setErrors] = useState()
     const today = deformatDate(new Date(new Date().toLocaleDateString('en')))
+    const [creation, setCreation] = useState(false)
+    // const [checkin, setCheckin] = useState(correctDate(new Date(new Date().toLocaleDateString('en'))))
+    // const [checkout, setCheckout] = useState('')
+
 
     const datesHandler = (e) => {
         reset()
@@ -34,15 +41,25 @@ const QuickCheck = () => {
     }
 
     //: TODO: terminar esto
-    const createReserv = (e) => {
-        e.preventDefault()
-        console.log('sin terminar 🙃');
+    const createReserv = (id) => {
+        setCreation(() => false)
+        const IN = formatDate(document.getElementById('checkin').value),
+            OUT = formatDate(document.getElementById('checkout').value)
+
+        const aux = {
+            cabin: id,
+            checkin: IN,
+            checkout: OUT
+        }
+        console.log(aux);
+        // setCreation(() => aux)
+
     }
 
     return (
-        <div className='h-fit w-full px-4 pt-2 pb-4 flex flex-col gap-2 justify-between relative'>
+        <div className='h-fit w-full px-4 pt-2 pb-4 flex flex-col gap-2 justify-between'>
 
-            <p className='text-xl mb-2'>Disponibilidad</p>
+            <p className='text-xl -mb-2'>Disponibilidad</p>
 
             <form className='grid grid-cols-5 gap-2' onSubmit={handler}>
                 {/*checkin*/}
@@ -70,9 +87,20 @@ const QuickCheck = () => {
                 {errors?.checkin && <p className={`text-rose-400 uppercase text-xs`}>{errors.checkin}</p>}
                 {!!avCabins?.length &&
                     avCabins.map(c => (
-                        <p key={c.id} className='capitalize' onClick={createReserv}>{c.name}</p>
+                        <QuickSearchCard key={c.id} data={c} createReserv={createReserv} />
                     ))}
             </section>
+
+            {creation &&
+                <section className='h-screen p-8 absolute top-0 right-0 overflow-y-auto z-30 border-l border-l-slate-700  bg-orange-50 dark:bg-slate-900'>
+                    <CreateReservation panelData={creation} cb={() => setCreation(() => false)} />
+
+                    <button className='btn-icon text-xl absolute top-9 right-9'
+                        onClick={() => setCreation(() => false)}>
+                        <MdCancel />
+                    </button>
+                </section>}
+
         </div>
     )
 }
