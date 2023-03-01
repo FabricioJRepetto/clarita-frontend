@@ -38,7 +38,7 @@ const ReservCard = ({ data }) => {
 
             <Flag code={country_code} />
 
-            <p className='txt-n-icon ellipsis inline-block'>
+            <p className='txt-n-icon ellipsis inline-block capitalize'>
                 {name || '?'}
             </p>
         </div>

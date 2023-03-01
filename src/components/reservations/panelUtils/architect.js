@@ -37,9 +37,11 @@ export const architect = (cabins, reservations, START, DAYS) => {
                     }
 
                     if (reserv.checkin === 'pre') {
-                        const OUT = new Date(R.checkout).getDate(),
-                            today = new Date(i.toLocaleDateString('en')).getDate(),
-                            nightsLeft = OUT - today + 0.5
+                        // checkout - hoy = dias restantes (en MiliSegundos)
+                        // si usaba fechas, se rompía la logica cuando cambiaba de mes
+                        const OUT = new Date(R.checkout).getTime(),
+                            today = i.getTime(),
+                            nightsLeft = ((OUT - today) / 1000 / 60 / 60 / 24) + 0.5
                         reserv.nights = nightsLeft
                     }
 
