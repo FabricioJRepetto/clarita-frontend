@@ -6,13 +6,13 @@ import AnnounCard from '../cards/AnnounCard'
 const AdminMessage = () => {
     const { data } = useAnnoun()
 
-    // const dev = false
-    const dev = {
-        title: 'Cuentas v2',
-        text: 'Nueva versión de Cuentas. Calendario para ver/registrar/editar en fechas especificas. Las nuevas reservas y pagos rapidos se registran automáticamente.',
-        from: 'Desarrollador',
-        style: 'fix'
-    }
+    const dev = false
+    // const dev = {
+    //     title: 'Cuentas v2',
+    //     text: 'Nueva versión de Cuentas. Calendario para ver/registrar/editar en fechas especificas. Las nuevas reservas y pagos rapidos se registran automáticamente.',
+    //     from: 'Desarrollador',
+    //     style: 'fix'
+    // }
 
     return (
         <div className='flex flex-col gap-1'>
