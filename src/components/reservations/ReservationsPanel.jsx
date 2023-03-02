@@ -1,14 +1,16 @@
 import React from 'react'
 import useCabins from '@/hooks/useCabins'
 import usePanelController from '@/hooks/usePanelController'
+import usePanelControllerV2 from '@/hooks/usePanelControllerV2'
 import { correctDate, dayName } from '@/utils/formatDate'
 import ReservCard from './panelComponents/ReservCard'
 import Tile from './panelComponents/Tile'
+import TileV2 from './panelComponents/TileV2'
 
 const ReservationsPanel = ({ create, creating, blueprint: { dates, template } }) => {
     const { cabins } = useCabins()
 
-    const { selectMode, creatingMode, cDown, cUp, mEnter, frontier } = usePanelController(create, creating)
+    const { selectMode, creatingMode, cDown, cUp, mEnter, frontier, length } = usePanelControllerV2(create, creating)
 
     return (
         <section className='flex w-full overflow-x-auto'>
@@ -44,8 +46,12 @@ const ReservationsPanel = ({ create, creating, blueprint: { dates, template } })
 
                                 {tile?.reserv?.checkin && <ReservCard data={tile.reserv} />}
 
-                                <Tile mode={selectMode} creating={creatingMode} disabled={tile?.reserv && !tile?.reserv?.checkin} cb={() => mEnter(tile.date)} />
-                                <Tile mode={selectMode} creating={creatingMode} disabled={tile?.reserv} cb={() => mEnter(tile.date)} />
+                                {/* <Tile mode={selectMode} creating={creatingMode} disabled={tile?.reserv && !tile?.reserv?.checkin} cb={() => mEnter(tile.date)} /> */}
+                                {/* <Tile mode={selectMode} creating={creatingMode} disabled={tile?.reserv} cb={() => mEnter(tile.date)} /> */}
+
+                                <TileV2 mode={selectMode} creating={creatingMode} disabled={tile?.reserv && !tile?.reserv?.checkin} cb={() => mEnter(tile.date)} length={length} />
+                                <TileV2 mode={selectMode} creating={creatingMode} disabled={tile?.reserv} cb={() => mEnter(tile.date)} length={length} />
+
                             </div>
                         ))}
 
