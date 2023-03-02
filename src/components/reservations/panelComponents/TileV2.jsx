@@ -18,8 +18,12 @@ const Tile = ({ mode, creating, disabled = false, cb, length }) => {
 
     return (
         < div onMouseEnter={mode ? hover : null} onMouseDown={click}
-            className={`h-full w-1/2 flex ${active ? '' : 'hover:bg-slate-500/20'} ${disabled ? 'pointer-events-none' : ''}`}>
-            {active && <div style={{ width: `${length}rem` }} className={`h-10 rounded-3xl bg-blue-400 absolute top-1 z-10 pointer-events-none transition-all`}></div>}
+            className={`h-full w-full flex ${active ? '' : 'hover:bg-slate-500/20'} ${disabled ? 'pointer-events-none' : ''}`}>
+
+            {active &&
+                <div style={{ width: `${length}rem` }}
+                    className={`h-10 rounded-3xl bg-blue-400 absolute top-1 left-14 z-10 pointer-events-none transition-all`}>
+                </div>}
         </div>
     )
 }
