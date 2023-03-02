@@ -5,12 +5,15 @@ import { useNavigate } from 'react-router-dom'
 import { fuzzySearch } from '@/utils/fuzzySearch'
 import SearchInput from '../common/misc/SearchInput'
 import Loading from '../common/misc/Loading'
+import { MdPersonAddAlt1 } from 'react-icons/md'
+import { isMobile } from '@/utils/isMobile'
 
 const Clients = () => {
     const navigate = useNavigate()
     const { clients, isLoading } = useClients()
     const [filtered, setFiltered] = useState(false)
     const [sortKey, setSortKey] = useState('name')
+    const mobile = isMobile()
 
     const filter = (key, pattern, onlyCompany) => {
         setSortKey(() => key)
@@ -29,14 +32,19 @@ const Clients = () => {
 
     return (
         <div className='relative flex flex-col w-full full-h'>
-            <section className='mb-4 flex flex-col md:flex-row justify-between'>
-                <h1>Clientes</h1>
-                <button className='btn-primary' onClick={() => navigate('/clients/create')}>Registrar nuevo</button>
+            <section className={`flex  justify-between ${mobile ? 'ml-8' : 'mb-4'}`}>
+                <h1 className={`${mobile ? 'text-3xl' : ''}`}>Clientes</h1>
+                <button className='btn-primary txt-n-icon justify-center'
+                    onClick={() => navigate('/clients/create')}>
+                    <MdPersonAddAlt1 />
+                    <p>{mobile ? 'Registrar' : 'Registrar Cliente'}</p>
+                </button>
             </section>
 
             <SearchInput filter={filter} />
 
-            {isLoading &&
+            {
+                isLoading &&
                 <span className='w-full items-start top-0'>
                     <Loading />
                 </span>
@@ -45,7 +53,7 @@ const Clients = () => {
             <section className='full-h overflow-y-auto'>
                 <ClientList data={filtered || clients} sortKey={sortKey} />
             </section>
-        </div>
+        </div >
     )
 }
 

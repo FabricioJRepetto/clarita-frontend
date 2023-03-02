@@ -6,13 +6,15 @@ import Header from '../common/misc/Header'
 import Panel from './Panel'
 import { ReservationList } from './ReservationList'
 import CreateReservation from './CreateReservation'
-import { MdCancel } from 'react-icons/md';
+import { MdCancel, MdBookmarkAdd } from 'react-icons/md';
+import { isMobile } from '@/utils/isMobile'
 
 const Reservations = () => {
     const navigate = useNavigate()
     const { reservations, error, isLoading, } = useReservations()
     const [creation, setCreation] = useState(false)
     const [section, setSection] = useState(0)
+    const mobile = isMobile()
 
     const sections = [
         <Panel creation={creation} setCreation={setCreation} />,
@@ -29,8 +31,10 @@ const Reservations = () => {
                 setSection={setSection}
                 button={
                     <button onClick={() => navigate('/reservations/create')}
-                        className='btn-primary absolute top-8 right-6'>
-                        Registrar nueva
+                        className='btn-primary txt-n-icon absolute top-8 right-6'>
+                        <MdBookmarkAdd />
+                        <p>{mobile ? 'Nueva' : 'Nueva Reserva'}</p>
+
                     </button>
                 }
             />

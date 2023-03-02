@@ -77,7 +77,8 @@
 @layer components {
 
     .APP {
-        @apply min-h-screen w-screen h-fit pl-52 pt-12 pr-4 overflow-x-hidden overflow-y-auto transition-colors duration-300 fade-in;
+        @apply min-h-screen w-screen h-fit pr-4 overflow-x-hidden overflow-y-auto transition-colors duration-300 fade-in;
+        /* pl-16 sm:pl-52 pt-4 sm:pt-12 pr-4 */
     }
     .full-h {
         height: calc(100vh - 3rem);
@@ -182,6 +183,13 @@
         @apply hover:text-orange-400;
     }
 
+    .navMobile {
+        @apply flex flex-col gap-4;
+    }
+    .navMobile > li {
+        @apply text-3xl cursor-pointer;
+    }
+
     .pages {
         @apply mt-6 bg-slate-800 flex justify-center items-center sticky bottom-4 rounded-xl mx-auto w-fit h-12;
     }
@@ -191,19 +199,19 @@
     }
 
     .reserv-container {
-        @apply flex flex-col gap-8 w-fit;
+        @apply flex flex-col gap-8 w-full sm:w-fit;
         max-width: 450px;
     }
     .reserv-container > section {
-        @apply p-8 border border-slate-800 rounded-xl relative;
+        @apply sm:p-8 border border-slate-800 rounded-xl relative;
     }
     .reserv-container > section > p:first-child {
         @apply text-xl -mt-3;
     }
 
     .home-main {
-        @apply w-full h-fit grid grid-cols-6 gap-4;
-        min-width: calc(1000px - 18rem);
+        @apply w-full h-fit grid grid-cols-4 sm:grid-cols-6 gap-4;
+        /* min-width: calc(1000px - 18rem); */
     }    
     .home-main > div {
         @apply gradient;
@@ -258,7 +266,7 @@
         @apply grid grid-flow-row sticky left-0 bg-neutral-200 dark:bg-slate-900 z-20;
     }
     .tc > div {
-        @apply align-middle text-center w-44 px-4 pt-2 border-r border-l border-b border-l-slate-600 border-r-slate-400 border-b-slate-600 bg-neutral-200 dark:bg-slate-800/30;
+        @apply align-middle text-center pt-2 border-r border-l border-b border-l-slate-600 border-r-slate-400 border-b-slate-600 bg-neutral-200 dark:bg-slate-800/30;
         height: calc(3rem + 1px);
     }
     .tr > div > p {

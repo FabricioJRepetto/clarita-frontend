@@ -12,6 +12,7 @@ import Header from '../common/misc/Header'
 import ReservationList from './components/ReservationList'
 import CurrentGuest from './components/CurrentGuest';
 import CreateReservation from '../reservations/CreateReservation';
+import { isMobile } from '@/utils/isMobile';
 
 const CabinDetails = () => {
     const { id } = useParams()
@@ -24,7 +25,7 @@ const CabinDetails = () => {
     const navigate = useNavigate()
     const [isOpen, open, close] = useModal()
     const { notify } = useNotifications()
-
+    const mobile = isMobile()
 
     //: TODO: terminar esto
     const handleCreate = () => {
@@ -74,12 +75,13 @@ const CabinDetails = () => {
                             <p className='txt-n-icon'><MdEvent />Próximas reserv.</p>
                         ]}
                         section={section} setSection={setSection}
-                        button={<button className='btn-primary absolute top-2 right-8' onClick={handleCreate}>Crear reserva</button>} />
+                    // button={<button className={`btn-primary absolute ${mobile ? 'top-8 right-2' : 'top-2 right-8'}`} onClick={handleCreate}>Crear reserva</button>} 
+                    />
 
                     <p className='absolute text-9xl font-black opacity-10 -z-10 top-0 left-0'>{cabin?.identifier}</p>
 
                     {admin &&
-                        <div className='w-16 flex justify-between absolute top-7 right-64'>
+                        <div className='w-16 flex justify-between absolute top-4 right-4'>
                             <button className='btn-icon' onClick={handleEdit}>
                                 <MdEdit />
                             </button>

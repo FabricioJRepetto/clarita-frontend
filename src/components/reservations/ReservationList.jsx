@@ -5,7 +5,7 @@ export const ReservationList = ({ data }) => {
     return (
         <>
             {data &&
-                <div className='grid full-w fade-in'>
+                <div className='grid sm:full-w fade-in'>
                     {data.map(e => (
                         <ReservListCard data={e} key={e.id} />
                     ))}

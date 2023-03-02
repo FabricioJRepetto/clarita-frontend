@@ -6,21 +6,26 @@ import { correctDate, dayName } from '@/utils/formatDate'
 import ReservCard from './panelComponents/ReservCard'
 // import Tile from './panelComponents/Tile'
 import TileV2 from './panelComponents/TileV2'
+import { isMobile } from '@/utils/isMobile'
+import { MdBungalow } from 'react-icons/md'
 
 const ReservationsPanel = ({ create, creating, blueprint: { dates, template } }) => {
     const { cabins } = useCabins()
+    const mobile = isMobile()
 
     const { selectMode, creatingMode, cDown, cUp, mEnter, frontier, length } = usePanelControllerV2(create, creating)
 
     return (
         <section className='flex w-full overflow-x-auto'>
-            <div className='tc'>
-                <div className='rounded-tl-xl border-t border-slate-700'>
-                    <p>Cabañas</p>
+            <div className={`tc ${mobile ? 'w-12' : ''}`}>
+                <div className={`flex justify-center ${mobile ? 'w-12 px-1' : 'w-44 px-4'} rounded-tl-xl border-t border-slate-700`}>
+                    <p>{mobile ? <MdBungalow className='text-2xl' /> : 'Cabañas'}</p>
                 </div>
                 {Object.entries(template).map(c => (
-                    <div key={c[0]} className='ellipsis'>
-                        <p>{cabins.find(cab => cab.id === c[0])?.name}</p>
+                    <div key={c[0]} className={`ellipsis ${mobile ? 'w-12 px-1' : 'w-44 px-4'}`}>
+                        {mobile
+                            ? <p>{cabins.find(cab => cab.id === c[0])?.identifier}</p>
+                            : <p>{cabins.find(cab => cab.id === c[0])?.name}</p>}
                     </div>
                 ))}
             </div>

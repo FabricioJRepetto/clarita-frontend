@@ -43,7 +43,7 @@ const PreReservForm = ({ setClient, handler, cb }) => {
 
     //: TODO: Refact search input
     return (
-        <div className='grid grid-cols-4 gap-4 w-96 py-2'>
+        <div className='grid grid-cols-4 gap-4 sm:w-96 py-2'>
 
             <button onClick={newClientHandler}
                 className={`${newClient ? 'btn-tertiary' : 'btn-primary'} col-span-4`}>

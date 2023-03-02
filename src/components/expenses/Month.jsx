@@ -2,10 +2,11 @@ import useLedgerMonth from '@/hooks/useLedgerMonth'
 import { numberToCurrency } from '@/utils/formUtils'
 import React, { useMemo, useState } from 'react'
 import Loading from '../common/misc/Loading'
-import { MdArrowDownward, MdArrowUpward, MdOutlineFirstPage, MdOutlineLastPage } from 'react-icons/md'
+import { MdArrowDownward, MdArrowUpward, MdDateRange, MdOutlineLastPage } from 'react-icons/md'
 import Calendar from 'react-calendar'
 import LedgerPage from './components/LedgerPage'
 import { fancyMonth, isAnotherMonth, isSameDay } from '@/utils/formatDate'
+import { isMobile } from '@/utils/isMobile'
 
 const Month = ({ date: DATE }) => {
     // date trigerea una nueva busqueda si cambia
@@ -16,7 +17,8 @@ const Month = ({ date: DATE }) => {
     const [selectedDate, setSelectedDate] = useState(DATE)
     // esta es la data a renderizar
     const [selectedDay, setSelectedDay] = useState(false)
-    const [colapsed, setColapsed] = useState(false)
+    const mobile = isMobile()
+    const [colapsed, setColapsed] = useState(mobile)
 
     const {
         income,
@@ -77,7 +79,7 @@ const Month = ({ date: DATE }) => {
 
                 <button className={`btn-icon py-1 absolute top-2 -left-5 rounded-l bg-slate-800 ${colapsed ? 'px-1 -left-10' : ''} transition-none`}
                     onClick={() => setColapsed(!colapsed)}>
-                    {colapsed ? <MdOutlineFirstPage /> : <MdOutlineLastPage />}
+                    {colapsed ? <MdDateRange /> : <MdOutlineLastPage />}
                 </button>
 
                 <Calendar onChange={handler} locale={'es-Ar'} tileContent={tileContent} />
