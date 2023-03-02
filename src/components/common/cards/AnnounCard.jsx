@@ -21,7 +21,7 @@ const AnnounCard = ({ data }) => {
         warn: 'bg-yellow-400',
         danger: 'bg-rose-500',
         fix: 'bg-emerald-500',
-        default: 'bg-gray-500'
+        default: 'bg-neutral-200'
     }
 
     const [expanded, setExpanded] = useState(false)

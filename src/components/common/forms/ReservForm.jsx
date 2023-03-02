@@ -166,7 +166,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 
     return (
         <>
-            <form onSubmit={handleSubmit} autoComplete='off' className='grid grid-cols-4 gap-2 w-96 p-2'>
+            <form onSubmit={handleSubmit} autoComplete='off' className='grid grid-cols-4 gap-2 sm:w-96 p-2'>
                 {/*checkin*/}
                 <label htmlFor='checkin' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>checkin</p>

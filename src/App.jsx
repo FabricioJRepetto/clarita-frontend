@@ -21,9 +21,11 @@ import PrivateRoutes from '@/components/common/misc/PrivateRoutes';
 import Expenses from '@/components/expenses/Ledger';
 import { mutate, SWRConfig } from 'swr';
 import { deleteCookie, getCookie } from './utils/cookies';
+import { isMobile } from './utils/isMobile';
 
 function App() {
     const navigate = useNavigate()
+    const mobile = isMobile()
     const { notifications, dismissNotification, notify } = useNotifications()
 
     setUpNotifications({
@@ -65,7 +67,7 @@ function App() {
 
     return (
         <SWRConfig value={SWRcnfg}>
-            <div className="APP">
+            <div className={`APP ${mobile ? 'pl-16 pt-4' : 'pl-52 pt-12'}`}>
                 <div>
                     <NotificationsSystem
                         notifications={notifications}

@@ -1,12 +1,14 @@
+import { isMobile } from '@/utils/isMobile'
 import React from 'react'
 
 const Header = ({ title, sections, section, setSection, admin = false, button = false }) => {
+    const mobile = isMobile()
 
     return (
-        <header className={`relative grid grid-cols-6 border-b z-10 ${admin ? 'border-b-orange-500' : 'border-b-gray-400 dark:border-b-slate-700'}`}>
-            <h1 className='col-span-6 capitalize'>{title}</h1>
+        <header className={`relative grid  ${mobile ? 'pl-10 grid-cols-3' : 'grid-cols-5'} border-b z-10 ${admin ? 'border-b-orange-500' : 'border-b-gray-400 dark:border-b-slate-700'}`}>
+            {!mobile && <h1 className={`col-span-6 capitalize`}>{title}</h1>}
 
-            {button && button}
+            {/* {button && button} */}
 
             {!!sections.length &&
                 sections.map((s, i) => (
@@ -14,6 +16,17 @@ const Header = ({ title, sections, section, setSection, admin = false, button = 
                         {s}
                     </button>
                 ))
+            }
+
+            {button &&
+                <>
+                    {mobile
+                        ? <div className='relative -top-8 -right-4 -mt-2'>
+                            {button}
+                        </div>
+                        : button
+                    }
+                </>
             }
 
         </header>

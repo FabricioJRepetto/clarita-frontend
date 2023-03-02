@@ -1,10 +1,11 @@
 import CreateReservation from '@/components/reservations/CreateReservation'
 import useCabins from '@/hooks/useCabins'
-import { correctDate, deformatDate, formatDate } from '@/utils/formatDate'
+import { deformatDate, formatDate } from '@/utils/formatDate'
 import { datesValidator, fillDates } from '@/utils/formUtils'
 import React, { useState } from 'react'
 import QuickSearchCard from './QuickSearchCard'
-import { MdCancel } from 'react-icons/md'
+import { MdCancel, MdOpenInFull, MdCloseFullscreen } from 'react-icons/md'
+import { isMobile } from '@/utils/isMobile'
 
 const QuickCheck = () => {
     const { cabins } = useCabins()
@@ -13,9 +14,8 @@ const QuickCheck = () => {
     const [errors, setErrors] = useState()
     const today = deformatDate(new Date(new Date().toLocaleDateString('en')))
     const [creation, setCreation] = useState(false)
-    // const [checkin, setCheckin] = useState(correctDate(new Date(new Date().toLocaleDateString('en'))))
-    // const [checkout, setCheckout] = useState('')
-
+    const mobile = isMobile()
+    const [expanded, setExpanded] = useState(!mobile)
 
     const datesHandler = (e) => {
         reset()
@@ -65,37 +65,44 @@ const QuickCheck = () => {
     return (
         <div className='h-fit w-full px-4 pt-2 pb-4 flex flex-col gap-2 justify-between'>
 
-            <p className='text-xl -mb-2'>Disponibilidad</p>
+            <div className='flex justify-between'>
+                <p className='text-xl -mb-2'>Disponibilidad</p>
+                <button onClick={() => setExpanded(!expanded)}
+                    className='btn-icon text-sm pt-1'>{expanded ? <MdCloseFullscreen /> : <MdOpenInFull />}</button>
+            </div>
 
-            <form className='grid grid-cols-5 gap-2' onSubmit={handler}>
-                {/*checkin*/}
-                <label htmlFor='checkin' className='col-span-2'>
-                    <p className='text-gray-500 pl-2'>checkin</p>
-                    <input type="date" id='QuickCheckin' name='checkin' defaultValue={today} className='w-full' onChange={datesHandler} />
-                </label>
-                {/*checkout*/}
-                <label htmlFor='checkout' className='col-span-2'>
-                    <p className='text-gray-500 pl-2'>checkout</p>
-                    <input type="date" id='QuickCheckout' name='checkout' className='w-full' onChange={datesHandler} />
-                </label>
-                {/*nights*/}
-                <label htmlFor='nights' className='col-span-1'>
-                    <p className='text-gray-500 pl-2'>noches</p>
-                    <input type="number" id='QuickNights' name='nights' placeholder='Noches' className='w-full' onChange={datesHandler} />
-                </label>
+            {expanded &&
+                <>
+                    <form className='grid grid-cols-2 sm:grid-cols-5 gap-2' onSubmit={handler}>
+                        {/*checkin*/}
+                        <label htmlFor='checkin' className='col-span-2'>
+                            <p className='text-gray-500 pl-2'>checkin</p>
+                            <input type="date" id='QuickCheckin' name='checkin' defaultValue={today} className='w-full' onChange={datesHandler} />
+                        </label>
+                        {/*checkout*/}
+                        <label htmlFor='checkout' className='col-span-2'>
+                            <p className='text-gray-500 pl-2'>checkout</p>
+                            <input type="date" id='QuickCheckout' name='checkout' className='w-full' onChange={datesHandler} />
+                        </label>
+                        {/*nights*/}
+                        <label htmlFor='nights' className='col-span-1'>
+                            <p className='text-gray-500 pl-2'>noches</p>
+                            <input type="number" id='QuickNights' name='nights' placeholder='Noches' className='w-full' onChange={datesHandler} />
+                        </label>
 
-                <button type='submit' className='btn-primary col-span-1'>buscar</button>
-                <button type='reset' onClick={reset} className='btn-secondary col-span-1'>reset</button>
-            </form>
+                        <button type='submit' className='btn-primary col-span-2 sm:col-span-1'>buscar</button>
+                        <button type='reset' onClick={reset} className='btn-secondary col-span-2 sm:col-span-1'>reset</button>
+                    </form>
 
-            <section className='mt-4'>
-                {message && <p className={`text-gray-400 uppercase text-xs`}>{message}</p>}
-                {errors?.checkin && <p className={`text-rose-400 uppercase text-xs`}>{errors.checkin}</p>}
-                {!!avCabins?.length &&
-                    avCabins.map(c => (
-                        <QuickSearchCard key={c.id} data={c} createReserv={createReserv} />
-                    ))}
-            </section>
+                    <section className='mt-4'>
+                        {message && <p className={`text-gray-400 uppercase text-xs`}>{message}</p>}
+                        {errors?.checkin && <p className={`text-rose-400 uppercase text-xs`}>{errors.checkin}</p>}
+                        {!!avCabins?.length &&
+                            avCabins.map(c => (
+                                <QuickSearchCard key={c.id} data={c} createReserv={createReserv} />
+                            ))}
+                    </section>
+                </>}
 
             {creation &&
                 <section className='h-screen p-8 absolute top-0 right-0 overflow-y-auto z-30 border-l border-l-slate-700  bg-orange-50 dark:bg-slate-900'>

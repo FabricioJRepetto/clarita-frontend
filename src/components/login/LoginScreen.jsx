@@ -8,6 +8,7 @@ import LoginMessage from './LoginMessage';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useNotifications } from 'reapop';
 import { AiOutlineLoading } from 'react-icons/ai'
+import { isMobile } from '@/utils/isMobile';
 
 const LoginScreen = () => {
     const navigate = useNavigate()
@@ -16,6 +17,7 @@ const LoginScreen = () => {
     const [message, setMessage] = useState(false)
     const { notify } = useNotifications()
     const { user, isLoading, reLog } = useLogin()
+    const mobile = isMobile()
 
     const location = useLocation();
     const hasPreviousState = location.key !== "default";
@@ -123,7 +125,7 @@ const LoginScreen = () => {
     return (
         user?.id
             ? <Navigate to='/' />
-            : <div className='flex-1 w-full -ml-48 flex flex-col justify-center'>
+            : <div className={`flex-1 w-full ${mobile ? '' : '-ml-48'} flex flex-col justify-center`}>
                 <div className='w-full md:w-1/2 lg:w-1/4 h-fit m-auto flex flex-col gap-2'>
 
                     <h1 className='text-center text-8xl my-8 logo-font'>Cabañas Clarita</h1>
