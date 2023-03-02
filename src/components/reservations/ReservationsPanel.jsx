@@ -1,10 +1,10 @@
 import React from 'react'
 import useCabins from '@/hooks/useCabins'
-import usePanelController from '@/hooks/usePanelController'
+// import usePanelController from '@/hooks/usePanelController'
 import usePanelControllerV2 from '@/hooks/usePanelControllerV2'
 import { correctDate, dayName } from '@/utils/formatDate'
 import ReservCard from './panelComponents/ReservCard'
-import Tile from './panelComponents/Tile'
+// import Tile from './panelComponents/Tile'
 import TileV2 from './panelComponents/TileV2'
 
 const ReservationsPanel = ({ create, creating, blueprint: { dates, template } }) => {
@@ -50,7 +50,6 @@ const ReservationsPanel = ({ create, creating, blueprint: { dates, template } })
                                 {/* <Tile mode={selectMode} creating={creatingMode} disabled={tile?.reserv} cb={() => mEnter(tile.date)} /> */}
 
                                 <TileV2 mode={selectMode} creating={creatingMode} disabled={tile?.reserv && !tile?.reserv?.checkin} cb={() => mEnter(tile.date)} length={length} />
-                                <TileV2 mode={selectMode} creating={creatingMode} disabled={tile?.reserv} cb={() => mEnter(tile.date)} length={length} />
 
                             </div>
                         ))}
