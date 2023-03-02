@@ -19,6 +19,11 @@ export default defineConfig({
         eslint(),
         VitePWA({
             manifest: {
+                name: 'Administración Cabañas Clarita',
+                short_name: 'Cabañas Clarita',
+                description: 'Sistema de administración de Cabañas Clarita',
+                theme_color: '#000000',
+                start_url: '/',
                 icons: [
                     {
                         src: "/android-chrome-512x512.png",
