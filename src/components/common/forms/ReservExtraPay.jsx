@@ -1,3 +1,4 @@
+import { deformatDate } from '@/utils/formatDate'
 import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
 import React, { useEffect, useState } from 'react'
 import Switch from '../misc/Switch'
@@ -103,6 +104,15 @@ const ReservExtraPay = ({ remove, errors, ID }) => {
                     <div className='error'>{errors[`${ID}percentage`] || ''}</div>
                 </label>
             </section>
+
+            {/*paymentDate*/}
+            <label htmlFor={`${ID}paymentDate`} className='col-span-2'>
+                <p className='text-gray-500 pl-2'>fecha de pago</p>
+                <input type="date" id={`${ID}paymentDate`} name={`${ID}paymentDate`}
+                    defaultValue={deformatDate(new Date().toLocaleDateString('en'))}
+                    className='w-full' />
+                <div className='error'>{errors[`${ID}paymentDate`] || ''}</div>
+            </label>
         </div>
     )
 }

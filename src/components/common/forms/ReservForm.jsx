@@ -6,8 +6,10 @@ import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
 import { deformatDate } from '@/utils/formatDate'
 import ReservExtraPay from './ReservExtraPay'
 import { useNotifications } from 'reapop';
+import useUser from '@/hooks/useUser'
 
 const ReservForm = ({ handler, cb, edit, panelData }) => {
+    const { admin } = useUser()
     const [advance, setAdvance] = useState(false)
     const [extraPayment, setExtraPayment] = useState([])
     const [paymentTypeDetails, setPaymentTypeDetails] = useState(false)
@@ -45,6 +47,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
     // if edit, load edit data
     useEffect(() => {
         if (edit) {
+            console.log(edit);
             const aux = Object.entries(edit)
             // for standar values...
             aux.forEach(e => {
@@ -53,21 +56,22 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                     input = document.getElementById(key)
 
                 if (input) {
-                    if (key === 'checkin' || key === 'checkout') {
+                    if (key === 'checkin' || key === 'checkout' || key === 'paymentDate') {
+                        console.log(value);
                         input.value = deformatDate(value)
 
                     } else if (key === 'cabin') {
                         input.value = value.id
 
-                    } else if (key === 'amount') {
+                    } else if (key === 'amount' || key === 'total') {
                         input.value = numberToCurrency(value)
 
                     } else if (key === 'percentage' && value && value !== '-') {
                         setAdvance(() => true)
                         input.value = numberToPercentage(value)
 
-                    } else if (key === 'paymentStatus' && value) {
-                        setPaymentStatus(() => true)
+                    } else if (key === 'paymentStatus') {
+                        setPaymentStatus(() => value)
 
                     } else {
                         input.value = value !== '-' ? value : null
@@ -170,7 +174,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 {/*checkin*/}
                 <label htmlFor='checkin' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>checkin</p>
-                    <input ref={checkin} type="date" id='checkin' name='checkin' placeholder='Chcekin' className='w-full' onChange={datesHandler} />
+                    <input ref={checkin} type="date" id='checkin' name='checkin' placeholder='Checkin' className='w-full' onChange={datesHandler} />
                     <div className='error'>{errors?.checkin || ''}</div>
                 </label>
                 {/*checkout*/}
@@ -190,7 +194,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 {/*persons*/}
                 <label htmlFor='persons' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>personas</p>
-                    <input type="number" id='persons' name='persons' min={1} placeholder='Pax' className='w-full' />
+                    <input type="number" id='persons' name='persons' placeholder='Pax' className='w-full' />
                     <div className='error'>{errors?.persons || ''}</div>
                 </label>
                 {/*cabin*/}
@@ -205,11 +209,12 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                     <div className='error'>{errors?.cabin || ''}</div>
                 </label>
 
-                {/*//? MONEY*/}
+                {/*//* MONEY*/}
                 <p className='col-span-4 text-xl mt-4 -ml-2'>Pago</p>
+
                 {/*paymentType*/}
                 <label htmlFor='paymentType' className='col-span-4'>
-                    <p className='text-gray-500 pl-2'>Tipo de pago</p>
+                    <p className='text-gray-500 pl-2'>tipo de pago</p>
                     <select id='paymentType' name='paymentType' onChange={paymentSelect} className='w-full' >
                         <option value="" hidden>Seleccionar uno</option>
                         <option value="Efectivo">Efectivo</option>
@@ -275,6 +280,16 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                         <div className='error'>{errors?.percentage || ''}</div>
                     </label>
                 </section>
+
+                {/* paymentDate */}
+                {admin &&
+                    <label htmlFor='paymentDate' className='col-span-2'>
+                        <p className='text-gray-500 pl-2'>fecha de pago</p>
+                        <input type="date" id='paymentDate' name='paymentDate'
+                            defaultValue={deformatDate(new Date().toLocaleDateString('en'))}
+                            className='w-full' />
+                        <div className='error'>{errors?.paymentDate || ''}</div>
+                    </label>}
 
                 {/*//? PAGOS EXTRA */}
                 {!!extraPayment?.length && <>

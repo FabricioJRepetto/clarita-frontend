@@ -12,7 +12,7 @@ const ClientReservations = ({ id }) => {
     return (
         <div className='details-card'>
 
-            <p className='text-xl flex gap-2 items-center'><MdBook />Client Reservations</p>
+            <p className='text-xl flex gap-2 items-center'><MdBook />Reservas del Cliente</p>
             {reservList &&
                 reservList.map(e => (
                     <section key={e.id} onClick={() => navigate(`/reservations/details/${e.id}`)}>

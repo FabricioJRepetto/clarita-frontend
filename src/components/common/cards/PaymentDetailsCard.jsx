@@ -5,7 +5,7 @@ import React from 'react'
 const PaymentDetailsCard = ({ data }) => {
     return (
         <>
-            <p>Fecha</p> <p>{correctDate(data?.date)}</p>
+            <p>Fecha</p> <p>{correctDate(data?.paymentDate)}</p>
             <p>Forma de pago</p> <p>{data?.paymentType}</p>
             {data?.fees !== '-' && <><p>Cuotas</p> <p>{data?.fees || '-'}</p></>}
             {(data?.mpDetails && data?.mpDetails !== '-') && <><p>Cuenta de MP</p> <p>{data?.mpDetails || '-'}</p></>}

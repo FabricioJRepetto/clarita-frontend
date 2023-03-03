@@ -12,7 +12,7 @@ import Header from '../common/misc/Header'
 import ReservationList from './components/ReservationList'
 import CurrentGuest from './components/CurrentGuest';
 import CreateReservation from '../reservations/CreateReservation';
-import { isMobile } from '@/utils/isMobile';
+// import { isMobile } from '@/utils/isMobile';
 
 const CabinDetails = () => {
     const { id } = useParams()
@@ -25,13 +25,13 @@ const CabinDetails = () => {
     const navigate = useNavigate()
     const [isOpen, open, close] = useModal()
     const { notify } = useNotifications()
-    const mobile = isMobile()
+    // const mobile = isMobile()
 
     //: TODO: terminar esto
-    const handleCreate = () => {
+    // const handleCreate = () => {
 
-        setCreation(() => ({ cabin: cabin.id }))
-    }
+    //     setCreation(() => ({ cabin: cabin.id }))
+    // }
 
     const handleEdit = () => {
         navigate(`/cabins/edit/${id}`)

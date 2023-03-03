@@ -1,4 +1,4 @@
-import { correctDate, fancyDate } from '@/utils/formatDate'
+import { fancyDate } from '@/utils/formatDate'
 import React, { Fragment, useState } from 'react'
 import ClientDetailsCard from './ClientDetailsCard'
 import {
@@ -105,7 +105,7 @@ const ReservationCard = ({ data, open }) => {
 
                 {!!data?.extraPayments?.length && <p className='pl-4 mt-4 text-gray-600 dark:text-gray-400'>Pago #1</p>}
                 <div className='details-data'>
-                    <PaymentDetailsCard data={{ ...data, date: data.createdAt }} />
+                    <PaymentDetailsCard data={data} />
                 </div>
 
                 {!!data?.extraPayments?.length &&
@@ -134,9 +134,9 @@ const ReservationCard = ({ data, open }) => {
                 </section>}
 
             <div className='text-xs text-right opacity-50 mx-2'>
-                <p>creación: <b>{fancyDate(data.createdAt, true, true) || '-'}</b></p>
+                <p>creación: <b>{fancyDate(data.createdAt, true, true).slice(0, -4) || '-'}</b></p>
                 <p>por: <b className='capitalize'>{data.creator || '-'}</b></p>
-                <p>última edición: <b>{fancyDate(data.updatedAt, true, true) || '-'}</b></p>
+                <p>última edición: <b>{fancyDate(data.updatedAt, true, true).slice(0, -4) || '-'}</b></p>
                 <p>por: <b className='capitalize'>{data.editor || '-'}</b></p>
                 <i>ID: {data?.id}</i>
             </div>
