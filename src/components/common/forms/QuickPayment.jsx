@@ -43,7 +43,7 @@ const QuickPayment = ({ data, close }) => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className='grid grid-cols-4 gap-4'>
+        <form onSubmit={handleSubmit} autoComplete='off' className='grid grid-cols-4 gap-4'>
             <p className='col-span-4 text-xl -ml-2 txt-n-icon capitalize'><MdPerson />{data?.client?.name || '?'}</p>
 
             {data?.total && <p className='col-span-4 text-xl pl-2'>Total a pagar: {numberToCurrency(data.total)}</p>}

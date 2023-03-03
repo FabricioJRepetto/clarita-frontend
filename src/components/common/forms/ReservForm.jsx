@@ -57,7 +57,6 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 
                 if (input) {
                     if (key === 'checkin' || key === 'checkout' || key === 'paymentDate') {
-                        console.log(value);
                         input.value = deformatDate(value)
 
                     } else if (key === 'cabin') {
@@ -99,6 +98,9 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 
                                 } else if (key === 'percentage' && value && value !== '-') {
                                     input.value = numberToPercentage(value)
+
+                                } else if (key === 'paymentDate') {
+                                    input.value = deformatDate(value)
 
                                 } else {
                                     input.value = value !== '-' ? value : null
