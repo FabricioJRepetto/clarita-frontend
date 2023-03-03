@@ -1,9 +1,11 @@
+import useUser from '@/hooks/useUser'
 import { deformatDate } from '@/utils/formatDate'
 import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
 import React, { useEffect, useState } from 'react'
 import Switch from '../misc/Switch'
 
 const ReservExtraPay = ({ remove, errors, ID }) => {
+    const { admin } = useUser()
     const [paymentTypeDetails, setPaymentTypeDetails] = useState(null)
     const [advance, setAdvance] = useState(false)
 
@@ -106,13 +108,14 @@ const ReservExtraPay = ({ remove, errors, ID }) => {
             </section>
 
             {/*paymentDate*/}
-            <label htmlFor={`${ID}paymentDate`} className='col-span-2'>
-                <p className='text-gray-500 pl-2'>fecha de pago</p>
-                <input type="date" id={`${ID}paymentDate`} name={`${ID}paymentDate`}
-                    defaultValue={deformatDate(new Date().toLocaleDateString('en'))}
-                    className='w-full' />
-                <div className='error'>{errors[`${ID}paymentDate`] || ''}</div>
-            </label>
+            {admin &&
+                <label htmlFor={`${ID}paymentDate`} className='col-span-2'>
+                    <p className='text-gray-500 pl-2'>fecha de pago</p>
+                    <input type="date" id={`${ID}paymentDate`} name={`${ID}paymentDate`}
+                        defaultValue={deformatDate(new Date().toLocaleDateString('en'))}
+                        className='w-full' />
+                    <div className='error'>{errors[`${ID}paymentDate`] || ''}</div>
+                </label>}
         </div>
     )
 }
