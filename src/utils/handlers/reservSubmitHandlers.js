@@ -125,7 +125,8 @@ export const validateValues = (e) => {
         if (Object.hasOwnProperty.call(extraPayments, extra)) {
             const values = extraPayments[extra],
                 aux = {
-                    id: extra
+                    id: extra,
+                    date: new Date().toLocaleDateString('en')
                 }
 
             aux.paymentType = values[`${extra}-paymentType`]
@@ -165,7 +166,7 @@ export const quickPayment = async (e, id) => {
         ? values.percentage = null
         : values.percentage = parseInt(values.percentage.replace(/\D/g, ""))
 
-    console.log(values);
+    values.date = new Date().toLocaleDateString('en')
 
     const res = await editApi([`/reservation/quickpayment?id=${id}`, values])
 

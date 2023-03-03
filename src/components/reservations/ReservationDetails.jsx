@@ -40,7 +40,6 @@ const ReservationDetails = () => {
         setChild(() => false)
     }
 
-    //: TODO: QuickPayment en un modal o en un menu lateral?
     const modalChild = {
         deleteReserv: <DeleteReserv handleDelete={handleDelete} close={closeModal} />,
         updatePayment: <QuickPayment data={reserv} close={closeModal} />

@@ -54,7 +54,7 @@ const QuickPayment = ({ data, close }) => {
                 </p>}
 
             <section className='col-span-4 details-data pl-2'>
-                <PaymentDetailsCard data={data} />
+                <PaymentDetailsCard data={{ ...data, date: data.createdAt }} />
             </section>
 
             {!!data?.extraPayments?.length &&

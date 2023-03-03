@@ -22,7 +22,7 @@ export default defineConfig({
                 name: 'Administración Cabañas Clarita',
                 short_name: 'Cabañas Clarita',
                 description: 'Sistema de administración de Cabañas Clarita',
-                theme_color: '#000000',
+                theme_color: '#0f172a',
                 start_url: '/',
                 icons: [
                     {
