@@ -1,9 +1,11 @@
+import useUser from '@/hooks/useUser'
 import { deformatDate } from '@/utils/formatDate'
 import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
 import React, { useEffect, useState } from 'react'
 import Switch from '../misc/Switch'
 
 const ReservExtraPay = ({ remove, errors, ID }) => {
+    const { admin } = useUser()
     const [paymentTypeDetails, setPaymentTypeDetails] = useState(null)
     const [advance, setAdvance] = useState(false)
 
@@ -29,7 +31,7 @@ const ReservExtraPay = ({ remove, errors, ID }) => {
     }, [ID])
 
     return (
-        <div className='relative grid gap-2 grid-cols-4 col-span-4 '>
+        <div className='relative grid gap-2 grid-cols-4 col-span-4'>
             {remove &&
                 <>
                     <button type='button' onClick={() => remove(ID)} className='btn-tertiary absolute top-4 right-0'>quitar</button>
@@ -63,7 +65,7 @@ const ReservExtraPay = ({ remove, errors, ID }) => {
             {/*mpDetails*/}
             <label htmlFor={`${ID}mpDetails`} className={`col-span-4 ${paymentTypeDetails === 'mp' ? '' : 'hidden'}`}>
                 <p className='text-gray-500 pl-2'>Cuenta utilizada</p>
-                <input type="text" id={`${ID}mpDetails`} name={`${ID}mpDetails`} placeholder='Usuario de MercadoPago' className='w-full' />
+                <input type="text" id={`${ID}mpDetails`} name={`${ID}mpDetails`} placeholder='Usuario de MercadoPago' className='w-full' autoComplete='off' />
                 <div className='error'>{errors[`${ID}mpDetails`] || ''}</div>
             </label>
 
@@ -84,7 +86,8 @@ const ReservExtraPay = ({ remove, errors, ID }) => {
             {/*amount*/}
             <label htmlFor={`${ID}amount`} className='col-span-2'>
                 <p className='text-gray-500 pl-2'>monto</p>
-                <input type="text" id={`${ID}amount`} name={`${ID}amount`} placeholder='$' className='w-full' onKeyUp={formatCurrency} />
+                <input type="text" id={`${ID}amount`} name={`${ID}amount`} autoComplete="off"
+                    placeholder='$' className='w-full' onKeyUp={formatCurrency} />
                 <div className='error'>{errors[`${ID}amount`] || ''}</div>
             </label>
 
@@ -106,13 +109,14 @@ const ReservExtraPay = ({ remove, errors, ID }) => {
             </section>
 
             {/*paymentDate*/}
-            <label htmlFor={`${ID}paymentDate`} className='col-span-2'>
-                <p className='text-gray-500 pl-2'>fecha de pago</p>
-                <input type="date" id={`${ID}paymentDate`} name={`${ID}paymentDate`}
-                    defaultValue={deformatDate(new Date().toLocaleDateString('en'))}
-                    className='w-full' />
-                <div className='error'>{errors[`${ID}paymentDate`] || ''}</div>
-            </label>
+            {admin &&
+                <label htmlFor={`${ID}paymentDate`} className='col-span-2'>
+                    <p className='text-gray-500 pl-2'>fecha de pago</p>
+                    <input type="date" id={`${ID}paymentDate`} name={`${ID}paymentDate`}
+                        defaultValue={deformatDate(new Date().toLocaleDateString('en'))}
+                        className='w-full' />
+                    <div className='error'>{errors[`${ID}paymentDate`] || ''}</div>
+                </label>}
         </div>
     )
 }
