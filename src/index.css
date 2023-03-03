@@ -231,7 +231,7 @@
     .announcement {
         @apply min-h-fit relative p-1 border rounded flex items-center gap-1 cursor-pointer select-none;
     }
-    .announcement div {
+    .announcement > span {
         width: calc(80% - 10rem);
     }
     .info {
