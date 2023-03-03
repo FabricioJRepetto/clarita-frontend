@@ -21,6 +21,8 @@ export const validateReservErrors = (values, client) => {
 
     if (values.persons === '-') errors.persons = 'Campo requerido'
 
+    if (values.persons < 1) errors.persons = 'No puede ser menor a 1'
+
     if (values.cabin === '-') errors.cabin = 'Campo requerido'
 
     if (values.paymentType === '-') errors.paymentType = 'Campo requerido'
@@ -79,7 +81,7 @@ export const validateValues = (e) => {
                 values[e.name] = e.value || '-'
             }
         }
-        return 'hola'
+        return null
     })
     // console.log(values)
     // console.log(extraPayments)
@@ -101,6 +103,8 @@ export const validateValues = (e) => {
     // change dates to correct format
     values.checkin = formatDate(values.checkin)
     values.checkout = formatDate(values.checkout)
+    //:TODO: paymentDate
+    values.paymentDate = formatDate(values.paymentDate)
 
     // change total to number if payment status is incomplete
     values.paymentStatus === 'false'
@@ -125,10 +129,11 @@ export const validateValues = (e) => {
         if (Object.hasOwnProperty.call(extraPayments, extra)) {
             const values = extraPayments[extra],
                 aux = {
-                    id: extra,
-                    date: new Date().toLocaleDateString('en')
+                    id: extra
                 }
 
+            //:TODO: paymentDate
+            aux.paymentDate = formatDate(values[`${extra}-paymentDate`])
             aux.paymentType = values[`${extra}-paymentType`]
             aux.currency = values[`${extra}-currency`]
             aux.fees = values[`${extra}-fees`]
@@ -146,6 +151,7 @@ export const validateValues = (e) => {
     // add extra payments to final values
     values.extraPayments = finalExtras
 
+    console.log(values);
     return { res: values }
 }
 
@@ -166,12 +172,11 @@ export const quickPayment = async (e, id) => {
         ? values.percentage = null
         : values.percentage = parseInt(values.percentage.replace(/\D/g, ""))
 
-    values.date = new Date().toLocaleDateString('en')
+    values.paymentDate = formatDate(values.paymentDate)
 
     const res = await editApi([`/reservation/quickpayment?id=${id}`, values])
 
     return res
-
 }
 
 //? this fn only Posts validated data

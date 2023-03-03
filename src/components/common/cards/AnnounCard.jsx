@@ -30,14 +30,16 @@ const AnnounCard = ({ data }) => {
         <div onClick={() => setExpanded(() => !expanded)}
             className={`announcement ${style ? style : 'default'} h-fit`}>
 
-            <div className='txt-n-icon relative min-w-max max-w-max mb-auto'>
-                <div className='mr-4 relative'>
+            <div className='txt-n-icon relative min-w-max max-w-max mb-auto mr-2'>
+                <div className='relative'>
                     {icon[style || 'default']}
                     <span className={`animate-ping absolute top-1 left-1 inline-flex h-3 w-3 rounded-full ${color[style || 'default']} opacity-90`}></span>
                 </div>
-                <b>{title ? title + ': ' : ''}</b>
+                <b>{title ? title + ':' : ''}</b>
             </div>
-            <div className={`${expanded ? '' : 'ellipsis'}`} >{text}</div>
+            <span className={`${expanded ? '' : 'ellipsis'}`} >
+                {text}
+            </span>
             {from && <i className='absolute bottom-1 right-2 text-sm opacity-60 capitalize'>{from}</i>}
         </div >
     )

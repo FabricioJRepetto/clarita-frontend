@@ -8,7 +8,7 @@ import LedgerPage from './components/LedgerPage'
 import { fancyMonth, isAnotherMonth, isSameDay } from '@/utils/formatDate'
 import { isMobile } from '@/utils/isMobile'
 
-const Month = ({ date: DATE }) => {
+const DailyView = ({ date: DATE }) => {
     // date trigerea una nueva busqueda si cambia
     const [date, setDate] = useState(DATE)
     const { month, isLoading, mutate } = useLedgerMonth(date)
@@ -106,4 +106,4 @@ const Month = ({ date: DATE }) => {
     )
 }
 
-export default Month
+export default DailyView

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Header from '../common/misc/Header'
-import Month from './Month'
+import DailyView from './DailyView'
+import Statistics from './Statistics'
 import Week from './Week'
 
 const Expenses = () => {
@@ -8,17 +9,19 @@ const Expenses = () => {
     const date = new Date(new Date()).toLocaleDateString('en')
 
     const sections = [
-        <Month date={date} />,
+        <DailyView date={date} />,
         <Week date={date} />,
+        <Statistics />
     ]
     const correctSection = sections[section]
 
-    //? - 1 - Mes
-    //? - 2 - Balance General
+    //? - 1 - Vista Diaria
+    //? - 2 - Resumen Semanal
+    //? - 3 - Resumen Mensual
 
     return (
         <div className='relative flex flex-col w-full full-h fade-in'>
-            <Header title={'Cuentas'} sections={['Registros', 'Balance General']} section={section} setSection={setSection} />
+            <Header title={'Cuentas'} sections={['Vista Diaria', 'Resumen Semanal', 'Informe']} section={section} setSection={setSection} />
 
             <section className='full-h pt-8 pl-8 col-span-5 overflow-y-auto relative'>
                 {correctSection}

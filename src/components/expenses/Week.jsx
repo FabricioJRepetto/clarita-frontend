@@ -58,7 +58,7 @@ const Week = ({ date }) => {
                     <p className='col-span-1'>Ingreso:</p>
                     <p className='col-span-1 text-emerald-500 text-xl'>{numberToCurrency(income)}</p>
 
-                    <p className='col-span-5'>Perdida:</p>
+                    <p className='col-span-5'>Pérdida:</p>
                     <p className='col-span-1 text-rose-500 text-xl'>-{numberToCurrency(expense)}</p>
 
                     <p className='col-span-5'>Total Neto:</p>
