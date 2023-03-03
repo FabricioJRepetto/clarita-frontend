@@ -322,7 +322,7 @@
         overflow-y: auto;
     }
     .entry-list > *:nth-child(2n -1){
-        @apply bg-slate-800/70;
+        @apply bg-neutral-200/70 dark:bg-slate-800/70;
     }
 
     .ledger-row {

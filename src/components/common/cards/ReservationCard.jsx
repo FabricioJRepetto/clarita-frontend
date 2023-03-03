@@ -1,4 +1,4 @@
-import { fancyDate } from '@/utils/formatDate'
+import { correctDate, fancyDate } from '@/utils/formatDate'
 import React, { Fragment, useState } from 'react'
 import ClientDetailsCard from './ClientDetailsCard'
 import {
@@ -105,7 +105,7 @@ const ReservationCard = ({ data, open }) => {
 
                 {!!data?.extraPayments?.length && <p className='pl-4 mt-4 text-gray-600 dark:text-gray-400'>Pago #1</p>}
                 <div className='details-data'>
-                    <PaymentDetailsCard data={data} />
+                    <PaymentDetailsCard data={{ ...data, date: data.createdAt }} />
                 </div>
 
                 {!!data?.extraPayments?.length &&
