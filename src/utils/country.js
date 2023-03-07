@@ -1,4 +1,4 @@
-import countries from "@/countryList";
+import countries from "@/utils/countryList";
 
 // code => name
 export const country = (code) => {

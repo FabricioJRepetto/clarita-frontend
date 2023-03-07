@@ -21,7 +21,7 @@ const Expenses = () => {
 
     return (
         <div className='relative flex flex-col w-full full-h fade-in'>
-            <Header title={'Cuentas'} sections={['Vista Diaria', 'Resumen Semanal', 'Informe']} section={section} setSection={setSection} />
+            <Header title={'Cuentas'} sections={['Vista Diaria', 'Resumen Semanal', 'Informes']} section={section} setSection={setSection} />
 
             <section className='full-h pt-8 pl-8 col-span-5 overflow-y-auto relative'>
                 {correctSection}
