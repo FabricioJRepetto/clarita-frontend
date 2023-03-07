@@ -19,7 +19,7 @@ const CreateCabin = () => {
 
     return (
         <>
-            <h1>Crear Cabaña</h1>
+            <h1>{id ? 'Editar' : 'Crear'} Cabaña</h1>
             <CabinForm handler={id ? editCabinSubmit : createCabinSubmit} cb={cb} />
         </>
     )

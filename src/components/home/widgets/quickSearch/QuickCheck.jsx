@@ -29,10 +29,10 @@ const QuickCheck = () => {
 
     const handler = (e) => {
         e.preventDefault()
-        const [{ value: checkin }, { value: checkout }] = e.target
+        const [{ value: checkin }, { value: checkout }, , { value: pax }] = e.target
         if (checkin && checkout) {
             // Looks for available cabins
-            const value = datesValidator(cabins, setAvCabins, setErrors, checkin, checkout)
+            const value = datesValidator(cabins, setAvCabins, setErrors, checkin, checkout, pax)
             if (!!value?.length) {
                 setMessage(() => ('Alojamiento disponible:'))
             }
@@ -45,17 +45,19 @@ const QuickCheck = () => {
         setErrors(() => false)
     }
 
-    //: TODO: terminar esto
     const createReserv = (id) => {
         setCreation(() => false)
         const IN = formatDate(document.getElementById('QuickCheckin').value),
             OUT = formatDate(document.getElementById('QuickCheckout').value),
-            nights = document.getElementById('QuickNights').value
+            nights = document.getElementById('QuickNights').value,
+            persons = document.getElementById('QuickPersons').value
+
 
         const aux = {
             cabin: id,
             checkin: IN,
             checkout: OUT,
+            persons,
             nights
         }
 
@@ -73,7 +75,7 @@ const QuickCheck = () => {
 
             {expanded &&
                 <>
-                    <form className='grid grid-cols-2 sm:grid-cols-5 gap-2' onSubmit={handler}>
+                    <form className='grid grid-cols-2 sm:grid-cols-6 gap-2' onSubmit={handler}>
                         {/*checkin*/}
                         <label htmlFor='checkin' className='col-span-2'>
                             <p className='text-gray-500 pl-2'>checkin</p>
@@ -88,6 +90,11 @@ const QuickCheck = () => {
                         <label htmlFor='nights' className='col-span-1'>
                             <p className='text-gray-500 pl-2'>noches</p>
                             <input type="number" id='QuickNights' name='nights' placeholder='Noches' className='w-full' onChange={datesHandler} />
+                        </label>
+                        {/*pax*/}
+                        <label htmlFor='persons' className='col-span-1'>
+                            <p className='text-gray-500 pl-2'>pax</p>
+                            <input type="number" id='QuickPersons' name='persons' placeholder='Personas' className='w-full' />
                         </label>
 
                         <button type='submit' className='btn-primary col-span-2 sm:col-span-1'>buscar</button>

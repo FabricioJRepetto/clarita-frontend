@@ -3,7 +3,6 @@ import Stats from '@/components/expenses/components/Stats'
 import IncomeChart from '@/components/expenses/components/Chart'
 import useStatistics from '@/hooks/useStatistics'
 import Loading from '../common/misc/Loading'
-import { MONTHS } from '@/utils/monthsList'
 
 const Statistics = () => {
     const { stats, error, isLoading } = useStatistics()

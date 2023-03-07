@@ -2,7 +2,6 @@ import React from 'react'
 import ReservationMiniCard from '@/components/common/cards/ReservationMiniCard';
 
 const ReservationList = ({ cabin }) => {
-    console.log(cabin?.reservations);
     return (
         <section className='grid gap-2'>
             {!!cabin?.reservations.length &&

@@ -7,7 +7,7 @@ import ReservCard from './panelComponents/ReservCard'
 // import Tile from './panelComponents/Tile'
 import TileV2 from './panelComponents/TileV2'
 import { isMobile } from '@/utils/isMobile'
-import { MdBungalow } from 'react-icons/md'
+import { MdBungalow, MdGroups } from 'react-icons/md'
 
 const ReservationsPanel = ({ create, creating, blueprint: { dates, template } }) => {
     const { cabins } = useCabins()
@@ -25,7 +25,13 @@ const ReservationsPanel = ({ create, creating, blueprint: { dates, template } })
                     <div key={c[0]} className={`ellipsis ${mobile ? 'w-12 px-1' : 'w-44 px-4'}`}>
                         {mobile
                             ? <p>{cabins.find(cab => cab.id === c[0])?.identifier}</p>
-                            : <p>{cabins.find(cab => cab.id === c[0])?.name}</p>}
+                            : <div className='txt-n-icon w-full justify-center capitalize'>
+                                {cabins.find(cab => cab.id === c[0])?.name}
+                                <p className='txt-n-icon w-full text-gray-400 gap-1 ml-2'>
+                                    <MdGroups />
+                                    {cabins.find(cab => cab.id === c[0])?.capacity}
+                                </p>
+                            </div>}
                     </div>
                 ))}
             </div>

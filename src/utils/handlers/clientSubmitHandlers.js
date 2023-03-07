@@ -55,6 +55,7 @@ export const createSubmit = async (e) => {
     } else {
         values.cuil = null
     }
+    // console.log(values);
 
     // post on API    
     const res = await postApi(['/client/', values]).catch(err => {

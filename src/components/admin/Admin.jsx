@@ -7,6 +7,7 @@ import Header from '../common/misc/Header';
 const Admin = () => {
     const [section, setSection] = useState(0)
 
+    //: TODO: opciones de configuracion
     const sections = [
         <AdminUsers />,
         <Annuncement />,
@@ -20,7 +21,7 @@ const Admin = () => {
 
             <MdLocalPolice className='absolute top-0 right-0 text-9xl text-gray-200 dark:text-slate-800/50' />
 
-            <Header title={'Admin'} sections={['Usuarios', 'Anuncio', 'Opciones']} section={section} setSection={setSection} admin />
+            <Header title={'Admin'} sections={['Usuarios', 'Anuncio']} section={section} setSection={setSection} admin />
 
             <section className='full-h pt-8 pl-8 col-span-5 overflow-y-auto'>
                 {correctSection}

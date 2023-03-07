@@ -18,7 +18,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
     const { notify } = useNotifications()
 
     const { cabins, isLoading } = useCabins()
-    const [avCabins, setAvCabins] = useState(cabins)
+    const [avCabins, setAvCabins] = useState([{ id: null, name: 'Introduce fechas y pax' }])
 
     const checkin = useRef(null)
     const checkout = useRef(null)
@@ -120,15 +120,16 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
         const checkin = document.getElementById('checkin'),
             checkout = document.getElementById('checkout'),
             nights = document.getElementById('nights'),
+            persons = document.getElementById('persons'),
             id = e.target.id
 
-        fillDates(checkin, checkout, nights, id)
+        id !== 'persons' && fillDates(checkin, checkout, nights, id)
         // if in edit mode, don't change cabin
-        if (checkin.value && checkout.value && !edit) {
+        if (checkin.value && checkout.value && persons.value && !edit) {
             // Looks for available cabins
-            datesValidator(cabins, setAvCabins, setErrors, checkin.value, checkout.value)
+            datesValidator(cabins, setAvCabins, setErrors, checkin.value, checkout.value, persons.value)
         } else {
-            setAvCabins(() => cabins)
+            setAvCabins(() => [{ id: null, name: 'Introduce fechas y pax' }])
         }
     }
 
@@ -196,9 +197,10 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 {/*persons*/}
                 <label htmlFor='persons' className='col-span-2'>
                     <p className='text-gray-500 pl-2'>personas</p>
-                    <input type="number" id='persons' name='persons' placeholder='Pax' className='w-full' />
+                    <input type="number" id='persons' name='persons' placeholder='Pax' className='w-full' onChange={datesHandler} />
                     <div className='error'>{errors?.persons || ''}</div>
                 </label>
+
                 {/*cabin*/}
                 <label htmlFor='cabin' className='col-span-4'>
                     <p className='text-gray-500 pl-2'>alojamiento</p>
