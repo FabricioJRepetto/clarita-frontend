@@ -2,7 +2,7 @@ import useClients from '@/hooks/useClients'
 import useLoadEditData from '@/hooks/useLoadEditData'
 import React, { Fragment, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import countries from '@/countryList'
+import countries from '@/utils/countryList'
 import { useNotifications } from 'reapop'
 import Switch from '../misc/Switch'
 
