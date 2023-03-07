@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import useCabins from '@/hooks/useCabins'
 import { useState } from 'react'
-import { MdEdit, MdDelete, MdOutlineBookmark, MdEvent, MdCancel } from 'react-icons/md';
+import { MdGroups, MdEdit, MdDelete, MdOutlineBookmark, MdEvent, MdCancel } from 'react-icons/md';
 import useUser from '@/hooks/useUser'
 import { deleteApi } from '@/services/api'
 import { useNotifications } from 'reapop';
@@ -12,6 +12,8 @@ import Header from '../common/misc/Header'
 import ReservationList from './components/ReservationList'
 import CurrentGuest from './components/CurrentGuest';
 import CreateReservation from '../reservations/CreateReservation';
+import Switch from '../common/misc/Switch';
+import { changeAvailability } from '@/utils/handlers/cabinSubmitHandler';
 // import { isMobile } from '@/utils/isMobile';
 
 const CabinDetails = () => {
@@ -57,6 +59,25 @@ const CabinDetails = () => {
 
     const correctSection = sections[section]
 
+    const availabilityHandler = async () => {
+        const res = await changeAvailability(id)
+        if (!res.error) {
+            notify(res.message, 'success')
+            setCabins(res.cabinsList)
+        } else {
+            notify(res.error, 'error')
+        }
+    }
+
+    const TITLE = <>
+        <p className={cabin?.enabled ? '' : 'text-rose-500'}>{cabin?.name}</p>
+
+        <p className='ml-4 txt-n-icon text-xl items-center text-gray-400'>
+            <MdGroups />
+            {` ${cabin?.capacity || '?'}`}
+        </p>
+    </>
+
     return (
         <>
             {isLoading &&
@@ -69,7 +90,7 @@ const CabinDetails = () => {
             {cabin &&
                 <div className='grid gap-4 p-2 my-1 relative fade-in'>
 
-                    <Header title={cabin?.name}
+                    <Header title={TITLE}
                         sections={[
                             <p className='txt-n-icon'><MdOutlineBookmark />Reserva actual</p>,
                             <p className='txt-n-icon'><MdEvent />Próximas reserv.</p>
@@ -81,7 +102,11 @@ const CabinDetails = () => {
                     <p className='absolute text-9xl font-black opacity-10 -z-10 top-0 left-0'>{cabin?.identifier}</p>
 
                     {admin &&
-                        <div className='w-16 flex justify-between absolute top-4 right-4'>
+                        <div className='w-fit flex gap-6 justify-between absolute top-4 right-4 z-10'>
+
+                            <span className={'text-rose-500'}>
+                                <Switch options={['deshabilitada']} state={!cabin?.enabled} cb={availabilityHandler} />
+                            </span>
                             <button className='btn-icon' onClick={handleEdit}>
                                 <MdEdit />
                             </button>
@@ -99,7 +124,8 @@ const CabinDetails = () => {
             {(error || someError) && <b>error: {error?.message || someError}</b>}
             <p><i className='text-xs opacity-50 mx-2'>ID: {cabin?.id || '-'}</i></p>
 
-            {creation &&
+            {
+                creation &&
                 <section className='h-screen p-8 absolute top-0 right-0 overflow-y-auto z-30 border-l border-l-slate-700  bg-orange-50 dark:bg-slate-900'>
                     <CreateReservation panelData={creation} cb={() => setCreation(() => false)} />
 
@@ -107,7 +133,8 @@ const CabinDetails = () => {
                         onClick={() => setCreation(() => false)}>
                         <MdCancel />
                     </button>
-                </section>}
+                </section>
+            }
 
             <Modal isOpen={isOpen} close={close}>
                 {<div className='relative grid grid-col grid-cols-4 gap-4 w-fit'>

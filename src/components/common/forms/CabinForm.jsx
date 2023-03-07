@@ -51,18 +51,23 @@ const CabinForm = ({ handler, cb }) => {
             <form onSubmit={handleSubmit} autoComplete='off' className='grid grid-cols-4 gap-2 w-96 p-2'>
                 {/*name*/}
                 <label htmlFor='name' className='col-span-4'>
-                    <p className='text-gray-500 pl-2'>nombre</p>
-                    <input type="text" id='name' name='name' placeholder='Nombre' className='w-full' />
+                    <p className='text-gray-500 pl-2'>Nombre</p>
+                    <input type="text" id='name' name='name' placeholder='nombre' className='w-full' />
                     <div className='h-6 text-sm text-rose-500'>{errors?.name || ''}</div>
                 </label>
                 {/*identifier*/}
                 <label htmlFor='identifier' className='col-span-4'>
-                    <p className='text-gray-500 pl-2'>identificador</p>
-                    <input type="text" id='identifier' name='identifier' placeholder='Identificador' className='w-full' />
+                    <p className='text-gray-500 pl-2'>Identificador, versión resumida del nombre</p>
+                    <input type="text" id='identifier' name='identifier' placeholder='ID' className='w-full' />
                     <div className='h-6 text-sm text-rose-500'>{errors?.identifier || ''}</div>
                 </label>
-                {/*icon*/}
-                {/* <div className='grid grid-cols-4'>{ICONS}</div> */}
+                {/*capacity*/}
+                <label htmlFor='capacity' className='col-span-4'>
+                    <p className='text-gray-500 pl-2'>Capacidad del alojamiento</p>
+                    <input type="number" id='capacity' name='capacity' placeholder='capacidad' className='w-full' />
+                    <div className='h-6 text-sm text-rose-500'>{errors?.capacity || ''}</div>
+                </label>
+
                 <button className='btn-primary col-start-2 col-span-2'>{id ? 'Guardar' : 'Crear'}</button>
             </form>
             {errors.someError && <b>error: {errors.someError}</b>}

@@ -99,9 +99,8 @@ export const doDatesOverlap = (a1, a2, b1, b2) => {
         return false
 }
 
-//: TODO: replantear el checkeo de fechas, quizas sea mejor hacerlo en el back
 // Looks for available cabins
-export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT) => {
+export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT, PAX = 1) => {
     // const IN = document.getElementById('checkin').value,
     //     OUT = document.getElementById('checkout').value
 
@@ -123,10 +122,12 @@ export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT) => {
     let avCabins = []
 
     cabins.forEach(c => {
-        //look for a reservation that overlaps with form dates
-        let flag = c.reservations.find(r => doDatesOverlap(r.in, r.out, dateA, dateB))
-        // if there is none (flag == false) save cabin for render
-        !flag && avCabins.push({ id: c.id, name: c.name })
+        if (c.enabled && c.capacity >= parseInt(PAX)) {
+            //look for a reservation that overlaps with form dates
+            let flag = c.reservations.find(r => doDatesOverlap(r.in, r.out, dateA, dateB))
+            // if there is none (flag == false) save cabin for render
+            !flag && avCabins.push({ id: c.id, name: c.name, pax: c.capacity })
+        }
     })
 
     if (!!avCabins.length) {

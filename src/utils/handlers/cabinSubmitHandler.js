@@ -8,6 +8,8 @@ export const validateCabinErrors = (values) => {
     if (values.identifier === '-') errors.identifier = 'Campo requerido'
     else if (values.identifier.length > 2) errors.identifier = 'Utiliza como máximo 2 caractéres'
 
+    if (values.capacity === '-') errors.capacity = 'Campo requerido'
+
     if (!!Object.keys(errors).length) {
         return errors
     }
@@ -54,6 +56,20 @@ export const editCabinSubmit = async (e, id) => {
 
     if (res) {
         return { res }
+    } else {
+        console.error('createSubmit No res');
+    }
+}
+
+export const changeAvailability = async (id) => {
+    // post on API    
+    const res = await editApi([`/cabin/availability?id=${id}`]).catch(err => {
+        console.error(err)
+        return { error: err }
+    })
+
+    if (res) {
+        return res
     } else {
         console.error('createSubmit No res');
     }

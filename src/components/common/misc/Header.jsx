@@ -6,7 +6,7 @@ const Header = ({ title, sections, section, setSection, admin = false, button = 
 
     return (
         <header className={`relative grid  ${mobile ? 'pl-10 grid-cols-3' : 'grid-cols-5'} border-b z-10 ${admin ? 'border-b-orange-500' : 'border-b-gray-400 dark:border-b-slate-700'}`}>
-            {!mobile && <h1 className={`col-span-6 capitalize`}>{title}</h1>}
+            {!mobile && <h1 className={`txt-n-icon col-span-6 capitalize`}>{title}</h1>}
 
             {/* {button && button} */}
 

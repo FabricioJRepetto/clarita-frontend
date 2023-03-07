@@ -31,7 +31,7 @@ const CabinsCalendar = () => {
                 </div>
                 : <div className='grid grid-cols-4 gap-1 fade-in'>
                     {cabins && cabins.map(c => (
-                        <CalendarMiniCabinCard key={c.id} data={c} date={date} cb={selectCabin} />
+                        c.enabled && <CalendarMiniCabinCard key={c.id} data={c} date={date} cb={selectCabin} />
                     ))}
                     <p className='col-span-4 txt-n-icon w-full justify-center text-xs text-gray-500'>
                         <BsFillCaretDownFill />

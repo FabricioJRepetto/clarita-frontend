@@ -2,6 +2,7 @@ import { numberToCurrency } from '@/utils/formUtils';
 import React from 'react'
 import { getBalance } from '../utils/getBalance'
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md'
+import { correctDate } from '@/utils/formatDate';
 
 const WeekDay = ({ name, data: { data, currency }, date, setDate, day }) => {
     const { total } = getBalance(data)
@@ -18,7 +19,7 @@ const WeekDay = ({ name, data: { data, currency }, date, setDate, day }) => {
                 </span>}
 
             <p>{name}</p>
-            <p className='text-sm text-gray-500'>{date || ''}</p>
+            <p className='text-sm text-gray-500'>{correctDate(date) || ''}</p>
 
             {!!data.length
                 ? <>
