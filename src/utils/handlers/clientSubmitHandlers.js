@@ -11,9 +11,9 @@ export const validateClientErrors = (values) => {
         errors.email = 'Formato de email no válido'
     }
 
-    // if there is one, there must be the other
-    if (values.vehicleType !== '-' && values.plate === '-') errors.plate = 'Campo requerido'
-    if (values.plate !== '-' && values.vehicleType === '-') errors.vehicleType = 'Campo requerido'
+    // vehicle info
+    // if (values.vehicleType !== '-' && values.plate === '-') errors.plate = 'Campo requerido'
+    // if (values.plate !== '-' && values.vehicleType === '-') errors.vehicleType = 'Campo requerido'
 
     if (values.company === 'true') {
         if (values.cuil === '-') errors.cuil = 'Campo requerido'
@@ -55,7 +55,6 @@ export const createSubmit = async (e) => {
     } else {
         values.cuil = null
     }
-    // console.log(values);
 
     // post on API    
     const res = await postApi(['/client/', values]).catch(err => {
@@ -64,7 +63,6 @@ export const createSubmit = async (e) => {
     })
 
     if (res) {
-        console.log(res);
         return { res }
     } else {
         console.error('createSubmit No res');
@@ -78,7 +76,6 @@ export const editSubmit = async (e, id) => {
 
     // reviso errores
     const errors = validateClientErrors(values)
-    console.log(errors);
     if (errors) return { errors }
 
     values.name = values.name.toLowerCase()
@@ -106,7 +103,6 @@ export const editSubmit = async (e, id) => {
             return { errors: err.message }
         })
 
-    console.log(res);
     if (!res.errors) {
         return { res }
     } else {

@@ -17,7 +17,6 @@ const Annuncement = () => {
         const data = { title, text, style }
         try {
             const res = await postApi(['/user/admin/announcement', data])
-            console.log(res)
             notify(res.message, 'success')
         } catch (err) {
             notify(err?.message, 'error')
@@ -29,7 +28,6 @@ const Annuncement = () => {
         e.preventDefault()
         try {
             const res = await deleteApi('/user/admin/announcement')
-            console.log(res)
             notify(res.message, 'success')
         } catch (err) {
             notify(err?.message, 'error')

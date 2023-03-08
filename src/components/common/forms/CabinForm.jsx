@@ -30,7 +30,6 @@ const CabinForm = ({ handler, cb }) => {
                 setErrors({ ...errors, identifier: 'El Identificador ya está en uso' })
                 flag = true
             }
-            console.log('flag', flag);
             if (flag) return
         }
 
@@ -39,6 +38,7 @@ const CabinForm = ({ handler, cb }) => {
         const { res, errors: err } = await handler(e, id)
         if (err) {
             notify(err.message, 'error')
+            console.warn(err?.message)
             setErrors(() => err)
             return
         }

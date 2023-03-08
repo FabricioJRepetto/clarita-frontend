@@ -16,7 +16,6 @@ export const api = async (key) => {
             Authorization: getCookie('userToken')
         }
     })
-    // console.log('api', response);
     if (!response.error) {
         return response
     } else throw new Error(response.error)
@@ -24,7 +23,6 @@ export const api = async (key) => {
 
 export const login = async (data) => {
     const { data: response } = await axios.post(BACK_URL + '/user/login', data)
-    // console.log('login', response);
     if (!response.error) {
         //: TODO: hay una forma de que la res del servidor setee automaticamente la cookie
         //: TODO: expiración del token
@@ -40,7 +38,7 @@ export const autoLogin = async ([key, token]) => {
             Authorization: getCookie('userToken')
         }
     })
-    // console.log('autoLogin', response);
+
     if (!response.error) {
         return response
     } else {
@@ -57,7 +55,7 @@ export const postApi = async ([key, data]) => {
             Authorization: getCookie('userToken')
         }
     })
-    // console.log('postApi', response);
+
     if (!response.error) {
         return response
     } else {
@@ -72,7 +70,7 @@ export const editApi = async ([key, data]) => {
             Authorization: getCookie('userToken')
         }
     })
-    // console.log('editApi', response);
+
     if (!response.error) {
         return response
     } else {
@@ -87,7 +85,7 @@ export const deleteApi = async (key) => {
             Authorization: getCookie('userToken')
         }
     })
-    // console.log('deleteApi', response);
+
     if (!response.error) {
         return response
     } else {

@@ -13,10 +13,12 @@ const Password = ({ id, close, mutate }) => {
         const [{ value }, { value: pw }] = e.target
         if (value === pw) {
             setLoading(() => true)
-            console.log(value, id);
             const res = await password(id, value)
-                .catch(err => notify(err.message, 'error'))
-            console.log(res);
+                .catch(err => {
+                    notify(err.message, 'error')
+                    console.warn(err?.message);
+                })
+
             if (res?.usersList) {
                 notify(res.message, 'success')
                 mutate(res.usersList)

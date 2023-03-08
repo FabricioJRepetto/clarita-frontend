@@ -27,6 +27,7 @@ const ClientDetails = () => {
         setLoading(() => true)
         const res = await deleteApi(`/client?id=${id}`).catch(err => {
             notify(err?.message, 'error')
+            console.warn(err?.message)
         })
 
         if (!res.error) {

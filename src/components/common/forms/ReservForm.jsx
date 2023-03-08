@@ -47,7 +47,6 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
     // if edit, load edit data
     useEffect(() => {
         if (edit) {
-            console.log(edit);
             const aux = Object.entries(edit)
             // for standar values...
             aux.forEach(e => {
@@ -153,6 +152,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
             cb(res)
         } else {
             notify(res.error, 'error')
+            console.warn(res.errors)
             setErrors({ ...errors, someError: res.error })
         }
     }

@@ -36,7 +36,6 @@ const AdminUsers = () => {
     const correctChildren = LIST[form]
 
     const submitsHandler = (e, id) => {
-        console.log(e, id);
         setForm(e)
         setId(id)
         open()

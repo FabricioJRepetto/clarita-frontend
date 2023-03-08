@@ -84,7 +84,6 @@ const LoginScreen = () => {
         try {
             const res = await postApi(['/user/signin', data])
             if (!res.error) {
-                console.log(res);
                 setMessage(() => 'Tu cuenta se ha creado correctamente, pero, por cuestiones de seguridad, para poder acceder a ella, primero debe ser autorizada por un administrador. Contacta con uno para continuar.')
                 setFrame(() => 3)
             } else {

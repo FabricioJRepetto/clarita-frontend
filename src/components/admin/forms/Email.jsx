@@ -12,10 +12,12 @@ const Email = ({ id, close, mutate }) => {
         const [{ value }] = e.target
         if (value) {
             setLoading(() => true)
-            console.log(value, id);
             const res = await email(id, value)
-                .catch(err => notify(err.message, 'error'))
-            console.log(res);
+                .catch(err => {
+                    notify(err.message, 'error')
+                    console.warn(err?.message);
+                })
+
             if (res?.usersList) {
                 notify(res.message, 'success')
                 mutate(res.usersList)

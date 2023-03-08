@@ -91,8 +91,6 @@ export const doDatesOverlap = (a1, a2, b1, b2) => {
         x = new Date(b1),
         y = new Date(b2)
 
-    // console.log(a, b, x, y);
-
     if ((x >= a && x < b) || (x < a && y > a))
         return true
     else

@@ -42,6 +42,7 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
             mutate()
         } else {
             notify(res.error, 'error')
+            console.warn(res.error)
         }
         setLoading(false)
     }
@@ -70,6 +71,7 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
             close()
         } else {
             notify(res.error, 'error')
+            console.warn(res.error)
         }
         setLoading(false)
     }

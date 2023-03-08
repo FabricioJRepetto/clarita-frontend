@@ -20,6 +20,7 @@ const LedgerPage = ({ data, date, mutate, editEnable = false }) => {
         const res = await deleteApi(`/ledger?date=${date}&entry_id=${id}`)
         if (res.error) {
             notify(res.error, 'error')
+            console.warn(res.errors)
         } else {
             notify(res.message, 'success')
             mutate(res.ledger)
