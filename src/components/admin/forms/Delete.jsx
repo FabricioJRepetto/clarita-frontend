@@ -11,7 +11,10 @@ const Delete = ({ id, close, mutate }) => {
         e.preventDefault()
         setLoading(() => true)
         const res = await deleteUser(id)
-            .catch(err => notify(err.message, 'error'))
+            .catch(err => {
+                notify(err.message, 'error')
+                console.warn(err?.message);
+            })
         if (res?.usersList) {
             notify(res.message, 'success')
             mutate(res.usersList)

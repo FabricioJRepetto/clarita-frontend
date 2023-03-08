@@ -43,6 +43,7 @@ const CabinDetails = () => {
         const res = await deleteApi(`/cabin?id=${id}`).catch(err => {
             notify(err?.message, 'error')
             setSomeError(err.message)
+            console.warn(err?.message)
         })
 
         if (!res.error) {
@@ -66,6 +67,7 @@ const CabinDetails = () => {
             setCabins(res.cabinsList)
         } else {
             notify(res.error, 'error')
+            console.warn(res.error)
         }
     }
 

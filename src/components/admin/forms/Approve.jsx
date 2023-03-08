@@ -10,10 +10,12 @@ const Approve = ({ id, value, close, mutate }) => {
     const submit = async (e) => {
         e.preventDefault()
         setLoading(() => true)
-        console.log(value, id)
         const res = await approve(id, value)
-            .catch(err => notify(err.message, 'error'))
-        console.log(res);
+            .catch(err => {
+                notify(err?.message, 'error')
+                console.warn(err?.message);
+            })
+
         if (res?.usersList) {
             notify(res.message, 'success')
             mutate(res.usersList)

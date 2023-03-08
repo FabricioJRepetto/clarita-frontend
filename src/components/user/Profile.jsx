@@ -58,7 +58,6 @@ const Profile = () => {
     // }
 
     const changePassword = () => {
-        console.log('PUT /user/changePassword { password, newPassword }')
         open()
     }
 

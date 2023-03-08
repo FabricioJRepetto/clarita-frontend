@@ -49,6 +49,7 @@ const ClientForm = ({ handler, cb, edit_id }) => {
         if (err) {
             notify(err, 'error')
             setErrors({ ...err })
+            console.warn(err)
             return
         }
         if (!res.error) {
@@ -57,6 +58,7 @@ const ClientForm = ({ handler, cb, edit_id }) => {
         }
         else {
             notify(res.error, 'error')
+            console.warn(res.error)
             setErrors({ ...errors, someError: res.error })
         }
     }

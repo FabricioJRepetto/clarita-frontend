@@ -37,6 +37,7 @@ const QuickPayment = ({ data, close }) => {
             close()
         } else {
             notify(res.errors, 'error')
+            console.warn(res.errors)
             setErrors({ ...errors, someError: res.errors })
         }
         setLoading(() => false)

@@ -83,8 +83,6 @@ export const validateValues = (e) => {
         }
         return null
     })
-    // console.log(values)
-    // console.log(extraPayments)
 
     // input validator
     let errors = {},
@@ -97,7 +95,7 @@ export const validateValues = (e) => {
             err = validateReservExtraFormErrors(e[1], id)
         if (err) errors = { ...errors, ...err }
     })
-    // console.log(errors);
+
     if (!!Object.keys(errors).length) return { errors }
 
     // change dates to correct format
@@ -151,7 +149,6 @@ export const validateValues = (e) => {
     // add extra payments to final values
     values.extraPayments = finalExtras
 
-    console.log(values);
     return { res: values }
 }
 

@@ -7,7 +7,6 @@ import { numberToCurrency } from '@/utils/formUtils'
 
 const IncomeChart = ({ Month, Year }) => {
     const { chart, error, isLoading } = useLedgerChartMonth(Month, Year)
-    console.log(chart);
 
     ChartJS.register(LineController, LineElement, PointElement, LinearScale, Title, Filler, CategoryScale, Tooltip);
 
