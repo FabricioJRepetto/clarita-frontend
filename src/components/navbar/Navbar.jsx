@@ -8,6 +8,7 @@ import NavMobile from './mobile/NavMobile';
 import UserMobile from './mobile/UserMobile';
 import { isMobile } from '@/utils/isMobile';
 import { MdMenu } from 'react-icons/md'
+import ClaritaLogo from '@/assets/ClaritaLogo';
 
 const Navbar = () => {
     const { user } = useUser()
@@ -33,7 +34,11 @@ const Navbar = () => {
                 : <nav className={`w-48 h-screen text-lg fixed top-0 left-0 flex flex-col justify-between items-center ${user?.id ? '' : 'hidden'} border-r border-r-gray-400 dark:border-r-slate-800`}>
 
                     <div className='flex flex-col gap-4 w-full pt-4'>
-                        <h2 onClick={() => navigate('/')} className='mx-auto logo-font cursor-pointer'>Cabañas Clarita</h2>
+                        {/* <h2  className='mx-auto logo-font cursor-pointer'>Cabañas Clarita</h2> */}
+                        <div onClick={() => navigate('/')} className='px-10 pb-4'>
+                            <ClaritaLogo />
+                        </div>
+
                         <NavList />
                     </div>
 
