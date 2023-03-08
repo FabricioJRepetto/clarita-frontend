@@ -11,9 +11,9 @@ export const validateClientErrors = (values) => {
         errors.email = 'Formato de email no válido'
     }
 
-    // if there is one, there must be the other
-    if (values.vehicleType !== '-' && values.plate === '-') errors.plate = 'Campo requerido'
-    if (values.plate !== '-' && values.vehicleType === '-') errors.vehicleType = 'Campo requerido'
+    // vehicle info
+    // if (values.vehicleType !== '-' && values.plate === '-') errors.plate = 'Campo requerido'
+    // if (values.plate !== '-' && values.vehicleType === '-') errors.vehicleType = 'Campo requerido'
 
     if (values.company === 'true') {
         if (values.cuil === '-') errors.cuil = 'Campo requerido'

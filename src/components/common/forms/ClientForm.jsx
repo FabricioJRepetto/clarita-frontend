@@ -168,13 +168,13 @@ const ClientForm = ({ handler, cb, edit_id }) => {
                     <label htmlFor='plate' className={`col-span-2 ${isCompany ? 'hidden' : ''}`}>
                         <p className='text-gray-500 pl-2'>patente</p>
                         <input type="text" id='plate' name="plate" placeholder='Patente' className='w-full' />
-                        <div className='pl-2 h-6 text-sm text-rose-500'></div>
+                        <div className='pl-2 h-6 text-sm text-rose-500'>{errors?.plate || ''}</div>
                     </label>
                     {/*vehicleType*/}
                     <label htmlFor='vehicleType' className={`col-span-4 ${isCompany ? 'hidden' : ''}`}>
                         <p className='text-gray-500 pl-2'>tipo</p>
                         <input type="text" id='vehicleType' name="vehicleType" placeholder='Vehículo' className='w-full' />
-                        <div className='pl-2 h-6 text-sm text-rose-500'></div>
+                        <div className='pl-2 h-6 text-sm text-rose-500'>{errors?.vehicleType || ''}</div>
                     </label>
                 </div>
 
