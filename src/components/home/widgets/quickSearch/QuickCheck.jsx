@@ -69,7 +69,7 @@ const QuickCheck = () => {
 
             <div className='flex justify-between'>
                 <p className='text-xl -mb-2'>Disponibilidad</p>
-                <button onClick={() => setExpanded(!expanded)}
+                <button aria-label='expandir' onClick={() => setExpanded(!expanded)}
                     className='btn-icon text-sm pt-1'>{expanded ? <MdCloseFullscreen /> : <MdOpenInFull />}</button>
             </div>
 

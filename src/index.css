@@ -83,11 +83,11 @@
     .full-h {
         height: calc(100vh - 3rem);
     }
-    
+/*     
     .logo-font {
         @apply text-black dark:text-white text-xl mb-8;
         font-family: 'Courgette', cursive;
-    }
+    } */
 
     .error {
         @apply whitespace-nowrap pl-2 h-6 text-sm font-normal text-rose-500;
