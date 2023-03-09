@@ -98,12 +98,13 @@ export const doDatesOverlap = (a1, a2, b1, b2) => {
 }
 
 // Looks for available cabins
-export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT, PAX = 1) => {
+export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT, PAX = 1, edit) => {
     // remove error alerts
     setErrors(errors => {
         let aux = { ...errors }
         delete aux.checkin
         delete aux.persons
+        delete aux.cabin
         return aux
     })
 
@@ -117,19 +118,25 @@ export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT, PAX = 1)
         setAvCabins(() => [])
         setErrors(errors => ({
             ...errors,
-            checkin: 'El checkin no puede ser posterior al checkout.'
+            checkin: 'El checkin es posterior al checkout.'
         }))
         return []
     }
 
     let avCabins = []
-
     cabins.forEach(c => {
         if (c.enabled) {
             //look for a reservation that overlaps with form dates
-            let flag = c.reservations.find(r => doDatesOverlap(r.in, r.out, dateA, dateB))
-            // if there is none (flag == false) save cabin for render
-            !flag && avCabins.push({ id: c.id, name: c.name, pax: c.capacity })
+            let flag = c.reservations.find(r => doDatesOverlap(r.in, r.out, dateA, dateB) && r.reservation_id !== edit._id)
+            // if there is no overlap (flag == false) save cabin for render
+            if (!flag) {
+                avCabins.push({ id: c.id, name: c.name, pax: c.capacity })
+            } else if (edit && edit.cabin.id === c.id) {
+                setErrors(errors => ({
+                    ...errors,
+                    cabin: 'El alojamiento de esta reserva no está disponible en las fechas seleccionadas.'
+                }))
+            }
         }
     })
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { email, } from '@/components/admin/adminHandlers';
 import { useNotifications } from 'reapop';
-import Spinner from '@/components/common/misc/Spinner';
+import ButtonSpinner from '@/components/common/misc/ButtonSpinner';
 
 const Email = ({ id, close, mutate }) => {
     const [loading, setLoading] = useState(false)
@@ -34,9 +34,7 @@ const Email = ({ id, close, mutate }) => {
                 <input type="email" required className='w-full' />
             </span>
             <button type='button' onClick={close} className="btn-admin-s col-span-2">cancelar</button>
-            <button type='submit' className="btn-admin-p col-span-2">guardar</button>
-
-            {loading && <Spinner />}
+            <ButtonSpinner loading={loading} cb={submit} type='submit' inlineStyle='col-span-2' text='guardar' admin />
 
         </form>
     )
