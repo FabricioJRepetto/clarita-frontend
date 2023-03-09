@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { deleteUser } from '@/components/admin/adminHandlers';
 import { useNotifications } from 'reapop';
 import Spinner from '@/components/common/misc/Spinner';
+import ButtonSpinner from '@/components/common/misc/ButtonSpinner';
 
 const Delete = ({ id, close, mutate }) => {
     const [loading, setLoading] = useState(false)
     const { notify } = useNotifications()
 
-    const submit = async (e) => {
-        e.preventDefault()
+    const submit = async () => {
         setLoading(() => true)
         const res = await deleteUser(id)
             .catch(err => {
@@ -31,7 +31,7 @@ const Delete = ({ id, close, mutate }) => {
             </span>
 
             <button type='button' onClick={close} className="btn-admin-s col-span-2">Cancelar</button>
-            <button type='submit' onClick={submit} className="btn-admin-p col-span-2">Continuar</button>
+            <ButtonSpinner loading={loading} cb={submit} type='submit' inlineStyle='col-span-2' text='Continuar' admin />
 
             {loading && <Spinner />}
         </div>

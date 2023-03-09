@@ -1,9 +1,9 @@
 import useCabins from '@/hooks/useCabins'
 import React, { useEffect, useRef, useState } from 'react'
 import Switch from '@/components/common/misc/Switch'
-import { datesValidator, fillDates, numberToCurrency, numberToPercentage } from '@/utils/formUtils'
+import { datesValidator, doDatesOverlap, fillDates, numberToCurrency, numberToPercentage } from '@/utils/formUtils'
 import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
-import { deformatDate } from '@/utils/formatDate'
+import { deformatDate, formatDate } from '@/utils/formatDate'
 import ReservExtraPay from './ReservExtraPay'
 import { useNotifications } from 'reapop';
 import useUser from '@/hooks/useUser'
@@ -109,6 +109,19 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                     })
                 }, 100);
             }
+
+            let avCabins = []
+            cabins.forEach(c => {
+                if (c.enabled && c.capacity >= edit.persons) {
+                    //look for a reservation that overlaps with form dates
+                    let flag = c.reservations.find(r => doDatesOverlap(r.in, r.out, edit.checkin, edit.checkout) && r.reservation_id !== edit._id)
+                    // if there is no overlap (flag == false) save cabin for render
+                    if (!flag) {
+                        avCabins.push({ id: c.id, name: c.name, pax: c.capacity })
+                    }
+                }
+            })
+            setAvCabins(() => avCabins)
         }
         // eslint-disable-next-line
     }, [edit])
@@ -124,10 +137,10 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
 
         id !== 'persons' && fillDates(checkin, checkout, nights, id)
         // if in edit mode, don't change cabin
-        if (checkin.value && checkout.value && persons.value && !edit) {
+        if (checkin.value && checkout.value && persons.value) {
             // Looks for available cabins
-            datesValidator(cabins, setAvCabins, setErrors, checkin.value, checkout.value, persons.value)
-        } else {
+            datesValidator(cabins, setAvCabins, setErrors, checkin.value, checkout.value, persons.value, edit)
+        } else if (!edit) {
             setAvCabins(() => [{ id: null, name: 'Introduce fechas y pax' }])
         }
     }
@@ -204,13 +217,13 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                 {/*cabin*/}
                 <label htmlFor='cabin' className='col-span-4'>
                     <p className='text-gray-500 pl-2'>alojamiento</p>
-                    <select disabled={edit} name="cabin" id="cabin" className='w-full'>
+                    <select name="cabin" id="cabin" className='w-full' >
                         <option value="" hidden>Selecciona un alojamiento</option>
                         {!isLoading && avCabins && avCabins.map(c => (
                             <option key={c.id || 'errorOpt'} value={c.id}>{c.name}</option>
                         ))}
                     </select>
-                    <div className='error'>{errors?.cabin || ''}</div>
+                    <div className='error whitespace-normal'>{errors?.cabin || ''}</div>
                 </label>
 
                 {/*//* MONEY*/}
