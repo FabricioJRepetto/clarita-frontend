@@ -18,7 +18,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
     const { notify } = useNotifications()
 
     const { cabins, isLoading } = useCabins()
-    const [avCabins, setAvCabins] = useState([{ id: null, name: 'Introduce fechas y pax' }])
+    const [avCabins, setAvCabins] = useState(cabins)
 
     const checkin = useRef(null)
     const checkout = useRef(null)

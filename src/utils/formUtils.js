@@ -99,8 +99,13 @@ export const doDatesOverlap = (a1, a2, b1, b2) => {
 
 // Looks for available cabins
 export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT, PAX = 1) => {
-    // const IN = document.getElementById('checkin').value,
-    //     OUT = document.getElementById('checkout').value
+    // remove error alerts
+    setErrors(errors => {
+        let aux = { ...errors }
+        delete aux.checkin
+        delete aux.persons
+        return aux
+    })
 
     if (!IN || !OUT) return null
 
@@ -120,7 +125,7 @@ export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT, PAX = 1)
     let avCabins = []
 
     cabins.forEach(c => {
-        if (c.enabled && c.capacity >= parseInt(PAX)) {
+        if (c.enabled) {
             //look for a reservation that overlaps with form dates
             let flag = c.reservations.find(r => doDatesOverlap(r.in, r.out, dateA, dateB))
             // if there is none (flag == false) save cabin for render
@@ -129,16 +134,27 @@ export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT, PAX = 1)
     })
 
     if (!!avCabins.length) {
-        // remove posible error
-        setErrors(errors => {
-            let aux = { ...errors }
-            delete aux.checkin
-            return aux
-        })
-        // enable select input
-        select && (select.disabled = false)
-        // set new cabin list for render
-        setAvCabins(() => avCabins)
+        // filter by capacity to detect this exact error
+        avCabins = avCabins.filter(c => c.pax >= parseInt(PAX))
+        if (!!avCabins.length) {
+            // enable select input
+            select && (select.disabled = false)
+            // set new cabin list for render
+            setAvCabins(() => avCabins)
+        } else {
+            // disable select input
+            select && (select.disabled = true)
+            select && (select.value = false)
+            // set error
+            setErrors(errors => ({
+                ...errors,
+                persons: 'No hay alojamiento disponible con esta capacidad'
+            }))
+            // set new cabin list for render
+            setAvCabins(() => [])
+
+            return avCabins
+        }
     } else {
         // disable select input
         select && (select.disabled = true)
