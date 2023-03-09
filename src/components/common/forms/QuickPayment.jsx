@@ -7,6 +7,7 @@ import ReservExtraPay from './ReservExtraPay'
 import { MdPerson } from 'react-icons/md';
 import PaymentDetailsCard from '../cards/PaymentDetailsCard'
 import { numberToCurrency } from '@/utils/formUtils'
+import ButtonSpinner from '../misc/ButtonSpinner'
 
 const QuickPayment = ({ data, close }) => {
     const {
@@ -93,9 +94,9 @@ const QuickPayment = ({ data, close }) => {
             </label>
 
             <button type='button' onClick={close} className="btn-secondary col-span-2 my-2">Cancelar</button>
-            <button type='submit' className="btn-primary col-span-2 my-2">Continuar</button>
-
-            {loading && <div className='absolute top-0 left-0 right-0 bottom-0 m-auto bg-black/50'>cargando</div>}
+            <ButtonSpinner inlineStyle='col-span-2 my-2'
+                loading={loading} type='submit'
+                text='Continuar' />
         </form>
     )
 }

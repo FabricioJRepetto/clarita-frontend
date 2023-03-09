@@ -90,6 +90,8 @@ const CreateReservation = ({ panelData = false, cb }) => {
     }
 
     const handleSubmit = async () => {
+        setLoading(() => true)
+
         const fetcher = (id && !panelData) ? updateReserv : createReserv
 
         const res = await fetcher(preview, id)
@@ -103,7 +105,9 @@ const CreateReservation = ({ panelData = false, cb }) => {
                 ? cb()
                 : navigate('/reservations')
         }
+        setLoading(() => false)
     }
+
     const backToEdit = () => {
         setErrors(() => (false))
         setPreview(() => false)
@@ -112,7 +116,9 @@ const CreateReservation = ({ panelData = false, cb }) => {
     return (
         <div className='reserv-container'>
             {loading
-                ? <Spinner />
+                ? <div className='spinner-container'>
+                    <Spinner />
+                </div>
                 : <>
                     <p className='text-2xl'>Registrar reserva</p>
 

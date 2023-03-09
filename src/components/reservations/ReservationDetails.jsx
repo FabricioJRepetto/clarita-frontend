@@ -15,6 +15,7 @@ const ReservationDetails = () => {
     const { id } = useParams()
     const { admin } = useUser()
     const { reservations, error, isLoading, setReservations } = useReservations()
+    const [loading, setLoading] = useState(false)
     const reserv = reservations && reservations.find(r => r.id === id)
     const navigate = useNavigate()
     const { notify } = useNotifications()
@@ -22,11 +23,13 @@ const ReservationDetails = () => {
     const [child, setChild] = useState(false)
 
     const handleDelete = async (remove) => {
+        setLoading(() => true)
         const res = await deleteApi(`/reservation?id=${id}&remove=${String(remove)}`)
             .catch(err => notify(err.message, 'error'))
 
         notify(res.message, 'success')
         setReservations(res.reservationList)
+        setLoading(() => false)
         navigate('/reservations')
     }
 
@@ -41,7 +44,7 @@ const ReservationDetails = () => {
     }
 
     const modalChild = {
-        deleteReserv: <DeleteReserv handleDelete={handleDelete} close={closeModal} />,
+        deleteReserv: <DeleteReserv handleDelete={handleDelete} close={closeModal} loading={loading} />,
         updatePayment: <QuickPayment data={reserv} close={closeModal} />
     }
     const correctChild = modalChild[child]

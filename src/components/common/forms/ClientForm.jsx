@@ -5,11 +5,13 @@ import { useParams } from 'react-router-dom'
 import countries from '@/utils/countryList'
 import { useNotifications } from 'reapop'
 import Switch from '../misc/Switch'
+import ButtonSpinner from '../misc/ButtonSpinner'
 
 const ClientForm = ({ handler, cb, edit_id }) => {
     // if there is an ID, it means the form is in edition mode
     const { id } = useParams()
     const [isCompany, setIsCompany] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState(false)
     const { clients } = useClients()
     const { notify } = useNotifications()
@@ -19,6 +21,7 @@ const ClientForm = ({ handler, cb, edit_id }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(() => true)
 
         // check uniqueness
         if (!id && !edit_id) { // if there is not an ID, no need to check uniqueness
@@ -40,6 +43,7 @@ const ClientForm = ({ handler, cb, edit_id }) => {
                 flag = true
             }
 
+            setLoading(() => false)
             if (flag) return
         }
 
@@ -50,6 +54,7 @@ const ClientForm = ({ handler, cb, edit_id }) => {
             notify(err, 'error')
             setErrors({ ...err })
             console.warn(err)
+            setLoading(() => false)
             return
         }
         if (!res.error) {
@@ -61,6 +66,7 @@ const ClientForm = ({ handler, cb, edit_id }) => {
             console.warn(res.error)
             setErrors({ ...errors, someError: res.error })
         }
+        setLoading(() => false)
     }
 
     return (
@@ -180,7 +186,9 @@ const ClientForm = ({ handler, cb, edit_id }) => {
 
                 <p className='col-span-4'>Notas</p>
                 <textarea name="notes" cols="30" rows="3" placeholder='Notas' className='resize-none col-span-4'></textarea>
-                <button className='btn-primary col-start-2 col-span-2'>{id || edit_id ? 'Guardar' : 'Crear'}</button>
+
+                <ButtonSpinner loading={loading} type='submit' inlineStyle='col-start-2 col-span-2' text={id || edit_id ? 'Guardar' : 'Crear'} />
+
             </form>
             {errors.someError && <b>error: {errors.someError}</b>}
         </>

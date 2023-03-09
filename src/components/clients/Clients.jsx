@@ -43,12 +43,10 @@ const Clients = () => {
 
             <SearchInput filter={filter} />
 
-            {
-                isLoading &&
+            {isLoading &&
                 <span className='w-full items-start top-0'>
                     <Loading />
-                </span>
-            }
+                </span>}
 
             <section className='full-h overflow-y-auto'>
                 <ClientList data={filtered || clients} sortKey={sortKey} />

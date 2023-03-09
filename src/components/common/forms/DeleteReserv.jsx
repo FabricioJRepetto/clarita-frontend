@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import ButtonSpinner from '../misc/ButtonSpinner'
 import Switch from '../misc/Switch'
 
-const DeleteReserv = ({ handleDelete, close }) => {
+const DeleteReserv = ({ handleDelete, close, loading }) => {
     const [remove, setRemove] = useState(false)
     return (
         <div className='relative grid grid-col grid-cols-4 gap-4 w-fit'>
@@ -16,9 +17,10 @@ const DeleteReserv = ({ handleDelete, close }) => {
             </span>
 
             <button type='button' onClick={close} className="btn-admin-s col-span-2">Cancelar</button>
-            <button type='submit' onClick={() => handleDelete(remove)} className="btn-admin-p col-span-2">Continuar</button>
-
-            {/* {loading && <div className='absolute top-0 left-0 right-0 bottom-0 m-auto bg-black/50'>cargando</div>} */}
+            <ButtonSpinner inlineStyle='col-span-2'
+                loading={loading} type='submit'
+                cb={() => handleDelete(remove)}
+                text='Continuar' admin={true} />
         </div>
     )
 }

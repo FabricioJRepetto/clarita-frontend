@@ -208,6 +208,10 @@
     .reserv-container > section > p:first-child {
         @apply text-xl -mt-3;
     }
+    .reserv-container .spinner-container {
+        @apply text-xl -mt-3;
+        width: 450px;
+    }
 
     .home-main {
         @apply w-full h-fit grid grid-cols-4 sm:grid-cols-6 gap-4;

@@ -11,7 +11,7 @@ import { isMobile } from '@/utils/isMobile'
 const DailyView = ({ date: DATE }) => {
     // date trigerea una nueva busqueda si cambia
     const [date, setDate] = useState(DATE)
-    const { month, isLoading, mutate } = useLedgerMonth(date)
+    const { month, isLoading, isValidating, mutate } = useLedgerMonth(date)
     // esta fecha se muestra al usuario
     // y la utilzia el memo para buscar las entradas
     const [selectedDate, setSelectedDate] = useState(DATE)
@@ -64,8 +64,8 @@ const DailyView = ({ date: DATE }) => {
         <div className='h-full w-full flex justify-between fade-in overflow-x-hidden'>
 
             <section className='h-fit'>
-                {isLoading &&
-                    <div className='relative h-1 mb-2'>
+                {(isLoading || isValidating) &&
+                    <div className='relative h-1 -mb-1'>
                         <span className='loading-container'>
                             <Loading />
                         </span>

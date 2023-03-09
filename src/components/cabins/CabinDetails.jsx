@@ -83,7 +83,7 @@ const CabinDetails = () => {
     return (
         <>
             {isLoading &&
-                <div className='relative h-1 mb-2'>
+                <div className='relative h-1 -mb-1'>
                     <span className='loading-container'>
                         <Loading />
                     </span>

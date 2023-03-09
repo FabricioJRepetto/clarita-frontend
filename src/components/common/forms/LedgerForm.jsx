@@ -5,6 +5,7 @@ import { useNotifications } from 'reapop'
 import { MdOutlineAddCircle, MdCheckCircle, MdCancel } from 'react-icons/md'
 import { AiOutlineLoading } from 'react-icons/ai'
 import { numberToCurrency } from '@/utils/formUtils'
+import ButtonSpinner from '../misc/ButtonSpinner'
 
 const LedgerForm = ({ edit, close, date, mutate }) => {
     const [errors, setErrors] = useState({})
@@ -146,17 +147,8 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
                         </button>
                         <button type='button' onClick={close} className='btn-icon'><MdCancel /></button>
                     </div>
-                    : <button type='submit' disabled={loading} id='submit' className="mt-6 txt-n-icon btn-primary justify-center w-full px-0">
-                        {loading
-                            ? <>
-                                <AiOutlineLoading className='text-lg animate-spin' />
-                                Guardando
-                            </>
-                            : <>
-                                <MdOutlineAddCircle />
-                                Registrar
-                            </>}
-                    </button>}
+                    : <ButtonSpinner loading={loading} text='Registrar' icon={<MdOutlineAddCircle />} type='submit' inlineStyle='mt-6 px-0' />
+                }
             </label>
 
         </form>
