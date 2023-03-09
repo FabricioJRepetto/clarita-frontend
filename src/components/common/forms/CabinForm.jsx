@@ -3,18 +3,21 @@ import useLoadEditData from '@/hooks/useLoadEditData'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useNotifications } from 'reapop'
+import ButtonSpinner from '../misc/ButtonSpinner'
 
 const CabinForm = ({ handler, cb }) => {
     const { id } = useParams()
     const [errors, setErrors] = useState(false)
     const { cabins } = useCabins()
     const { notify } = useNotifications()
+    const [loading, setLoading] = useState(false)
 
     // if ID, load edit data
     useLoadEditData(cabins)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(() => true)
 
         // check uniqueness
         if (!id) { // if there is an ID, no need to check uniqueness
@@ -30,7 +33,10 @@ const CabinForm = ({ handler, cb }) => {
                 setErrors({ ...errors, identifier: 'El Identificador ya está en uso' })
                 flag = true
             }
-            if (flag) return
+            if (flag) {
+                setLoading(() => false)
+                return
+            }
         }
 
         // all handlers need the event, only edit handlers need ID
@@ -40,10 +46,12 @@ const CabinForm = ({ handler, cb }) => {
             notify(err.message, 'error')
             console.warn(err?.message)
             setErrors(() => err)
+            setLoading(() => false)
             return
         }
         if (!res.error) cb(res)
         else setErrors({ ...errors, someError: res.error })
+        setLoading(() => false)
     }
 
     return (
@@ -68,7 +76,7 @@ const CabinForm = ({ handler, cb }) => {
                     <div className='h-6 text-sm text-rose-500'>{errors?.capacity || ''}</div>
                 </label>
 
-                <button className='btn-primary col-start-2 col-span-2'>{id ? 'Guardar' : 'Crear'}</button>
+                <ButtonSpinner loading={loading} type='submit' inlineStyle={'col-start-2 col-span-2'} text={id ? 'Guardar' : 'Crear'} />
             </form>
             {errors.someError && <b>error: {errors.someError}</b>}
         </>
