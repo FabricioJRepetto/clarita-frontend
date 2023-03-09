@@ -127,11 +127,17 @@ export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT, PAX = 1,
     cabins.forEach(c => {
         if (c.enabled) {
             //look for a reservation that overlaps with form dates
-            let flag = c.reservations.find(r => doDatesOverlap(r.in, r.out, dateA, dateB) && r.reservation_id !== edit._id)
+            let flag = c.reservations.find(r => doDatesOverlap(r.in, r.out, dateA, dateB))
+
+            // the overlaping doesn't count if the reserv is the same as the one currently editing
+            if (edit && flag.reservation_id !== edit._id) {
+                flag = false
+            }
             // if there is no overlap (flag == false) save cabin for render
             if (!flag) {
                 avCabins.push({ id: c.id, name: c.name, pax: c.capacity })
             } else if (edit && edit.cabin.id === c.id) {
+                // if overlaps in the same cabin as the one editing, show special error
                 setErrors(errors => ({
                     ...errors,
                     cabin: 'El alojamiento de esta reserva no está disponible en las fechas seleccionadas.'

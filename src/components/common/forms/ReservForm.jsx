@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Switch from '@/components/common/misc/Switch'
 import { datesValidator, doDatesOverlap, fillDates, numberToCurrency, numberToPercentage } from '@/utils/formUtils'
 import { formatCurrency, formatPercentage } from '@/utils/formatInputs'
-import { deformatDate, formatDate } from '@/utils/formatDate'
+import { deformatDate } from '@/utils/formatDate'
 import ReservExtraPay from './ReservExtraPay'
 import { useNotifications } from 'reapop';
 import useUser from '@/hooks/useUser'
