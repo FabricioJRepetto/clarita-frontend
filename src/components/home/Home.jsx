@@ -25,10 +25,6 @@ const Home = () => {
 
             <section className='home-main pt-12'>
 
-                {/* <div className='col-span-6'>
-                    <AdminMessage />
-                </div> */}
-
                 <div className='col-span-2 sm:col-span-3 hover:dark:border-slate-600 transition-colors'>
                     <ShortCut title='Nueva Reserva' to='/reservations/create' icon={<MdBookmarkAdd />} />
                 </div>
@@ -37,45 +33,13 @@ const Home = () => {
                     <ShortCut title='Registrar Cliente' to='/clients/create' icon={<MdPersonAddAlt1 />} />
                 </div>
 
-                <div className='col-span-4 sm:col-span-6'>
+                <div className='col-span-4 sm:col-span-6 mt-0'>
                     <QuickCheck />
                 </div>
 
                 <div className='col-span-4 sm:col-span-3'>
                     <Unpaid />
                 </div>
-
-                {/* <div className='col-span-4'>
-                    <label htmlFor='submit' className='pt-6 col-span-1 '>
-                        <button type='submit' id='submit' className="txt-n-icon btn-primary justify-center w-full px-0">
-                            <AiOutlineLoading className='animate-spin' />
-                            Registrando
-                        </button>
-                    </label>
-                </div> */}
-
-                {/* <div className='col-span-2 flex justify-center items-center gap-2 relative overflow-clip'>
-
-                    <span className='absolute w-full bottom-0'>
-                        <Loading />
-                    </span>
-
-                    {true &&
-                        <div className='relative h-1 mb-2'>
-                            <span className='loading-container'>
-                                <Loading />
-                            </span>
-                        </div>}
-
-                    <AiOutlineLoading className='text-4xl animate-spin' />
-                </div> */}
-
-
-                {/* <h1>Presupuesto</h1>
-
-                <h1>Conversor</h1>
-
-                <h1>Gráficos</h1> */}
 
             </section>
 

@@ -77,7 +77,7 @@
 @layer components {
 
     .APP {
-        @apply min-h-screen w-screen h-fit pr-4 overflow-x-hidden overflow-y-auto transition-colors duration-300 fade-in;
+        @apply min-h-screen  h-fit pr-4 overflow-x-hidden overflow-y-auto transition-colors duration-300 fade-in;
         /* pl-16 sm:pl-52 pt-4 sm:pt-12 pr-4 */
     }
     .full-h {
