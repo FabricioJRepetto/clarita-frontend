@@ -28,7 +28,7 @@ const WeekDay = ({ name, data: { data, currency }, date, setDate, day }) => {
                         <p>{(total < 0 ? '-' : '') + numberToCurrency(total)}</p>
                     </div>
                 </>
-                : <p className='text-xs text-gray-500 uppercase'>sin registros</p>
+                : <p className='ellipsis text-xs text-gray-500 uppercase'>sin registros</p>
             }
         </div>
     )

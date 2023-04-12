@@ -4,11 +4,16 @@ import Loading from '../common/misc/Loading'
 import LedgerPage from './components/LedgerPage'
 import LedgerWeek from './components/LedgerWeek'
 import { getBalance } from './utils/getBalance'
-import { MdArrowDownward, MdArrowUpward } from 'react-icons/md'
+import { MdArrowDownward, MdArrowUpward, MdOutlineLastPage, MdDateRange } from 'react-icons/md'
 import { numberToCurrency } from '@/utils/formUtils'
+import Calendar from 'react-calendar'
+import { defineWeek } from '@/utils/defineWeek'
 
 const Week = ({ date }) => {
-    const { week, isLoading, mutate } = useLedger(date)
+    const [selectedDate, setSelectedDate] = useState(null)
+    const [colapsed, setColapsed] = useState(false)
+
+    const { week, isLoading, mutate } = useLedger(selectedDate || date)
     const [day, setDay] = useState(false)
 
     const {
@@ -37,8 +42,20 @@ const Week = ({ date }) => {
         })
     }
 
+    const dateHandler = (d) => {
+        const newDate = new Date(d).toLocaleDateString('en')
+        const { start: ogStart } = defineWeek(selectedDate)
+        const { start } = defineWeek(newDate)
+
+        // si la nueva fecha es de otra semana
+        if (ogStart !== start) {
+            setSelectedDate(() => newDate)
+            setDay(() => false)
+        }
+    }
+
     return (
-        <div>
+        <div className='h-full w-full flex justify-between fade-in overflow-x-hidden'>
             {isLoading &&
                 <div className='relative h-1 mb-2'>
                     <span className='loading-container'>
@@ -46,29 +63,42 @@ const Week = ({ date }) => {
                     </span>
                 </div>}
 
-            <LedgerWeek data={week || {}} setDate={setDate} day={day} />
+            <section className='h-fit w-full pr-8'>
+                <LedgerWeek data={week || {}} setDate={setDate} date={selectedDate} day={day} />
 
-            {day && <LedgerPage data={week[day]} mutate={mutate} date={day} />}
+                {day && <LedgerPage data={week[day]} mutate={mutate} date={day} />}
 
-            {!day &&
-                <section className='grid grid-cols-6 border-t border-t-slate-700 text-right pr-4 pt-4 mt-2 fade-in'>
-                    <div className='col-span-4 text-left text-2xl  pl-4'>
-                        Balance Semanal
-                    </div>
-                    <p className='col-span-1'>Ingreso:</p>
-                    <p className='col-span-1 text-emerald-500 text-xl'>{numberToCurrency(income)}</p>
+                {!day &&
+                    <section className='grid grid-cols-6 border-t border-t-slate-700 text-right pr-4 pt-4 mt-2 fade-in'>
+                        <div className='col-span-4 text-left text-2xl  pl-4'>
+                            Balance Semanal
+                        </div>
+                        <p className='col-span-1'>Ingreso:</p>
+                        <p className='col-span-1 text-emerald-500 text-xl'>{numberToCurrency(income)}</p>
 
-                    <p className='col-span-5'>Pérdida:</p>
-                    <p className='col-span-1 text-rose-500 text-xl'>-{numberToCurrency(expense)}</p>
+                        <p className='col-span-5'>Pérdida:</p>
+                        <p className='col-span-1 text-rose-500 text-xl'>-{numberToCurrency(expense)}</p>
 
-                    <p className='col-span-5'>Total Neto:</p>
-                    <div className={`col-span-1 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${total < 0 ? 'text-rose-500' : total > 0 ? 'text-emerald-500' : ''}`}>
-                        {total < 0 ? <MdArrowDownward /> : total > 0 ? <MdArrowUpward /> : ''}
-                        <p>{(total < 0 ? '-' : '') + numberToCurrency(total)}</p>
-                    </div>
-                </section>
-            }
+                        <p className='col-span-5'>Total Neto:</p>
+                        <div className={`col-span-1 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${total < 0 ? 'text-rose-500' : total > 0 ? 'text-emerald-500' : ''}`}>
+                            {total < 0 ? <MdArrowDownward /> : total > 0 ? <MdArrowUpward /> : ''}
+                            <p>{(total < 0 ? '-' : '') + numberToCurrency(total)}</p>
+                        </div>
+                    </section>
+                }
 
+            </section>
+
+            <section className={`h-full border-l relative flex flex-col justify-between border-l-slate-800 ml-4 pl-4 ${colapsed ? '-mr-80' : 'mr-0'} transition-all`}>
+
+                <button className={`btn-icon py-1 absolute top-2 -left-5 rounded-l bg-slate-800 ${colapsed ? 'px-1 -left-10 border-r border-slate-600 hover:border-slate-300' : ''} transition-none`}
+                    onClick={() => setColapsed(!colapsed)}>
+                    {colapsed ? <MdDateRange /> : <MdOutlineLastPage />}
+                </button>
+
+                <Calendar onChange={dateHandler} locale={'es-Ar'} />
+
+            </section>
 
         </div>
     )
