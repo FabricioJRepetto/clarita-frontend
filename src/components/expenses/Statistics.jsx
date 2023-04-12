@@ -7,7 +7,6 @@ import Loading from '../common/misc/Loading'
 const Statistics = () => {
     const { stats, error, isLoading } = useStatistics()
 
-
     const [selectedMonth, setSelectedMonth] = useState(new Date().getUTCMonth())
     const [selectedYear, setSelectedYear] = useState(new Date().getUTCFullYear())
 
@@ -70,45 +69,3 @@ const Statistics = () => {
 }
 
 export default Statistics
-
-/*    
-    _Gráfico de ingresos Mensuales/Diarios: 
-            :Ledger: total 
-        _Ingresos en monedas extrangeras
-
-    _Reservas registradas este Mes: 
-            bookings:
-            [{
-                id:{mes, año},
-                bookings: num
-            }]
-        _Promedio de Reservas Mensuales
-            averageBookings
-
-    _Hospedajes este Mes: 
-            hostings:
-            [{
-                id:{mes, año},
-                totalHostings: num,
-                totalGuests: num
-            }]
-        _Total de Huespedes este Mes: 
-            totalGuests
-        _Promedio de Hospedajes Mensuales
-            averageHostings
-        _Total generado por reservas: 
-            income:
-            [{
-                id:{
-                    mes, //? (Enero = 0)
-                    año
-                },
-                totalIncome: num
-            }]
-    
-    bookings,
-    averageBookings,
-    hostings,
-    averageHostings,
-    income
-*/
