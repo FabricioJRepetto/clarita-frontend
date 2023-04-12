@@ -43,13 +43,15 @@ const ClientForm = ({ handler, cb, edit_id }) => {
                 flag = true
             }
 
-            setLoading(() => false)
-            if (flag) return
+            if (flag) {
+                setLoading(() => false)
+                return
+            }
         }
 
         // all handlers need the event, only edit handlers need ID
         // however, always pass the ID
-        const { res, errors: err } = await handler(e, id || edit_id)
+        const { res, errors: err } = await handler(e, edit_id || id)
         if (err) {
             notify(err, 'error')
             setErrors({ ...err })
