@@ -5,7 +5,7 @@ import AdminMessage from '../common/misc/AdminMessage';
 import Unpaid from './widgets/debtors/Unpaid';
 import ShortCut from './widgets/shortcut/ShortCut';
 import QuickCheck from './widgets/quickSearch/QuickCheck';
-import { MdPersonAddAlt1, MdBookmarkAdd, MdOutlineFirstPage, MdOutlineLastPage } from 'react-icons/md';
+import { MdPersonAddAlt1, MdBookmarkAdd, MdOutlineFirstPage, MdOutlineLastPage, MdAccountBalance } from 'react-icons/md';
 import { isMobile } from '@/utils/isMobile';
 // import Loading from '../common/misc/Loading';
 // import { AiOutlineLoading } from 'react-icons/ai';
@@ -41,6 +41,9 @@ const Home = () => {
                     <Unpaid />
                 </div>
 
+                <div className='col-span-2 sm:col-span-3 h-24 hover:dark:border-slate-600 transition-colors'>
+                    <ShortCut title='AFIP' to='https://www.afip.gob.ar/landing/default.asp' external icon={<MdAccountBalance />} />
+                </div>
             </section>
 
             {!mobile &&
