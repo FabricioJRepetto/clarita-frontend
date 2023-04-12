@@ -281,7 +281,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                     <div className='error'>{errors?.amount || ''}</div>
                 </label>
 
-                <section className='col-span-4 grid grid-cols-4 gap-2 w-full'>
+                <section className='w-full hidden'>
                     {/*switch seña*/}
                     <label className='col-span-2'>
                         <p className='text-gray-500 pl-1'>es una seña</p>
