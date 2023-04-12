@@ -30,11 +30,11 @@ const ClientForm = ({ handler, cb, edit_id }) => {
                 cuil = document.getElementById('cuil').value,
                 email = document.getElementById('email').value
 
-            if (dni && clients.find(c => (c.dni === dni && c.id !== edit_id))) {
+            if (dni && clients.find(c => c.dni === dni)) {
                 setErrors({ ...errors, dni: 'El DNI ya está en uso' })
                 flag = true
             }
-            if (cuil && clients.find(c => (c.cuil === cuil && c.id !== edit_id))) {
+            if (cuil && clients.find(c => c.cuil === cuil)) {
                 setErrors({ ...errors, cuil: 'El CUIL ya está en uso' })
                 flag = true
             }
@@ -51,7 +51,7 @@ const ClientForm = ({ handler, cb, edit_id }) => {
 
         // all handlers need the event, only edit handlers need ID
         // however, always pass the ID
-        const { res, errors: err } = await handler(e, id || edit_id)
+        const { res, errors: err } = await handler(e, edit_id || id)
         if (err) {
             notify(err, 'error')
             setErrors({ ...err })
