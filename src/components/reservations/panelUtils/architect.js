@@ -23,7 +23,7 @@ export const architect = (cabins, reservations, START, DAYS) => {
 
                 //: busca una reserva que coincida con la fecha actual (i)
                 //: y ID de cabaña (key)
-                const R = reservations.find(r => r.cabin.id === key && overlaped(date, r.checkin, r.checkout))
+                const R = reservations.find(r => r.cabin?.id === key && overlaped(date, r.checkin, r.checkout))
                 if (R) {
                     let reserv = {
                         id: R.id,
