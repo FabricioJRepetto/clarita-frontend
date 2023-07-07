@@ -47,7 +47,7 @@ const Home = () => {
             </section>
 
             {!mobile &&
-                <section className={`full-h border-l relative border-l-slate-800 m-auto ml-4 pl-4 ${colapsed ? '-mr-80' : 'mr-0'} transition-all`}>
+                <section className={`full-h border-l relative border-l-slate-800 ml-4 pl-4 ${colapsed ? '-mr-80' : 'mr-0'} transition-all`}>
 
                     <button aria-label='expandir' className={`btn-icon py-1 absolute top-2 -left-5 rounded-l bg-slate-800 ${colapsed ? 'px-1 -left-8' : ''} transition-none`}
                         onClick={() => setColapsed(!colapsed)}>

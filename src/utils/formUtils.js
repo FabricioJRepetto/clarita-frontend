@@ -127,14 +127,33 @@ export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT, PAX = 1,
     cabins.forEach(c => {
         if (c.enabled) {
             //look for a reservation that overlaps with form dates
-            let flag = c.reservations.find(r => doDatesOverlap(r.in, r.out, dateA, dateB))
+            let overlap = c.reservations.find(r => doDatesOverlap(r.in, r.out, dateA, dateB))
 
-            // the overlaping doesn't count if the reserv is the same as the one currently editing
-            if (edit && flag.reservation_id !== edit._id) {
-                flag = false
+            // overlaping with the same reserv on edition?
+            if (edit && overlap?.reservation_id === edit?._id) {
+                // If the user edits the checkout date it will found the same reservation first.
+                // It's needed to look for another reservation overlaping the new dates.
+                // overlaping checkout date = START
+                // edit new checkout date = END  
+                const overlapChekout = new Date(overlap?.out),
+                    editCheckout = new Date(dateB);
+                if (editCheckout > overlapChekout) {
+                    let overlapB = c.reservations.find(r => doDatesOverlap(r.in, r.out, overlap.out, dateB))
+                    // if there is no other overlap, save cabin for render
+                    if (!overlapB) {
+                        overlap = false
+                    } else {
+                        overlap = overlapB
+                    }
+
+                } else {
+                    // if the user didn't change the checkout it's safe to continue
+                    overlap = false
+                }
             }
-            // if there is no overlap (flag == false) save cabin for render
-            if (!flag) {
+
+            // if there is no overlap save cabin for render
+            if (!overlap) {
                 avCabins.push({ id: c.id, name: c.name, pax: c.capacity })
             } else if (edit && edit.cabin.id === c.id) {
                 // if overlaps in the same cabin as the one editing, show special error
