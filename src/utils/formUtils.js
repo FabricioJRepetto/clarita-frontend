@@ -128,11 +128,9 @@ export const datesValidator = (cabins, setAvCabins, setErrors, IN, OUT, PAX = 1,
         if (c.enabled) {
             //look for a reservation that overlaps with form dates
             let overlap = c.reservations.find(r => doDatesOverlap(r.in, r.out, dateA, dateB))
-            overlap && console.log(c.name + " pisa con una reserva");
 
             // overlaping with the same reserv on edition?
-            if (overlap?.reservation_id === edit?._id) {
-                console.log("Encuentra la misma reserva");
+            if (edit && overlap?.reservation_id === edit?._id) {
                 // If the user edits the checkout date it will found the same reservation first.
                 // It's needed to look for another reservation overlaping the new dates.
                 // overlaping checkout date = START
