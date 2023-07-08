@@ -64,6 +64,11 @@ const EntryCard = ({ data, deleteEntry, date = true, mutate }) => {
                         {data?.reservation &&
                             <span className={`flex items-center h-5 ${expand ? 'min-w-10 px-2 mr-2 opacity-100' : 'w-0 px-0 opacity-0'} overflow-hidden bg-rose-600 rounded-lg transition-all text-white`}>ver</span>}
                         {data?.description}
+
+                        {data?.paymentType &&
+                            <p className='ml-2 text-gray-500'>
+                                {data?.paymentType}
+                            </p>}
                     </div>
 
                     <div className='relative col-span-1 text-right text-gray-500'>

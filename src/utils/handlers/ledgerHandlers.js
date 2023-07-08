@@ -7,6 +7,8 @@ export const validateEntryErrors = (values) => {
 
     if (values.description === '-') errors.description = 'Campo requerido'
 
+    if (values.paymentType === '-' && values.entryType === 'income') errors.paymentType = 'Campo requerido'
+
     if (values.amount === '-') errors.amount = 'Campo requerido'
 
     if (values.currency === '-') errors.currency = 'Campo requerido'
