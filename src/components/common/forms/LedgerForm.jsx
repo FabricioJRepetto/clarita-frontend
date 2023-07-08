@@ -13,6 +13,7 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
     const { notify } = useNotifications()
 
     const [entryType, setEntryType] = useState('')
+    const [paymentType, setPaymentType] = useState('')
     const [description, setDescription] = useState('')
     const [currency, setCurrency] = useState('ARS')
     const [amount, setAmount] = useState('')
@@ -21,6 +22,7 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
         if (edit) {
             setEntryType(() => edit.entryType)
             setDescription(() => edit.description)
+            setPaymentType(() => edit?.paymentType || "")
             setCurrency(() => edit.currency)
             setAmount(() => numberToCurrency(edit.amount))
         }
@@ -56,6 +58,7 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
             id: edit._id,
             reservation: edit.reservation || null,
             entryType,
+            paymentType,
             description,
             currency,
             amount
@@ -89,6 +92,10 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
                 setDescription(() => value)
                 break;
 
+            case 'paymentType':
+                setPaymentType(() => value)
+                break;
+
             case 'currency':
                 setCurrency(() => value)
                 break;
@@ -111,9 +118,24 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
             </label>
 
             {/*descripcion*/}
-            <label htmlFor='description' className='col-span-4'>
+            <label htmlFor='description' className='col-span-3'>
                 <p className='text-gray-500 pl-2'>descripción</p>
                 <input type="text" id='description' name='description' placeholder='Descripción' value={description} onChange={changeHandler} className='w-full' />
+                <div className='h-6 pl-2 text-sm text-rose-500'>{errors?.description || ''}</div>
+            </label>
+
+            {/*método de pago*/}
+            <label htmlFor='paymentType' className='col-span-1'>
+                <p className='text-gray-500 pl-2'>método</p>
+                <select id={`paymentType`} name={`paymentType`} onChange={changeHandler} className='w-full' >
+                    <option value="Efectivo">Efectivo</option>
+                    <option value="Tarjeta de crédito">Tarjeta de crédito</option>
+                    <option value="Tarjeta de débito">Tarjeta de débito</option>
+                    <option value="Transferencia">Transferencia</option>
+                    <option value="MercadoPago">MercadoPago</option>
+                    <option value="Western Union">Western Union</option>
+                    <option value="Otro">Otro</option>
+                </select>
                 <div className='h-6 pl-2 text-sm text-rose-500'>{errors?.description || ''}</div>
             </label>
 
