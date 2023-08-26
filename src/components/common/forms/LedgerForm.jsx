@@ -134,6 +134,7 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
                     <option value="Transferencia">Transferencia</option>
                     <option value="MercadoPago">MercadoPago</option>
                     <option value="Western Union">Western Union</option>
+                    <option value="Payoneer">Payoneer</option>
                     <option value="Otro">Otro</option>
                 </select>
                 <div className='h-6 pl-2 text-sm text-rose-500'>{errors?.description || ''}</div>
