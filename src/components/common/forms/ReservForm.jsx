@@ -240,6 +240,7 @@ const ReservForm = ({ handler, cb, edit, panelData }) => {
                         <option value="Transferencia">Transferencia</option>
                         <option value="MercadoPago">MercadoPago</option>
                         <option value="Western Union">Western Union</option>
+                        <option value="Payoneer">Payoneer</option>
                         <option value="Otro">Otro</option>
                     </select>
                     <div className='error'>{errors?.paymentType || ''}</div>
