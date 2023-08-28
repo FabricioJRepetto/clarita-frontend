@@ -102,7 +102,7 @@ const LedgerPage = ({ data, date, mutate, editEnable = false }) => {
                                 <p className='col-span-1 text-gray-600 mt-auto'>ARS</p>
                                 <p className='col-span-2 text-rose-500 text-xl'>-{numberToCurrency(expense)}</p>
 
-                                {usdExpense > 0 && <>
+                                {usdExpense < 0 && <>
                                     <p className='col-span-1 text-gray-600 mt-auto'>USD</p>
                                     <p className='col-span-2 text-rose-500 text-xl'>-{numberToCurrency(usdExpense)}</p>
                                 </>}

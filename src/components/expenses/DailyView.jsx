@@ -5,7 +5,7 @@ import Loading from '../common/misc/Loading'
 import { MdArrowDownward, MdArrowUpward, MdDateRange, MdOutlineLastPage } from 'react-icons/md'
 import Calendar from 'react-calendar'
 import LedgerPage from './components/LedgerPage'
-import { fancyMonth, isAnotherMonth, isSameDay } from '@/utils/formatDate'
+import { fancyMonth, isAnotherMonth } from '@/utils/formatDate'
 import { isMobile } from '@/utils/isMobile'
 
 const DailyView = ({ date: DATE }) => {
@@ -23,7 +23,8 @@ const DailyView = ({ date: DATE }) => {
     const {
         income,
         expense,
-        total
+        total,
+        usd
     } = month?.balance || false
 
     useMemo(() => {
@@ -90,16 +91,43 @@ const DailyView = ({ date: DATE }) => {
                         Balance {fancyMonth(selectedDate)}
                     </div>
                     <p className='col-span-1 text-gray-400'>Ingreso:</p>
+                    <div className='col-span-2'></div>
+
+                    <p className='col-span-1 text-gray-600 mt-auto'>ARS</p>
                     <p className='col-span-2 text-emerald-500 text-xl'>{numberToCurrency(income || 0)}</p>
 
-                    <p className='col-span-1 text-gray-400'>Pérdida:</p>
+                    {usd?.income > 0 && <>
+                        <p className='col-span-1 text-gray-600 mt-auto'>USD</p>
+                        <p className='col-span-2 text-emerald-500 text-xl'>{numberToCurrency(usd?.income || 0)}</p>
+                    </>}
+
+                    <p className='col-span-1 text-gray-400 mt-2'>Pérdida:</p>
+                    <div className='col-span-2'></div>
+
+                    <p className='col-span-1 text-gray-600 mt-auto'>ARS</p>
                     <p className='col-span-2 text-rose-500 text-xl'>-{numberToCurrency(expense || 0)}</p>
 
-                    <p className='col-span-1 text-gray-400 place-self-end'>Total Neto:</p>
+                    {usd?.expense < 0 && <>
+                        <p className='col-span-1 text-gray-600 mt-auto'>USD</p>
+                        <p className='col-span-2 text-emerald-500 text-xl'>{numberToCurrency(usd?.expense || 0)}</p>
+                    </>}
+
+                    <p className='col-span-1 text-gray-400 place-self-end mt-2'>Total Neto:</p>
+                    <div className='col-span-2'></div>
+
+                    <p className='col-span-1 text-gray-600 mt-auto'>ARS</p>
                     <div className={`w-fit place-self-end col-span-2 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${total < 0 ? 'text-rose-500' : total > 0 ? 'text-emerald-500' : ''}`}>
                         {total < 0 ? <MdArrowDownward /> : total > 0 ? <MdArrowUpward /> : ''}
                         <p>{(total < 0 ? '-' : '') + numberToCurrency(total || 0)}</p>
                     </div>
+
+                    {usd?.total > 0 && <>
+                        <p className='col-span-1 text-gray-600 mt-auto'>USD</p>
+                        <div className={`w-fit place-self-end col-span-2 text-xl font-medium txt-n-icon justify-end ${usd?.total < 0 ? 'text-rose-500' : usd?.total > 0 ? 'text-emerald-500' : ''}`}>
+                            {usd?.total < 0 ? <MdArrowDownward /> : usd?.total > 0 ? <MdArrowUpward /> : ''}
+                            <p>{(usd?.total < 0 ? '-' : '') + numberToCurrency(usd?.total || 0)}</p>
+                        </div>
+                    </>}
                 </section>
             </section>
 
