@@ -37,6 +37,7 @@ const Week = ({ date }) => {
             aux.usd.expense += USD.expense
         })
         aux.total = aux.income - aux.expense
+        aux.usd.total = aux.usd.income - aux.usd.expense
         return aux
     }, [week])
 
@@ -100,6 +101,12 @@ const Week = ({ date }) => {
                             {total < 0 ? <MdArrowDownward /> : total > 0 ? <MdArrowUpward /> : ''}
                             <p>{(total < 0 ? '-' : '') + numberToCurrency(total)}</p>
                         </div>
+
+                        {usd.total !== 0 &&
+                            <div className={`col-span-6 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${usd.total < 0 ? 'text-rose-500' : usd.total > 0 ? 'text-emerald-500' : ''}`}>
+                                {usd.total < 0 ? <MdArrowDownward /> : usd.total > 0 ? <MdArrowUpward /> : ''}
+                                <p>{(usd.total < 0 ? 'USD -' : 'USD ') + numberToCurrency(usd.total)}</p>
+                            </div>}
                     </section>
                 }
 
