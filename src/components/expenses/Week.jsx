@@ -99,7 +99,7 @@ const Week = ({ date }) => {
                         <p className='col-span-5 text-gray-600 mt-auto'>ARS</p>
                         <p className='col-span-1 text-rose-500 text-xl'>-{numberToCurrency(expense)}</p>
 
-                        {usd?.expense > 0 && <>
+                        {usd?.expense < 0 && <>
                             <p className='col-span-5 text-gray-600 mt-auto'>USD:</p>
                             <p className='col-span-1 text-rose-500 text-xl'>{numberToCurrency(usd.expense)}</p>
                         </>}
