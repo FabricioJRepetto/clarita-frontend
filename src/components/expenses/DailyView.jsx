@@ -5,7 +5,7 @@ import Loading from '../common/misc/Loading'
 import { MdArrowDownward, MdArrowUpward, MdDateRange, MdOutlineLastPage } from 'react-icons/md'
 import Calendar from 'react-calendar'
 import LedgerPage from './components/LedgerPage'
-import { fancyMonth, isAnotherMonth, isSameDay } from '@/utils/formatDate'
+import { fancyMonth, isAnotherMonth } from '@/utils/formatDate'
 import { isMobile } from '@/utils/isMobile'
 
 const DailyView = ({ date: DATE }) => {
