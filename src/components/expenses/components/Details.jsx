@@ -14,6 +14,12 @@ const Details = ({ details }) => {
                     <p key={d[0] + "B"} className='text-gray-300'>{numberToCurrency(d[1])}</p>
                 </>
             )}
+            {aux.map(d =>
+                <>
+                    <p key={d[0]} className='text-gray-400'>{d[0]}:</p>
+                    <p key={d[0] + "B"} className='text-gray-300'>{numberToCurrency(d[1])}</p>
+                </>
+            )}
         </div>
     )
 }

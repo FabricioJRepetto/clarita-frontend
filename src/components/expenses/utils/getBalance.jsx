@@ -19,6 +19,9 @@ const detectType = (string) => {
     } else if (/\(Western Union\)/g.test(string)) {
         type = 'Western Union*'
 
+    } else if (/\(Payoneer\)/g.test(string)) {
+        type = 'Payoneer*'
+
     } else {
         type = 'Otro*'
     }
@@ -28,47 +31,117 @@ const detectType = (string) => {
 
 export const getBalance = (list) => {
     let balance = {
-        income: 0,
-        expense: 0,
-        total: 0,
-        details: false
+        ARS: {
+            income: 0,
+            expense: 0,
+            total: 0,
+            details: false
+        },
+        USD: {
+            income: 0,
+            expense: 0,
+            total: 0,
+            details: false
+        }
     };
 
     if (!list) return balance
 
-    let detailsAux = {}
+    let detailsAux = {
+
+    }
 
     list.forEach(m => {
-        if (m.currency === 'ARS') {
+        const CUR = m.currency;
+
+        if (CUR === 'ARS' || CUR === 'USD') {
             if (m.entryType === 'income') {
-                balance.income = balance.income + m.amount
+                balance[CUR].income += m.amount;
+
+                if (!Object.hasOwn(detailsAux, CUR)) {
+                    detailsAux[CUR] = {};
+                }
 
                 if (m.paymentType) {
-                    if (Object.hasOwn(detailsAux, m.paymentType)) {
-                        detailsAux[m.paymentType] += m.amount
+                    if (Object.hasOwn(detailsAux[CUR], m.paymentType)) {
+                        detailsAux[CUR][m.paymentType] += m.amount
                     } else {
-                        detailsAux[m.paymentType] = m.amount
+                        detailsAux[CUR][m.paymentType] = m.amount
                     }
                 } else {
                     // regex para checkear metodo de pago (inexacto)
                     const type = detectType(m.description)
 
-                    if (Object.hasOwn(detailsAux, type)) {
-                        detailsAux[type] += m.amount
+                    if (Object.hasOwn(detailsAux[CUR], type)) {
+                        detailsAux[CUR][type] += m.amount
                     } else {
-                        detailsAux[type] = m.amount
+                        detailsAux[CUR][type] = m.amount
                     }
                 }
             } else {
-                balance.expense = balance.expense + m.amount
+                balance[CUR].expense += m.amount
             }
         }
     });
-    balance.total = balance.income - balance.expense
-    if (Object.entries(detailsAux).length) {
-        console.log(detailsAux);
-        balance.details = detailsAux
+
+    balance.ARS.total = balance.ARS.income - balance.ARS.expense
+    balance.USD.total = balance.USD.income - balance.USD.expense
+
+    if (Object.entries(detailsAux.ARS).length) {
+        balance.ARS.details = detailsAux.ARS
     }
+    if (Object.entries(detailsAux.USD).length) {
+        balance.USD.details = detailsAux.USD
+    }
+
+    console.log(balance);
 
     return balance;
 }
+
+// const testList = [
+//     {
+//         currency: "ARS",
+//         entryType: "income",
+//         amount: 1500,
+//         paymentType: "Payoneer"
+//     },
+//     {
+//         currency: "ARS",
+//         entryType: "income",
+//         amount: 3500,
+//         paymentType: "Payoneer"
+//     },
+//     {
+//         currency: "ARS",
+//         entryType: "income",
+//         amount: 2100,
+//         paymentType: "MercadoPago"
+//     },
+//     {
+//         currency: "ARS",
+//         entryType: "expense",
+//         amount: 800,
+//         paymentType: "Efectivo"
+//     },
+//     {
+//         currency: "USD",
+//         entryType: "income",
+//         amount: 150,
+//         paymentType: "Payoneer"
+//     },
+//     {
+//         currency: "USD",
+//         entryType: "income",
+//         amount: 300,
+//         paymentType: "Payoneer"
+//     },
+//     {
+//         currency: "USD",
+//         entryType: "income",
+//         amount: 200,
+//         paymentType: "Efectivo"
+//     },
+// ]
+
+// getBalance(testList)

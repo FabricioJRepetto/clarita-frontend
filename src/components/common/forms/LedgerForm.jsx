@@ -83,6 +83,7 @@ const LedgerForm = ({ edit, close, date, mutate }) => {
     const changeHandler = (e) => {
         e.preventDefault()
         const value = e.target.value
+
         switch (e.target.id) {
             case 'entryType':
                 setEntryType(() => value)

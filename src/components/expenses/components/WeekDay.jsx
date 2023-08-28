@@ -5,7 +5,7 @@ import { MdArrowDownward, MdArrowUpward } from 'react-icons/md'
 import { correctDate } from '@/utils/formatDate';
 
 const WeekDay = ({ name, data: { data, currency }, date, setDate, day }) => {
-    const { total } = getBalance(data)
+    const { ARS: { total }, USD: { total: usdTotal } } = getBalance(data)
 
     const today = new Date().toLocaleDateString('en')
 

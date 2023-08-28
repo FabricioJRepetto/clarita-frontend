@@ -12,10 +12,18 @@ import Details from './Details'
 const LedgerPage = ({ data, date, mutate, editEnable = false }) => {
     const { notify } = useNotifications()
     const {
-        income,
-        expense,
-        total,
-        details
+        ARS: {
+            income,
+            expense,
+            total,
+            details
+        },
+        USD: {
+            income: usdIncome,
+            expense: usdExpense,
+            total: usdTotal,
+            details: usdDetails
+        }
     } = useMemo(() => getBalance(data), [data])
 
     const [showDetails, setShowDetails] = useState(false)
@@ -63,19 +71,28 @@ const LedgerPage = ({ data, date, mutate, editEnable = false }) => {
                                         <MdOutlineArrowBackIos className={`${showDetails ? '-rotate-90' : 'rotate-90'} transition-transform`} />
                                     </div>
                                     {details && showDetails && <Details details={details} />}
+                                    {details && showDetails && <Details details={usdDetails} />}
                                 </section>
                             </div>
 
                             <div className='grid grid-cols-3 h-fit'>
                                 <p className='col-span-1 text-gray-400'>Ingreso:</p>
                                 <p className='col-span-2 text-emerald-500 text-xl'>{numberToCurrency(income)}</p>
+                                {usdIncome > 0 && <p className='col-span-2 text-emerald-500 text-xl'>{numberToCurrency(usdIncome)}</p>}
+
                                 <p className='col-span-1 text-gray-400'>Perdida:</p>
                                 <p className='col-span-2 text-rose-500 text-xl'>-{numberToCurrency(expense)}</p>
+                                {usdExpense && <p className='col-span-2 text-rose-500 text-xl'>-{numberToCurrency(usdExpense)}</p>}
+
                                 <p className='col-span-1 text-gray-400'>Total Neto:</p>
                                 <div className={`w-fit place-self-end col-span-2 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${total < 0 ? 'text-rose-500' : total > 0 ? 'text-emerald-500' : ''}`}>
                                     {total < 0 ? <MdArrowDownward /> : total > 0 ? <MdArrowUpward /> : ''}
                                     <p>{(total < 0 ? '-' : '') + numberToCurrency(total)}</p>
                                 </div>
+                                {usdTotal !== 0 && <div className={`w-fit place-self-end col-span-2 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${usdTotal < 0 ? 'text-rose-500' : usdTotal > 0 ? 'text-emerald-500' : ''}`}>
+                                    {usdTotal < 0 ? <MdArrowDownward /> : usdTotal > 0 ? <MdArrowUpward /> : ''}
+                                    <p>{(usdTotal < 0 ? 'USD -' : 'USD ') + numberToCurrency(usdTotal)}</p>
+                                </div>}
                             </div>
                         </section>
 
