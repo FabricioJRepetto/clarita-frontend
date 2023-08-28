@@ -72,15 +72,27 @@ const EntryCard = ({ data, deleteEntry, date = true, mutate }) => {
                     </div>
 
                     <div className='relative col-span-1 text-right text-gray-500'>
-                        {data?.currency !== 'ARS'
+                        {/* {data?.currency !== 'ARS'
                             ? <>
                                 <span className={`absolute top-3 right-12 h-2 w-2 flex items-center bg-rose-500 rounded-full`}>
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-90"></span>
                                 </span>
                                 <>{data?.currency}</>
                             </>
-                            : <>{data?.currency}</>
-                        }
+                            : <>{data?.currency}</>} */}
+
+                        {data?.currency !== 'ARS' && data?.currency !== 'USD'
+                            ? <>
+                                <span className={`absolute top-3 right-12 h-2 w-2 flex items-center bg-rose-500 rounded-full`}>
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-90"></span>
+                                </span>
+                                <>{data?.currency}</>
+                            </>
+                            : data?.currency === 'USD'
+                                ? <p className='text-emerald-500'>{data?.currency}</p>
+                                : <>{data?.currency}</>}
+
+                        {/* {data?.currency} */}
                     </div>
 
                     <div className={`col-span-1 ${gain ? 'text-emerald-500' : 'text-rose-500'}`}>

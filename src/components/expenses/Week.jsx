@@ -34,11 +34,12 @@ const Week = ({ date }) => {
             const { ARS, USD } = getBalance(day)
             aux.income += ARS.income
             aux.expense += ARS.expense
-            aux.usd.income += USD.income
-            aux.usd.expense += USD.expense
+            aux.usd.income += USD?.income
+            aux.usd.expense += USD?.expense
         })
         aux.total = aux.income - aux.expense
         aux.usd.total = aux.usd.income - aux.usd.expense
+
         return aux
     }, [week])
 
@@ -81,33 +82,44 @@ const Week = ({ date }) => {
                         <div className='col-span-4 text-left text-2xl  pl-4'>
                             Balance Semanal
                         </div>
-                        <p className='col-span-1'>Ingreso:</p>
+                        <p className='col-span-5'>Ingreso:</p>
+                        <div className='col-span-1'></div>
+
+                        <p className='col-span-5 text-gray-600 mt-auto'>ARS</p>
                         <p className='col-span-1 text-emerald-500 text-xl'>{numberToCurrency(income)}</p>
 
-                        {usd.income > 0 && <>
-                            <p className='col-span-1'>USD:</p>
+                        {usd?.income > 0 && <>
+                            <p className='col-span-5 text-gray-600 mt-auto'>USD:</p>
                             <p className='col-span-1 text-emerald-500 text-xl'>{numberToCurrency(usd.income)}</p>
                         </>}
 
-                        <p className='col-span-5'>Pérdida:</p>
+                        <p className='col-span-5 mt-2'>Pérdida:</p>
+                        <div className='col-span-1'></div>
+
+                        <p className='col-span-5 text-gray-600 mt-auto'>ARS</p>
                         <p className='col-span-1 text-rose-500 text-xl'>-{numberToCurrency(expense)}</p>
 
-                        {uds.expense > 0 && <>
-                            <p className='col-span-5'>USD:</p>
-                            <p className='col-span-1 text-rose-500 text-xl'>-{numberToCurrency(usd.expense)}</p>
+                        {usd?.expense > 0 && <>
+                            <p className='col-span-5 text-gray-600 mt-auto'>USD:</p>
+                            <p className='col-span-1 text-rose-500 text-xl'>{numberToCurrency(usd.expense)}</p>
                         </>}
 
-                        <p className='col-span-5'>Total Neto:</p>
-                        <div className={`col-span-1 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${total < 0 ? 'text-rose-500' : total > 0 ? 'text-emerald-500' : ''}`}>
+                        <p className='col-span-5 mt-2'>Total Neto:</p>
+                        <div className='col-span-1'></div>
+
+                        <p className='col-span-5 text-gray-600 mt-auto'>ARS</p>
+                        <div className={`w-fit place-self-end col-span-1 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${total < 0 ? 'text-rose-500' : total > 0 ? 'text-emerald-500' : ''}`}>
                             {total < 0 ? <MdArrowDownward /> : total > 0 ? <MdArrowUpward /> : ''}
                             <p>{(total < 0 ? '-' : '') + numberToCurrency(total)}</p>
                         </div>
 
-                        {usd.total !== 0 &&
-                            <div className={`col-span-6 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${usd.total < 0 ? 'text-rose-500' : usd.total > 0 ? 'text-emerald-500' : ''}`}>
+                        {usd?.total !== 0 && <>
+                            <p className='col-span-5 text-gray-600 mt-auto'>USD</p>
+                            <div className={`col-span-1 text-xl font-medium txt-n-icon justify-end ${usd.total < 0 ? 'text-rose-500' : usd.total > 0 ? 'text-emerald-500' : ''}`}>
                                 {usd.total < 0 ? <MdArrowDownward /> : usd.total > 0 ? <MdArrowUpward /> : ''}
                                 <p>{(usd.total < 0 ? 'USD -' : 'USD ') + numberToCurrency(usd.total)}</p>
-                            </div>}
+                            </div>
+                        </>}
                     </section>
                 }
 
