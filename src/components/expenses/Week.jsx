@@ -19,7 +19,8 @@ const Week = ({ date }) => {
     const {
         income,
         expense,
-        total
+        total,
+        usd
     } = useMemo(() => {
         const aux = {
             income: 0,
