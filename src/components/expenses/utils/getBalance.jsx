@@ -19,6 +19,9 @@ const detectType = (string) => {
     } else if (/\(Western Union\)/g.test(string)) {
         type = 'Western Union*'
 
+    } else if (/\(Payoneer\)/g.test(string)) {
+        type = 'Payoneer*'
+
     } else {
         type = 'Otro*'
     }
