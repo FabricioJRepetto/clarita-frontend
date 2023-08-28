@@ -23,12 +23,18 @@ const Week = ({ date }) => {
     } = useMemo(() => {
         const aux = {
             income: 0,
-            expense: 0
+            expense: 0,
+            usd: {
+                income: 0,
+                expense: 0
+            }
         }
         Object.values(week || {}).forEach(day => {
-            const { income, expense } = getBalance(day)
-            aux.income = aux.income + income
-            aux.expense = aux.expense + expense
+            const { ARS, USD } = getBalance(day)
+            aux.income += ARS.income
+            aux.expense += ARS.expense
+            aux.usd.income += USD.income
+            aux.usd.expense += USD.expense
         })
         aux.total = aux.income - aux.expense
         return aux
@@ -76,8 +82,18 @@ const Week = ({ date }) => {
                         <p className='col-span-1'>Ingreso:</p>
                         <p className='col-span-1 text-emerald-500 text-xl'>{numberToCurrency(income)}</p>
 
+                        {usd.income > 0 && <>
+                            <p className='col-span-1'>USD:</p>
+                            <p className='col-span-1 text-emerald-500 text-xl'>{numberToCurrency(usd.income)}</p>
+                        </>}
+
                         <p className='col-span-5'>Pérdida:</p>
                         <p className='col-span-1 text-rose-500 text-xl'>-{numberToCurrency(expense)}</p>
+
+                        {uds.expense > 0 && <>
+                            <p className='col-span-5'>USD:</p>
+                            <p className='col-span-1 text-rose-500 text-xl'>-{numberToCurrency(usd.expense)}</p>
+                        </>}
 
                         <p className='col-span-5'>Total Neto:</p>
                         <div className={`col-span-1 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${total < 0 ? 'text-rose-500' : total > 0 ? 'text-emerald-500' : ''}`}>
