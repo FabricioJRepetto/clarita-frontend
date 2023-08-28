@@ -70,29 +70,59 @@ const LedgerPage = ({ data, date, mutate, editEnable = false }) => {
                                         </p>
                                         <MdOutlineArrowBackIos className={`${showDetails ? '-rotate-90' : 'rotate-90'} transition-transform`} />
                                     </div>
-                                    {details && showDetails && <Details details={details} />}
-                                    {details && showDetails && <Details details={usdDetails} />}
+                                    {showDetails && <>
+                                        {details && <>
+                                            <p className='pl-2 mt-2 -mb-1 text-gray-700 text-left'>ARS</p>
+                                            <Details details={details} />
+                                        </>}
+                                        {usdDetails && <>
+                                            <p className='pl-2 mt-2 -mb-1 text-gray-700 text-left'>USD</p>
+                                            <Details details={usdDetails} />
+                                        </>}
+                                    </>}
                                 </section>
                             </div>
 
                             <div className='grid grid-cols-3 h-fit'>
                                 <p className='col-span-1 text-gray-400'>Ingreso:</p>
+                                <div className='col-span-2'></div>
+
+
+                                <p className='col-span-1 text-gray-600 mt-auto'>ARS</p>
                                 <p className='col-span-2 text-emerald-500 text-xl'>{numberToCurrency(income)}</p>
-                                {usdIncome > 0 && <p className='col-span-2 text-emerald-500 text-xl'>{numberToCurrency(usdIncome)}</p>}
 
-                                <p className='col-span-1 text-gray-400'>Perdida:</p>
+                                {usdIncome > 0 && <>
+                                    <p className='col-span-1 text-gray-600 mt-auto'>USD</p>
+                                    <p className='col-span-2 text-emerald-500 text-xl'>{numberToCurrency(usdIncome)}</p>
+                                </>}
+
+                                <p className='col-span-1 text-gray-400 mt-2'>Perdida:</p>
+                                <div className='col-span-2'></div>
+
+                                <p className='col-span-1 text-gray-600 mt-auto'>ARS</p>
                                 <p className='col-span-2 text-rose-500 text-xl'>-{numberToCurrency(expense)}</p>
-                                {usdExpense && <p className='col-span-2 text-rose-500 text-xl'>-{numberToCurrency(usdExpense)}</p>}
 
-                                <p className='col-span-1 text-gray-400'>Total Neto:</p>
+                                {usdExpense > 0 && <>
+                                    <p className='col-span-1 text-gray-600 mt-auto'>USD</p>
+                                    <p className='col-span-2 text-rose-500 text-xl'>-{numberToCurrency(usdExpense)}</p>
+                                </>}
+
+                                <p className='col-span-1 text-gray-400  mt-2'>Total Neto:</p>
+                                <div className='col-span-2'></div>
+
+                                <p className='col-span-1 text-gray-600 mt-auto'>ARS</p>
                                 <div className={`w-fit place-self-end col-span-2 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${total < 0 ? 'text-rose-500' : total > 0 ? 'text-emerald-500' : ''}`}>
                                     {total < 0 ? <MdArrowDownward /> : total > 0 ? <MdArrowUpward /> : ''}
                                     <p>{(total < 0 ? '-' : '') + numberToCurrency(total)}</p>
                                 </div>
-                                {usdTotal !== 0 && <div className={`w-fit place-self-end col-span-2 text-xl font-medium txt-n-icon justify-end border-t border-t-slate-700 ${usdTotal < 0 ? 'text-rose-500' : usdTotal > 0 ? 'text-emerald-500' : ''}`}>
-                                    {usdTotal < 0 ? <MdArrowDownward /> : usdTotal > 0 ? <MdArrowUpward /> : ''}
-                                    <p>{(usdTotal < 0 ? 'USD -' : 'USD ') + numberToCurrency(usdTotal)}</p>
-                                </div>}
+
+                                {usdTotal !== 0 && <>
+                                    <p className='col-span-1 text-gray-600 mt-auto'>USD</p>
+                                    <div className={`w-fit place-self-end col-span-2 text-xl font-medium txt-n-icon justify-end ${usdTotal < 0 ? 'text-rose-500' : usdTotal > 0 ? 'text-emerald-500' : ''}`}>
+                                        {usdTotal < 0 ? <MdArrowDownward /> : usdTotal > 0 ? <MdArrowUpward /> : ''}
+                                        <p>{(usdTotal < 0 ? '-' : '') + numberToCurrency(usdTotal)}</p>
+                                    </div>
+                                </>}
                             </div>
                         </section>
 

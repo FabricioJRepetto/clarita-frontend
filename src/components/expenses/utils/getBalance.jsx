@@ -47,9 +47,7 @@ export const getBalance = (list) => {
 
     if (!list) return balance
 
-    let detailsAux = {
-
-    }
+    let detailsAux = {}
 
     list.forEach(m => {
         const CUR = m.currency;
@@ -87,14 +85,14 @@ export const getBalance = (list) => {
     balance.ARS.total = balance.ARS.income - balance.ARS.expense
     balance.USD.total = balance.USD.income - balance.USD.expense
 
-    if (Object.entries(detailsAux.ARS).length) {
+    if (detailsAux.ARS && Object.entries(detailsAux.ARS).length) {
         balance.ARS.details = detailsAux.ARS
     }
-    if (Object.entries(detailsAux.USD).length) {
+    if (detailsAux.USD && Object.entries(detailsAux.USD).length) {
         balance.USD.details = detailsAux.USD
     }
 
-    console.log(balance);
+    // console.log(balance);
 
     return balance;
 }

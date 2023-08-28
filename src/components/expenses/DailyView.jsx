@@ -48,17 +48,18 @@ const DailyView = ({ date: DATE }) => {
         }
     }
 
-    function tileContent({ date, view }) {
-        // Add class to tiles in month view only
-        if (view === 'month') {
-            // Check if a date React-Calendar wants to check is on the list of dates to add class to
-            if (month?.badCurrencyList.find(dDate => isSameDay(dDate, date))) {
-                return <span className={`absolute top-1 right-1 h-2 w-2 flex items-center bg-rose-500 rounded-full`}>
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-90"></span>
-                </span>;
-            }
-        }
-    }
+    //? Resaltar pagos con USD agregar al Calendar => tileContent={tileContent}
+    // function tileContent({ date, view }) {
+    //     // Add class to tiles in month view only
+    //     if (view === 'month') {
+    //         // Check if a date React-Calendar wants to check is on the list of dates to add class to
+    //         if (month?.badCurrencyList.find(dDate => isSameDay(dDate, date))) {
+    //             return <span className={`absolute top-1 right-1 h-2 w-2 flex items-center bg-rose-500 rounded-full`}>
+    //                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-90"></span>
+    //             </span>;
+    //         }
+    //     }
+    // }
 
     return (
         <div className='h-full w-full flex justify-between fade-in overflow-x-hidden'>
@@ -82,7 +83,7 @@ const DailyView = ({ date: DATE }) => {
                     {colapsed ? <MdDateRange /> : <MdOutlineLastPage />}
                 </button>
 
-                <Calendar onChange={handler} locale={'es-Ar'} tileContent={tileContent} />
+                <Calendar onChange={handler} locale={'es-Ar'} />
 
                 <section className='grid grid-cols-3 items-center text-right pr-4 pt-4 mb-8 fade-in'>
                     <div className='col-span-3 text-left text-2xl pl-1 mb-2'>
