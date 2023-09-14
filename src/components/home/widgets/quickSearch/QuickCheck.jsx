@@ -27,13 +27,19 @@ const QuickCheck = () => {
         fillDates(checkin, checkout, nights, id)
     }
 
+    const errorHandler = (fn) => {
+        const newErrors = fn({});
+        const auxError = Object.values(newErrors)[0]
+        setErrors({ checkin: auxError })
+    }
+
     const handler = (e) => {
         e.preventDefault()
         const [{ value: checkin }, { value: checkout }, , { value: pax }] = e.target
         if (checkin && checkout) {
             // Looks for available cabins
-            const value = datesValidator(cabins, setAvCabins, setErrors, checkin, checkout, pax)
-            if (!!value?.length) {
+            const value = datesValidator(cabins, setAvCabins, errorHandler, checkin, checkout, pax)
+            if (value?.length > 0) {
                 setMessage(() => ('Alojamiento disponible:'))
             }
         }
