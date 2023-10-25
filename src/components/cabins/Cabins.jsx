@@ -32,7 +32,7 @@ const Cabins = () => {
                             <Loading />
                         </span>
                     </div>}
-                {error && <p className='col-span-4 error'>{error?.message || 'Ha ocurrido un error'}</p>}
+                {error && !isLoading && <p className='col-span-4 error'>{error?.message || 'Ha ocurrido un error'}</p>}
 
                 {cabins && cabins.map(e => (
                     e.enabled && <CabinCard key={e.id} data={e} />
